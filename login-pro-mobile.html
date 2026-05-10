@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0f0e17;
+  --card: #1a1927;
+  --panel: #13121e;
+  --orange: #ff6b35;
+  --purple: #7c5cbf;
+  --purple-light: #a47de8;
+  --yellow: #ffd166;
+  --text: #fffffe;
+  --text-dim: #a7a9be;
+  --border: rgba(255,255,255,0.08);
+  --input-bg: rgba(255,255,255,0.05);
+  --success: #06d6a0;
+  --error: #ef233c;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body {
+  min-height: 100%;
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── Background orbs ── */
+.bg-canvas { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.bg-orb {
+  position:absolute; border-radius:50%;
+  filter:blur(80px); opacity:0.18;
+  animation: orbFloat linear infinite;
+}
+.bg-orb:nth-child(1){ width:400px;height:400px;background:var(--purple);top:-100px;left:-100px;animation-duration:18s; }
+.bg-orb:nth-child(2){ width:350px;height:350px;background:var(--orange);bottom:-80px;right:-80px;animation-duration:22s;animation-direction:reverse; }
+.bg-orb:nth-child(3){ width:250px;height:250px;background:var(--yellow);top:40%;left:30%;animation-duration:15s; }
+.bg-orb:nth-child(4){ width:180px;height:180px;background:var(--success);top:20%;right:10%;animation-duration:20s;animation-direction:reverse; }
+@keyframes orbFloat {
+  0%   { transform:translate(0,0) scale(1); }
+  33%  { transform:translate(30px,-25px) scale(1.08); }
+  66%  { transform:translate(-15px,30px) scale(0.95); }
+  100% { transform:translate(0,0) scale(1); }
+}
+
+/* Scanline effect */
+.scanlines {
+  position:fixed;inset:0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events:none; z-index:1;
+  animation: scanlineShift 8s linear infinite;
+}
+@keyframes scanlineShift {
+  0%{ background-position:0 0; }
+  100%{ background-position:0 100px; }
+}
+
+/* grain */
+.grain {
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:0.04; pointer-events:none; z-index:1;
+}
+
+/* floating stars */
+.stars-canvas { position:fixed; inset:0; pointer-events:none; z-index:0; }
+
+/* ── Layout ── */
+.stage {
+  position:relative; z-index:2;
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:20px 16px;
+}
+
+.card {
+  width:100%; max-width:420px;
+  border-radius:28px;
+  border:1px solid var(--border);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 60px rgba(124,92,191,0.12);
+  overflow:hidden;
+  animation: cardIn .7s cubic-bezier(.34,1.56,.64,1) both;
+  display:flex; flex-direction:column;
+}
+@keyframes cardIn {
+  from { opacity:0; transform:scale(.9) translateY(30px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
+}
+
+/* ── Characters panel ── */
+.chars-panel {
+  background:var(--panel);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+  padding-top:16px;
+  min-height:220px;
+}
+
+/* floor glow */
+.chars-panel::after {
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:50px;
+  background:linear-gradient(to top, rgba(124,92,191,0.2), transparent);
+  pointer-events:none;
+}
+.floor-line {
+  position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--purple-light),var(--orange),transparent);
+  opacity:0.5;
+  animation: floorPulse 3s ease-in-out infinite;
+}
+@keyframes floorPulse {
+  0%,100% { opacity:0.5; }
+  50% { opacity:1; }
+}
+
+/* Bubble */
+.bubble {
+  position:absolute;
+  top:10px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px 12px 12px 3px;
+  padding:6px 12px;
+  font-size:12px; font-weight:600; color:var(--text);
+  white-space:nowrap;
+  box-shadow:0 6px 20px rgba(0,0,0,0.4);
+  pointer-events:none;
+  opacity:0; transform:translateY(4px) scale(.92);
+  transition:opacity .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
+  z-index:10;
+}
+.bubble.show { opacity:1; transform:translateY(0) scale(1); }
+.bubble::after {
+  content:'';
+  position:absolute; bottom:-5px; left:8px;
+  width:10px; height:10px;
+  background:var(--card);
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  transform:rotate(45deg);
+}
+
+/* particles */
+.particle {
+  position:absolute;border-radius:50%;
+  pointer-events:none;
+  animation:particleDrift linear infinite;opacity:0;
+}
+@keyframes particleDrift {
+  0%   { transform:translateY(0) scale(0) rotate(0deg); opacity:0; }
+  10%  { opacity:.6; }
+  90%  { opacity:.2; }
+  100% { transform:translateY(-220px) scale(1.5) rotate(360deg); opacity:0; }
+}
+
+/* hearts particle for success */
+.heart-particle {
+  position:absolute;
+  pointer-events:none;
+  font-size:16px;
+  animation:heartFloat 1.8s ease-out forwards;
+  z-index:20;
+}
+@keyframes heartFloat {
+  0%   { transform:translateY(0) scale(0) rotate(-20deg); opacity:1; }
+  50%  { opacity:1; }
+  100% { transform:translateY(-120px) scale(1.2) rotate(20deg); opacity:0; }
+}
+
+/* ── Scene ── */
+.scene {
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:6px;
+  padding:0 12px;
+  position:relative; z-index:2;
+  height:190px; width:100%;
+}
+.char-wrap {
+  display:flex; flex-direction:column; align-items:center;
+  transform-origin:bottom center;
+  will-change:transform;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.char-shadow {
+  height:6px; width:75%;
+  background:rgba(0,0,0,0.4);
+  border-radius:50%; filter:blur(3px);
+  margin-top:2px;
+  transition:transform .35s ease, opacity .35s ease;
+}
+svg.char { overflow:visible; }
+
+/* eye lid animation */
+.eye-lid {
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1);
+  transform-origin: center top;
+}
+.eye-lid.closed {
+  transform: scaleY(0.08);
+}
+.eye-up {
+  transition: cy 0.3s ease;
+}
+
+/* ── Form panel ── */
+.form-panel {
+  background:var(--card);
+  padding:32px 28px 36px;
+  display:flex; flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+.form-panel::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, var(--orange), var(--purple), transparent);
+  animation: topBorderAnim 3s ease-in-out infinite;
+}
+@keyframes topBorderAnim {
+  0%,100% { opacity:0.4; }
+  50% { opacity:1; }
+}
+
+.brand {
+  font-family:'Fredoka One',cursive;
+  font-size:11px; letter-spacing:.15em;
+  color:var(--orange); text-transform:uppercase;
+  margin-bottom:6px;
+  animation: brandPop 1s cubic-bezier(.34,1.56,.64,1) both;
+  animation-delay:.3s;
+}
+@keyframes brandPop {
+  from { opacity:0; transform:translateX(-10px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+h1 {
+  font-family:'Fredoka One',cursive;
+  font-size:30px; color:var(--text); line-height:1;
+  margin-bottom:4px;
+  animation: brandPop 1s cubic-bezier(.34,1.56,.64,1) both;
+  animation-delay:.4s;
+}
+.subtitle {
+  font-size:13px; color:var(--text-dim); margin-bottom:26px;
+  animation: brandPop 1s cubic-bezier(.34,1.56,.64,1) both;
+  animation-delay:.5s;
+}
+
+.field { margin-bottom:16px; }
+.field-label {
+  font-size:10px; font-weight:600; color:var(--text-dim);
+  letter-spacing:.1em; text-transform:uppercase; margin-bottom:7px;
+  display:flex; align-items:center; gap:5px;
+}
+.field-label .label-icon { font-size:12px; }
+.input-wrap { position:relative; }
+.input-wrap input {
+  width:100%;
+  padding:13px 16px;
+  background:var(--input-bg);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px; color:var(--text);
+  outline:none;
+  transition:border-color .25s, background .25s, box-shadow .25s, transform .2s;
+  caret-color:var(--orange);
+}
+.input-wrap input::placeholder { color:rgba(167,169,190,0.35); }
+.input-wrap input:focus {
+  border-color:var(--orange);
+  background:rgba(255,107,53,0.06);
+  box-shadow:0 0 0 3px rgba(255,107,53,0.12), 0 0 20px rgba(255,107,53,0.08);
+  transform:translateY(-1px);
+}
+.input-wrap input.error-input {
+  border-color:var(--error);
+  background:rgba(239,35,60,0.06);
+  box-shadow:0 0 0 3px rgba(239,35,60,0.12);
+  animation:shakeInput .4s ease;
+}
+@keyframes shakeInput {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 60%{transform:translateX(6px)} 80%{transform:translateX(-3px)}
+}
+
+/* typing indicator on input */
+.input-glow {
+  position:absolute; bottom:-1px; left:12px; right:12px;
+  height:2px; border-radius:2px;
+  background:linear-gradient(90deg, var(--orange), var(--purple-light));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .3s ease;
+  pointer-events:none;
+}
+.input-wrap input:focus ~ .input-glow { transform:scaleX(1); }
+
+.eye-btn {
+  position:absolute; right:13px; top:50%;
+  transform:translateY(-50%);
+  background:none; border:none; cursor:pointer;
+  font-size:17px; color:var(--text-dim);
+  padding:4px;
+  transition:color .2s, transform .2s;
+}
+.eye-btn:hover { color:var(--orange); transform:translateY(-50%) scale(1.15); }
+
+/* strength bar */
+.pw-strength-bar {
+  height:3px; border-radius:3px;
+  background:var(--border);
+  margin-top:6px;
+  overflow:hidden;
+  display:none;
+}
+.pw-strength-fill {
+  height:100%; border-radius:3px;
+  width:0%;
+  transition:width .4s ease, background .4s ease;
+}
+
+.error-msg {
+  background:rgba(239,35,60,0.1);
+  border:1px solid rgba(239,35,60,0.3);
+  border-radius:10px;
+  padding:9px 14px;
+  font-size:13px; font-weight:600; color:#ff6b7a;
+  margin-bottom:14px; display:none;
+  animation: errorSlide .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes errorSlide {
+  from { opacity:0; transform:translateY(-6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.extras {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:20px;
+}
+.check-label {
+  display:flex; align-items:center; gap:7px;
+  font-size:13px; color:var(--text-dim); cursor:pointer;
+}
+.check-label input[type=checkbox] { width:15px;height:15px; accent-color:var(--orange); }
+.forgot { font-size:13px; color:var(--orange); text-decoration:none; font-weight:600; transition:opacity .2s; }
+.forgot:hover { opacity:0.75; text-decoration:underline; }
+
+.btn-main {
+  width:100%; padding:14px;
+  background:var(--orange); border:none;
+  border-radius:12px;
+  font-family:'Fredoka One',cursive;
+  font-size:17px; color:#fff; letter-spacing:.04em;
+  cursor:pointer; position:relative; overflow:hidden;
+  transition:transform .15s, box-shadow .2s, background .2s;
+  box-shadow:0 6px 28px rgba(255,107,53,0.35);
+}
+.btn-main::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.18) 0%,transparent 60%);
+  opacity:0; transition:opacity .2s;
+}
+.btn-main::after {
+  content:''; position:absolute;
+  top:50%; left:50%;
+  width:0; height:0;
+  background:rgba(255,255,255,0.25);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .5s ease, height .5s ease, opacity .5s ease;
+  opacity:0;
+}
+.btn-main:active::after {
+  width:200px; height:200px; opacity:0;
+}
+.btn-main:hover { transform:translateY(-2px); box-shadow:0 12px 36px rgba(255,107,53,0.45); }
+.btn-main:hover::before { opacity:1; }
+.btn-main:active { transform:translateY(0); }
+.btn-main.success { background:var(--success); box-shadow:0 6px 28px rgba(6,214,160,0.45); }
+.btn-main.loading {
+  pointer-events:none;
+  background: linear-gradient(90deg, var(--orange) 0%, var(--purple) 50%, var(--orange) 100%);
+  background-size:200% 100%;
+  animation: btnShimmer 1s linear infinite;
+}
+@keyframes btnShimmer {
+  0%{ background-position:0% 50%; }
+  100%{ background-position:200% 50%; }
+}
+
+.divider {
+  display:flex; align-items:center; gap:10px;
+  margin:14px 0; color:var(--text-dim); font-size:11px;
+}
+.divider::before,.divider::after { content:'';flex:1;height:1px;background:var(--border); }
+
+.btn-google {
+  width:100%; padding:12px;
+  background:var(--input-bg);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  font-family:'DM Sans',sans-serif;
+  font-size:14px; font-weight:600; color:var(--text);
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  transition:border-color .2s, background .2s, transform .15s, box-shadow .2s;
+}
+.btn-google:hover {
+  border-color:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.07);
+  transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* footer link */
+.signup-link {
+  text-align:center; margin-top:16px;
+  font-size:13px; color:var(--text-dim);
+}
+.signup-link a { color:var(--purple-light); font-weight:600; text-decoration:none; }
+.signup-link a:hover { text-decoration:underline; }
+
+/* Desktop: side-by-side */
+@media (min-width: 700px) {
+  .card {
+    max-width: 780px;
+    flex-direction: row;
+  }
+  .chars-panel {
+    width: 320px;
+    flex-shrink: 0;
+    border-bottom: none;
+    border-right: 1px solid var(--border);
+    min-height: 500px;
+    justify-content: flex-end;
+  }
+  .scene { height: 280px; }
+  .form-panel { padding: 48px 44px; }
+  h1 { font-size: 36px; }
+}
+
+/* ── Typing cursor blink ── */
+@keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── Success confetti ── */
+.confetti {
+  position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+  width:100%; height:100%;
+}
+.confetti-piece {
+  position:absolute;
+  width:8px; height:8px;
+  border-radius:2px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { transform:translateY(-20px) rotate(0deg); opacity:1; }
+  100% { transform:translateY(100vh) rotate(720deg); opacity:0; }
+}
+
+/* password looking-up pupils */
+.eye-lookup { transition: cy 0.3s ease; }
+
+/* ── Reset password modal ── */
+#resetOverlay {
+  display:none; opacity:0;
+  position:fixed; inset:0; z-index:1000;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(6px);
+  align-items:center; justify-content:center;
+  padding:20px;
+  transition:opacity .3s ease;
+}
+#resetOverlay.open { display:flex; }
+</style>
+</head>
+<body>
+<canvas class="stars-canvas" id="starsCanvas"></canvas>
+<div class="bg-canvas">
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+</div>
+<div class="grain"></div>
+<div class="scanlines"></div>
+<div class="confetti" id="confettiContainer"></div>
+
+<div class="stage">
+  <div class="card">
+
+    <!-- ══ CHARACTERS ══ -->
+    <div class="chars-panel" id="charsPanel">
+      <div class="bubble" id="bubble">👀 ¡Te estamos viendo!</div>
+
+      <div class="scene" id="scene">
+
+        <!-- YELLOW -->
+        <div class="char-wrap" id="wrapYellow">
+          <svg class="char" width="56" height="145" viewBox="0 0 56 145">
+            <rect x="3" y="4" width="50" height="137" rx="18" fill="#ffd166"/>
+            <ellipse cx="28" cy="78" rx="17" ry="24" fill="rgba(255,255,255,0.13)"/>
+            <!-- Eye whites -->
+            <ellipse id="yEyeLW" cx="17" cy="58" rx="8" ry="9" fill="white"/>
+            <ellipse id="yEyeRW" cx="39" cy="58" rx="8" ry="9" fill="white"/>
+            <!-- Pupils -->
+            <circle id="yEyeL" cx="18" cy="59" r="4.5" fill="#1a1a2e"/>
+            <circle id="yEyeR" cx="40" cy="59" r="4.5" fill="#1a1a2e"/>
+            <!-- Shines -->
+            <circle id="yShineL" cx="20" cy="57" r="1.6" fill="white"/>
+            <circle id="yShineR" cx="42" cy="57" r="1.6" fill="white"/>
+            <!-- Eye lids (top — cover eye when closed) -->
+            <ellipse id="yLidL" cx="17" cy="49" rx="8.5" ry="9" fill="#ffd166" style="transform-origin:17px 49px;"/>
+            <ellipse id="yLidR" cx="39" cy="49" rx="8.5" ry="9" fill="#ffd166" style="transform-origin:39px 49px;"/>
+            <!-- Brows -->
+            <path id="yBrowL" d="M10 48 Q17 44 24 48" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path id="yBrowR" d="M32 48 Q39 44 46 48" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Mouth -->
+            <path id="yMouth" d="M15 74 Q28 83 41 74" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <!-- Blush -->
+            <ellipse id="yBlushL" cx="7" cy="66" rx="5" ry="3" fill="#e8a800" opacity="0"/>
+            <ellipse id="yBlushR" cx="49" cy="66" rx="5" ry="3" fill="#e8a800" opacity="0"/>
+            <!-- Hands -->
+            <g id="yHands" opacity="0">
+              <rect x="3" y="40" width="16" height="22" rx="7" fill="#e8ba00"/>
+              <rect x="37" y="40" width="16" height="22" rx="7" fill="#e8ba00"/>
+            </g>
+          </svg>
+          <div class="char-shadow" id="shadowYellow"></div>
+        </div>
+
+        <!-- ORANGE (biggest) -->
+        <div class="char-wrap" id="wrapOrange">
+          <svg class="char" width="90" height="105" viewBox="0 0 90 105">
+            <ellipse cx="45" cy="68" rx="42" ry="36" fill="#ff6b35"/>
+            <ellipse cx="36" cy="57" rx="16" ry="11" fill="rgba(255,255,255,0.13)" transform="rotate(-20,36,57)"/>
+            <!-- arms -->
+            <ellipse cx="7" cy="74" rx="8" ry="5" fill="#e85e2a" transform="rotate(-30,7,74)"/>
+            <ellipse cx="83" cy="74" rx="8" ry="5" fill="#e85e2a" transform="rotate(30,83,74)"/>
+            <!-- Eye whites -->
+            <ellipse id="oEyeLW" cx="30" cy="59" rx="11" ry="12" fill="white"/>
+            <ellipse id="oEyeRW" cx="60" cy="59" rx="11" ry="12" fill="white"/>
+            <!-- Pupils -->
+            <circle id="oEyeL" cx="31" cy="60" r="6.5" fill="#1a1a2e"/>
+            <circle id="oEyeR" cx="61" cy="60" r="6.5" fill="#1a1a2e"/>
+            <!-- Shines -->
+            <circle id="oShineL" cx="34" cy="57" r="2.2" fill="white"/>
+            <circle id="oShineR" cx="64" cy="57" r="2.2" fill="white"/>
+            <!-- Lids -->
+            <ellipse id="oLidL" cx="30" cy="47" rx="11.5" ry="12" fill="#ff6b35" style="transform-origin:30px 47px;"/>
+            <ellipse id="oLidR" cx="60" cy="47" rx="11.5" ry="12" fill="#ff6b35" style="transform-origin:60px 47px;"/>
+            <!-- Brows -->
+            <path id="oBrowL" d="M20 47 Q30 42 39 47" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path id="oBrowR" d="M51 47 Q60 42 70 47" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <!-- Mouth -->
+            <path id="oMouth" d="M30 80 Q45 90 60 80" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <!-- Blush -->
+            <ellipse id="oBlushL" cx="17" cy="70" rx="8" ry="4.5" fill="#ff4500" opacity="0"/>
+            <ellipse id="oBlushR" cx="73" cy="70" rx="8" ry="4.5" fill="#ff4500" opacity="0"/>
+            <!-- Hands -->
+            <g id="oHands" opacity="0">
+              <rect x="8" y="32" width="17" height="22" rx="7" fill="#e85e2a"/>
+              <rect x="65" y="32" width="17" height="22" rx="7" fill="#e85e2a"/>
+            </g>
+          </svg>
+          <div class="char-shadow" id="shadowOrange"></div>
+        </div>
+
+        <!-- PURPLE (tallest) -->
+        <div class="char-wrap" id="wrapPurple">
+          <svg class="char" width="64" height="180" viewBox="0 0 64 180">
+            <rect x="3" y="4" width="58" height="172" rx="17" fill="#7c5cbf"/>
+            <rect x="11" y="13" width="20" height="70" rx="9" fill="rgba(255,255,255,0.1)" transform="rotate(-4,21,48)"/>
+            <!-- Eye whites -->
+            <ellipse id="pEyeLW" cx="21" cy="76" rx="10" ry="11" fill="white"/>
+            <ellipse id="pEyeRW" cx="43" cy="76" rx="10" ry="11" fill="white"/>
+            <!-- Pupils -->
+            <circle id="pEyeL" cx="22" cy="77" r="5.5" fill="#1a1a2e"/>
+            <circle id="pEyeR" cx="44" cy="77" r="5.5" fill="#1a1a2e"/>
+            <!-- Shines -->
+            <circle id="pShineL" cx="25" cy="74" r="2" fill="white"/>
+            <circle id="pShineR" cx="47" cy="74" r="2" fill="white"/>
+            <!-- Lids -->
+            <ellipse id="pLidL" cx="21" cy="65" rx="10.5" ry="11" fill="#7c5cbf" style="transform-origin:21px 65px;"/>
+            <ellipse id="pLidR" cx="43" cy="65" rx="10.5" ry="11" fill="#7c5cbf" style="transform-origin:43px 65px;"/>
+            <!-- Brows -->
+            <path id="pBrowL" d="M13 64 Q21 59 30 64" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path id="pBrowR" d="M34 64 Q43 59 51 64" stroke="#1a1a2e" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Mouth -->
+            <path id="pMouth" d="M19 96 Q32 106 45 96" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <!-- Blush -->
+            <ellipse id="pBlushL" cx="9" cy="87" rx="6" ry="3.5" fill="#5a35cc" opacity="0"/>
+            <ellipse id="pBlushR" cx="55" cy="87" rx="6" ry="3.5" fill="#5a35cc" opacity="0"/>
+            <!-- Hands -->
+            <g id="pHands" opacity="0">
+              <rect x="4" y="56" width="18" height="26" rx="8" fill="#6848aa"/>
+              <rect x="42" y="56" width="18" height="26" rx="8" fill="#6848aa"/>
+            </g>
+          </svg>
+          <div class="char-shadow" id="shadowPurple"></div>
+        </div>
+
+        <!-- BLACK (small) -->
+        <div class="char-wrap" id="wrapBlack">
+          <svg class="char" width="52" height="112" viewBox="0 0 52 112">
+            <rect x="3" y="3" width="46" height="106" rx="12" fill="#2a2a3e"/>
+            <rect x="9" y="10" width="14" height="44" rx="6" fill="rgba(255,255,255,0.07)"/>
+            <!-- Eye whites -->
+            <ellipse id="bEyeLW" cx="17" cy="49" rx="8" ry="9" fill="white"/>
+            <ellipse id="bEyeRW" cx="35" cy="49" rx="8" ry="9" fill="white"/>
+            <!-- Pupils -->
+            <circle id="bEyeL" cx="18" cy="50" r="4.5" fill="#1a1a2e"/>
+            <circle id="bEyeR" cx="36" cy="50" r="4.5" fill="#1a1a2e"/>
+            <!-- Shines -->
+            <circle id="bShineL" cx="20" cy="47" r="1.6" fill="white"/>
+            <circle id="bShineR" cx="38" cy="47" r="1.6" fill="white"/>
+            <!-- Lids -->
+            <ellipse id="bLidL" cx="17" cy="40" rx="8.5" ry="9" fill="#2a2a3e" style="transform-origin:17px 40px;"/>
+            <ellipse id="bLidR" cx="35" cy="40" rx="8.5" ry="9" fill="#2a2a3e" style="transform-origin:35px 40px;"/>
+            <!-- Brows -->
+            <path id="bBrowL" d="M9 39 Q17 35 25 39" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path id="bBrowR" d="M27 39 Q35 35 43 39" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Mouth -->
+            <path id="bMouth" d="M14 64 Q26 72 38 64" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <!-- Blush -->
+            <ellipse id="bBlushL" cx="7" cy="56" rx="5" ry="3" fill="#4444aa" opacity="0"/>
+            <ellipse id="bBlushR" cx="45" cy="56" rx="5" ry="3" fill="#4444aa" opacity="0"/>
+            <!-- Hands -->
+            <g id="bHands" opacity="0">
+              <rect x="4" y="32" width="14" height="20" rx="6" fill="#1e1e30"/>
+              <rect x="34" y="32" width="14" height="20" rx="6" fill="#1e1e30"/>
+            </g>
+          </svg>
+          <div class="char-shadow" id="shadowBlack"></div>
+        </div>
+
+      </div>
+      <div class="floor-line"></div>
+    </div>
+
+    <!-- ══ FORM ══ -->
+    <div class="form-panel">
+      <div class="brand">● Bienvenido de vuelta</div>
+      <h1>Inicia sesión</h1>
+      <p class="subtitle">Tus amigos te están esperando 👇</p>
+
+      <div class="field">
+        <div class="field-label"><span class="label-icon">✉️</span> Correo electrónico</div>
+        <div class="input-wrap">
+          <input type="email" id="emailInput" placeholder="tu@correo.com" autocomplete="off"/>
+          <div class="input-glow"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span class="label-icon">🔑</span> Contraseña</div>
+        <div class="input-wrap">
+          <input type="password" id="pwInput" placeholder="••••••••••" autocomplete="off"/>
+          <div class="input-glow"></div>
+          <button class="eye-btn" id="togglePw" type="button">👁️</button>
+        </div>
+        <div class="pw-strength-bar" id="pwStrengthBar">
+          <div class="pw-strength-fill" id="pwStrengthFill"></div>
+        </div>
+      </div>
+
+      <div class="error-msg" id="errorMsg">🚨 Correo o contraseña incorrectos</div>
+
+      <div class="extras">
+        <label class="check-label">
+          <input type="checkbox"> Recordarme
+        </label>
+        <a class="forgot" href="#">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button class="btn-main" id="loginBtn">Entrar →</button>
+
+      <div class="divider">o continúa con</div>
+
+      <button class="btn-google" id="btnGoogle">
+        <svg width="18" height="18" viewBox="0 0 48 48">
+          <path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.9 29.3 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 1.1 8.1 3l5.7-5.7C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.5 20-20 0-1.3-.2-2.7-.4-4z"/>
+          <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 16.1 19 13 24 13c3.1 0 6 1.1 8.1 3l5.7-5.7C34.6 5.1 29.6 3 24 3c-7.6 0-14.2 4.1-17.7 10.2z"/>
+          <path fill="#4CAF50" d="M24 45c5.2 0 10-1.8 13.7-4.8l-6.3-5.2C29.5 36.5 26.8 37 24 37c-5.2 0-9.6-3-11.4-7.4l-6.6 5.1C9.7 40.9 16.4 45 24 45z"/>
+          <path fill="#1976D2" d="M43.6 20H24v8h11.3c-.9 2.5-2.6 4.6-4.8 6l6.3 5.2c3.7-3.4 6.2-8.5 6.2-15.2 0-1.3-.2-2.7-.4-4z"/>
+        </svg>
+        Google
+      </button>
+
+      <p class="signup-link">¿No tienes cuenta? <a href="#" id="registerLink">Regístrate gratis</a></p>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ══════════════════════════════════════════
+// SUPABASE
+// ══════════════════════════════════════════
+const SUPABASE_URL  = 'https://mtffjwaybktpwbavsvoa.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10ZmZqd2F5Ymt0cHdiYXZzdm9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNzQ2MzksImV4cCI6MjA5Mzk1MDYzOX0.2qEw2rHe7h3o5RASSncT6w0QI9wCNYKr_mMmmszkFHI';
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ══════════════════════════════════════════
+// STARS CANVAS
+// ══════════════════════════════════════════
+(function(){
+  const canvas = document.getElementById('starsCanvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  for(let i=0;i<80;i++){
+    stars.push({
+      x: Math.random()*window.innerWidth,
+      y: Math.random()*window.innerHeight,
+      r: Math.random()*1.5+0.3,
+      o: Math.random(),
+      s: 0.003+Math.random()*0.008,
+      d: Math.random()<0.5?1:-1
+    });
+  }
+  function drawStars(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s=>{
+      s.o += s.s*s.d;
+      if(s.o>=1||s.o<=0) s.d*=-1;
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${s.o*0.6})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+})();
+
+// ══════════════════════════════════════════
+// MOUSE / TOUCH tracking
+// ══════════════════════════════════════════
+let mx = window.innerWidth / 2;
+let my = window.innerHeight / 2;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+document.addEventListener('touchmove', e => {
+  mx = e.touches[0].clientX;
+  my = e.touches[0].clientY;
+}, { passive: true });
+document.addEventListener('touchstart', e => {
+  mx = e.touches[0].clientX;
+  my = e.touches[0].clientY;
+}, { passive: true });
+
+// ══════════════════════════════════════════
+// PARTICLES
+// ══════════════════════════════════════════
+const panel = document.getElementById('charsPanel');
+const pColors = ['#ff6b35','#7c5cbf','#ffd166','#a47de8','#06d6a0'];
+const pShapes = ['50%','30% 70% 70% 30% / 30% 30% 70% 70%','50% 0% 0% 50% / 50%'];
+function spawnParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = 4 + Math.random() * 7;
+  const shape = pShapes[Math.floor(Math.random()*pShapes.length)];
+  p.style.cssText = `width:${size}px;height:${size}px;background:${pColors[Math.floor(Math.random()*pColors.length)]};left:${10+Math.random()*80}%;bottom:0;border-radius:${shape};animation-duration:${2+Math.random()*2.5}s;animation-delay:${Math.random()*0.5}s;`;
+  panel.appendChild(p);
+  setTimeout(() => p.remove(), 5000);
+}
+setInterval(spawnParticle, 600);
+
+// ══════════════════════════════════════════
+// CHARACTER DATA
+// ══════════════════════════════════════════
+const chars = [
+  {
+    wrapId:'wrapYellow', shadowId:'shadowYellow',
+    pupils:[
+      { elId:'yEyeL', shineId:'yShineL', base:[18,59], range:4 },
+      { elId:'yEyeR', shineId:'yShineR', base:[40,59], range:4 }
+    ],
+    lids:[
+      { elId:'yLidL', baseY:49, eyeCY:58 },
+      { elId:'yLidR', baseY:49, eyeCY:58 }
+    ],
+    brows:[
+      { elId:'yBrowL', base:'M10 48 Q17 44 24 48' },
+      { elId:'yBrowR', base:'M32 48 Q39 44 46 48' }
+    ],
+    mouthId:'yMouth',
+    mouths:{ smile:'M15 74 Q28 83 41 74', flat:'M15 77 Q28 77 41 77', frown:'M15 81 Q28 72 41 81', big:'M11 83 Q28 70 45 83', o:'M23 74 Q28 82 33 74 Q28 66 23 74' },
+    blushLId:'yBlushL', blushRId:'yBlushR', handsId:'yHands',
+    blushColor:'#e8a800',
+    eyeWhites:['yEyeLW','yEyeRW'],
+  },
+  {
+    wrapId:'wrapOrange', shadowId:'shadowOrange',
+    pupils:[
+      { elId:'oEyeL', shineId:'oShineL', base:[31,60], range:5 },
+      { elId:'oEyeR', shineId:'oShineR', base:[61,60], range:5 }
+    ],
+    lids:[
+      { elId:'oLidL', baseY:47, eyeCY:59 },
+      { elId:'oLidR', baseY:47, eyeCY:59 }
+    ],
+    brows:[
+      { elId:'oBrowL', base:'M20 47 Q30 42 39 47' },
+      { elId:'oBrowR', base:'M51 47 Q60 42 70 47' }
+    ],
+    mouthId:'oMouth',
+    mouths:{ smile:'M30 80 Q45 90 60 80', flat:'M30 83 Q45 83 60 83', frown:'M30 88 Q45 78 60 88', big:'M25 91 Q45 77 65 91', o:'M38 81 Q45 89 52 81 Q45 73 38 81' },
+    blushLId:'oBlushL', blushRId:'oBlushR', handsId:'oHands',
+    blushColor:'#ff4500',
+    eyeWhites:['oEyeLW','oEyeRW'],
+  },
+  {
+    wrapId:'wrapPurple', shadowId:'shadowPurple',
+    pupils:[
+      { elId:'pEyeL', shineId:'pShineL', base:[22,77], range:4 },
+      { elId:'pEyeR', shineId:'pShineR', base:[44,77], range:4 }
+    ],
+    lids:[
+      { elId:'pLidL', baseY:65, eyeCY:76 },
+      { elId:'pLidR', baseY:65, eyeCY:76 }
+    ],
+    brows:[
+      { elId:'pBrowL', base:'M13 64 Q21 59 30 64' },
+      { elId:'pBrowR', base:'M34 64 Q43 59 51 64' }
+    ],
+    mouthId:'pMouth',
+    mouths:{ smile:'M19 96 Q32 106 45 96', flat:'M19 99 Q32 99 45 99', frown:'M19 104 Q32 94 45 104', big:'M15 107 Q32 93 49 107', o:'M26 97 Q32 105 38 97 Q32 89 26 97' },
+    blushLId:'pBlushL', blushRId:'pBlushR', handsId:'pHands',
+    blushColor:'#5a35cc',
+    eyeWhites:['pEyeLW','pEyeRW'],
+  },
+  {
+    wrapId:'wrapBlack', shadowId:'shadowBlack',
+    pupils:[
+      { elId:'bEyeL', shineId:'bShineL', base:[18,50], range:3.5 },
+      { elId:'bEyeR', shineId:'bShineR', base:[36,50], range:3.5 }
+    ],
+    lids:[
+      { elId:'bLidL', baseY:40, eyeCY:49 },
+      { elId:'bLidR', baseY:40, eyeCY:49 }
+    ],
+    brows:[
+      { elId:'bBrowL', base:'M9 39 Q17 35 25 39' },
+      { elId:'bBrowR', base:'M27 39 Q35 35 43 39' }
+    ],
+    mouthId:'bMouth',
+    mouths:{ smile:'M14 64 Q26 72 38 64', flat:'M14 67 Q26 67 38 67', frown:'M14 71 Q26 63 38 71', big:'M10 73 Q26 61 42 73', o:'M21 64 Q26 72 31 64 Q26 56 21 64' },
+    blushLId:'bBlushL', blushRId:'bBlushR', handsId:'bHands',
+    blushColor:'#4444aa',
+    eyeWhites:['bEyeLW','bEyeRW'],
+  },
+];
+
+// resolve DOM refs
+chars.forEach(c => {
+  c._wrap   = document.getElementById(c.wrapId);
+  c._shadow = document.getElementById(c.shadowId);
+  c._mouth  = document.getElementById(c.mouthId);
+  c._blushL = document.getElementById(c.blushLId);
+  c._blushR = document.getElementById(c.blushRId);
+  c._hands  = document.getElementById(c.handsId);
+  c.pupils.forEach(p => {
+    p._el    = document.getElementById(p.elId);
+    p._shine = document.getElementById(p.shineId);
+  });
+  c.brows.forEach(b => {
+    b._el = document.getElementById(b.elId);
+  });
+  c.lids.forEach(l => {
+    l._el = document.getElementById(l.elId);
+  });
+  c._svg = c._wrap.querySelector('svg');
+  c._eyeWhiteEls = c.eyeWhites.map(id => document.getElementById(id));
+});
+
+// ── helpers ──
+function setMouth(c, type) {
+  c._mouth && c._mouth.setAttribute('d', c.mouths[type]);
+}
+function setBlush(c, v) {
+  c._blushL && (c._blushL.style.opacity = v);
+  c._blushR && (c._blushR.style.opacity = v);
+}
+function setHands(c, v) {
+  c._hands && (c._hands.style.opacity = v);
+}
+function setBrows(c, type) {
+  c.brows.forEach(b => {
+    if (!b._el) return;
+    let d = b.base;
+    if (type === 'raised') d = d.replace(/Q(\d+) (\d+)/, (_, cx, cy) => `Q${cx} ${+cy - 7}`);
+    if (type === 'angry')  d = d.replace(/Q(\d+) (\d+)/, (_, cx, cy) => `Q${cx} ${+cy + 6}`);
+    if (type === 'sad')    d = d.replace(/Q(\d+) (\d+)/, (_, cx, cy) => `Q${cx} ${+cy + 4}`);
+    b._el.setAttribute('d', d);
+  });
+}
+
+// ── EYE LIDS (close / open) ──
+// Strategy: move lid cy down to cover the eye white
+function setEyelids(c, mode) {
+  c.lids.forEach(l => {
+    if (!l._el) return;
+    if (mode === 'closed') {
+      // move lid center down to cover the eye
+      const coverY = l.eyeCY + 2;
+      l._el.setAttribute('cy', coverY);
+      l._el.style.transition = 'cy 0.28s ease';
+    } else if (mode === 'half') {
+      const halfY = l.eyeCY - 4;
+      l._el.setAttribute('cy', halfY);
+      l._el.style.transition = 'cy 0.2s ease';
+    } else {
+      // open: lid above the eye
+      l._el.setAttribute('cy', l.baseY);
+      l._el.style.transition = 'cy 0.3s cubic-bezier(.34,1.56,.64,1)';
+    }
+  });
+}
+
+// ── PUPILS LOOK UP ──
+function setPupilsLookUp(c, lookUp) {
+  c.pupils.forEach(p => {
+    if (!p._el) return;
+    if (lookUp) {
+      p._el.setAttribute('cy', p.base[1] - 5);
+      if (p._shine) p._shine.setAttribute('cy', p.base[1] - 7.5);
+    } else {
+      p._el.setAttribute('cy', p.base[1]);
+      if (p._shine) p._shine.setAttribute('cy', p.base[1] - 2.5);
+    }
+  });
+}
+
+// ── state ──
+let state = 'idle';
+let pwVisible = false;
+let eyesClosed = false;
+
+const stateConfigs = {
+  idle: {
+    mouth:'smile', brows:'normal', blush:0, hands:0,
+    transforms:['translateY(0px)','translateY(0px)','translateY(0px)','translateY(0px)'],
+    shadows:['scaleX(1)','scaleX(1)','scaleX(1)','scaleX(1)'],
+    shadowOp:[1,1,1,1],
+  },
+  peek: {
+    mouth:'o', brows:'raised', blush:0.7, hands:0,
+    transforms:['translateY(-14px) rotate(-5deg)','translateY(-20px) scale(1.07)','translateY(-22px) rotate(-6deg)','translateY(-12px) rotate(7deg)'],
+    shadows:['scaleX(0.8)','scaleX(0.8)','scaleX(0.72)','scaleX(0.82)'],
+    shadowOp:[0.65,0.6,0.55,0.68],
+  },
+  disgust: {
+    mouth:'big', brows:'angry', blush:0, hands:0,
+    transforms:['translateY(4px) rotate(10deg)','translateY(5px) rotate(-11deg) scale(0.93)','translateY(6px) rotate(13deg)','translateY(3px) rotate(-9deg)'],
+    shadows:['scaleX(0.9)','scaleX(0.9)','scaleX(0.9)','scaleX(0.9)'],
+    shadowOp:[1,1,1,1],
+  },
+  covering: {
+    mouth:'frown', brows:'sad', blush:0, hands:1,
+    transforms:['scaleX(-1)','scaleX(-1) rotate(3deg)','scaleX(-1)','scaleX(-1) rotate(-3deg)'],
+    shadows:['scaleX(1)','scaleX(1)','scaleX(1)','scaleX(1)'],
+    shadowOp:[1,1,1,1],
+  },
+  squinting: {
+    mouth:'flat', brows:'sad', blush:0.3, hands:0,
+    transforms:['translateY(-8px) rotate(-3deg)','translateY(-10px) scale(1.02)','translateY(-10px) rotate(-2deg)','translateY(-6px) rotate(4deg)'],
+    shadows:['scaleX(0.85)','scaleX(0.82)','scaleX(0.82)','scaleX(0.87)'],
+    shadowOp:[0.7,0.68,0.68,0.72],
+  },
+  success: {
+    mouth:'smile', brows:'raised', blush:0.9, hands:0,
+    transforms:['translateY(-20px) rotate(6deg) scale(1.08)','translateY(-26px) rotate(-7deg) scale(1.06)','translateY(-24px) rotate(-8deg)','translateY(-18px) rotate(9deg)'],
+    shadows:['scaleX(0.7)','scaleX(0.62)','scaleX(0.65)','scaleX(0.73)'],
+    shadowOp:[0.45,0.38,0.42,0.48],
+  },
+};
+
+function applyState(newState) {
+  state = newState;
+  const cfg = stateConfigs[newState] || stateConfigs.idle;
+  chars.forEach((c, i) => {
+    setMouth(c, cfg.mouth);
+    setBrows(c, cfg.brows);
+    setBlush(c, cfg.blush);
+    setHands(c, cfg.hands);
+    c._wrap.style.transition = 'transform .42s cubic-bezier(.34,1.56,.64,1)';
+    c._wrap.style.transform  = cfg.transforms[i];
+    c._shadow.style.transform  = cfg.shadows[i];
+    c._shadow.style.opacity    = cfg.shadowOp[i];
+    // lids
+    if (newState === 'covering' || newState === 'squinting') {
+      setEyelids(c, 'closed');
+    } else {
+      setEyelids(c, 'open');
+    }
+    // pupils lookup
+    setPupilsLookUp(c, false);
+  });
+  eyesClosed = (newState === 'covering' || newState === 'squinting');
+}
+
+// ── pupil tracking ──
+function trackPupils() {
+  if (state !== 'covering' && state !== 'squinting' && !eyesClosed) {
+    chars.forEach(c => {
+      if (!c._svg) return;
+      const rect   = c._svg.getBoundingClientRect();
+      const cx     = rect.left + rect.width  / 2;
+      const cy     = rect.top  + rect.height / 2;
+      const dx     = mx - cx;
+      const dy     = my - cy;
+      const dist   = Math.hypot(dx, dy);
+      const angle  = Math.atan2(dy, dx);
+      c.pupils.forEach(p => {
+        if (!p._el) return;
+        const power = Math.min(dist / 260, 1) * p.range;
+        const nx = p.base[0] + Math.cos(angle) * power;
+        const ny = p.base[1] + Math.sin(angle) * power;
+        p._el.setAttribute('cx', nx);
+        p._el.setAttribute('cy', ny);
+        if (p._shine) {
+          p._shine.setAttribute('cx', nx + 2.5);
+          p._shine.setAttribute('cy', ny - 2.5);
+        }
+      });
+    });
+  }
+  requestAnimationFrame(trackPupils);
+}
+trackPupils();
+
+// ── idle sway ──
+let t = 0;
+function idleSway() {
+  t += 0.013;
+  if (state === 'idle') {
+    const offsets = [
+      [Math.sin(t + 3)   * 2.5, Math.cos(t * 0.9) * 2],
+      [Math.sin(t)       * 3,   Math.cos(t * 0.8) * 2.5],
+      [Math.sin(t + 1.5) * 2,   Math.cos(t * 1.1) * 2],
+      [Math.sin(t + 0.8) * 2.5, Math.cos(t * 1.0) * 1.8],
+    ];
+    chars.forEach((c, i) => {
+      c._wrap.style.transition = 'transform .12s linear';
+      c._wrap.style.transform  = `translateY(${offsets[i][1]}px) rotate(${offsets[i][0] * 0.28}deg)`;
+    });
+  }
+  requestAnimationFrame(idleSway);
+}
+idleSway();
+
+// ── bubble ──
+const bubble = document.getElementById('bubble');
+let bubbleTimer;
+function showBubble(text) {
+  bubble.textContent = text;
+  bubble.classList.add('show');
+  clearTimeout(bubbleTimer);
+  bubbleTimer = setTimeout(() => bubble.classList.remove('show'), 2800);
+}
+
+// ── confetti burst ──
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#ff6b35','#ffd166','#7c5cbf','#a47de8','#06d6a0','#fff'];
+  for(let i=0;i<60;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const x = 10 + Math.random()*80;
+    const dur = 1.2 + Math.random()*1.5;
+    const delay = Math.random()*0.6;
+    const size = 5 + Math.random()*8;
+    c.style.cssText = `left:${x}%;background:${color};width:${size}px;height:${size}px;border-radius:${Math.random()>0.5?'50%':'3px'};animation-duration:${dur}s;animation-delay:${delay}s;`;
+    container.appendChild(c);
+    setTimeout(()=>c.remove(),(dur+delay)*1000+100);
+  }
+}
+
+// ── heart particles ──
+function spawnHearts() {
+  const emojis = ['❤️','✨','⭐','💫','🎉'];
+  for(let i=0;i<5;i++){
+    setTimeout(()=>{
+      const h = document.createElement('div');
+      h.className = 'heart-particle';
+      h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      h.style.left = (15 + Math.random()*70) + '%';
+      h.style.bottom = '20px';
+      panel.appendChild(h);
+      setTimeout(()=>h.remove(), 1900);
+    }, i*200);
+  }
+}
+
+// ══════════════════════════════════════════
+// FORM INTERACTIONS
+// ══════════════════════════════════════════
+const emailInput = document.getElementById('emailInput');
+const pwInput    = document.getElementById('pwInput');
+const togglePw   = document.getElementById('togglePw');
+const loginBtn   = document.getElementById('loginBtn');
+const errorMsg   = document.getElementById('errorMsg');
+const pwStrengthBar  = document.getElementById('pwStrengthBar');
+const pwStrengthFill = document.getElementById('pwStrengthFill');
+
+// ── Email focus ──
+emailInput.addEventListener('focus', () => {
+  applyState('peek');
+  showBubble('🧐 ¿Cuál es tu correo?');
+});
+emailInput.addEventListener('blur', () => {
+  if (document.activeElement !== pwInput) applyState('idle');
+});
+
+// ── Password focus: curiosidad (peek), NO cerrar ojos ──
+pwInput.addEventListener('focus', () => {
+  if (pwVisible) {
+    // si está visible → tapan ojos
+    applyState('covering');
+    showBubble('😳 ¡No queremos ver!');
+  } else {
+    // contraseña oculta → curiosidad normal
+    applyState('peek');
+    showBubble('🤔 Hmm… ¿cuál será?');
+  }
+});
+
+// ── Password input: curiosidad mientras escribe ──
+pwInput.addEventListener('input', () => {
+  const pw = pwInput.value;
+  // strength bar
+  if(pw.length > 0) {
+    pwStrengthBar.style.display = 'block';
+    let strength = 0;
+    if(pw.length >= 6) strength++;
+    if(pw.length >= 10) strength++;
+    if(/[A-Z]/.test(pw)) strength++;
+    if(/[0-9]/.test(pw)) strength++;
+    if(/[^A-Za-z0-9]/.test(pw)) strength++;
+    const pct = (strength/5)*100;
+    const colors = ['#ef233c','#ff6b35','#ffd166','#06d6a0','#06d6a0'];
+    pwStrengthFill.style.width = Math.max(pct,15)+'%';
+    pwStrengthFill.style.background = colors[Math.min(strength-1,4)] || '#ef233c';
+  } else {
+    pwStrengthBar.style.display = 'none';
+  }
+  // si la contraseña está oculta → siguen con curiosidad (peek)
+  if (!pwVisible && state !== 'peek') applyState('peek');
+});
+
+pwInput.addEventListener('blur', () => {
+  if (document.activeElement !== emailInput) applyState('idle');
+});
+
+// ── Toggle password: SOLO aquí se tapan los ojos ──
+togglePw.addEventListener('click', () => {
+  pwVisible = !pwVisible;
+  pwInput.type = pwVisible ? 'text' : 'password';
+  togglePw.textContent = pwVisible ? '🙈' : '👁️';
+  if (pwVisible) {
+    // se ve la contraseña → cubren ojos
+    applyState('covering');
+    showBubble('😳 ¡No queremos ver!');
+  } else {
+    // oculta de nuevo → curiosidad
+    applyState('peek');
+    showBubble('👀 Ok, seguimos mirando…');
+  }
+});
+
+// ── Login con Supabase Auth ──
+loginBtn.addEventListener('click', async () => {
+  const email = emailInput.value.trim();
+  const pw    = pwInput.value;
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const pwOk    = pw.length >= 6;
+
+  if (!emailOk || !pwOk) {
+    applyState('disgust');
+    showBubble('😤 ¡Revisa los datos!');
+    errorMsg.textContent = !emailOk
+      ? '🚨 Ingresa un correo válido'
+      : '🚨 La contraseña debe tener al menos 6 caracteres';
+    errorMsg.style.display = 'block';
+    if (!pwOk)    { pwInput.classList.add('error-input');    setTimeout(() => pwInput.classList.remove('error-input'), 700); }
+    if (!emailOk) { emailInput.classList.add('error-input'); setTimeout(() => emailInput.classList.remove('error-input'), 700); }
+    setTimeout(() => applyState('idle'), 2200);
+    return;
+  }
+
+  errorMsg.style.display = 'none';
+  loginBtn.classList.add('loading');
+  loginBtn.textContent = '⏳ Verificando…';
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+
+  loginBtn.classList.remove('loading');
+
+  if (error) {
+    applyState('disgust');
+    showBubble('😤 ¡Credenciales incorrectas!');
+    errorMsg.textContent = '🚨 ' + (error.message === 'Invalid login credentials'
+      ? 'Correo o contraseña incorrectos'
+      : error.message);
+    errorMsg.style.display = 'block';
+    pwInput.classList.add('error-input');
+    setTimeout(() => pwInput.classList.remove('error-input'), 700);
+    loginBtn.textContent = 'Entrar →';
+    setTimeout(() => applyState('idle'), 2200);
+  } else {
+    applyState('success');
+    showBubble('🎉 ¡Bienvenido, ' + (data.user.email.split('@')[0]) + '!');
+    loginBtn.textContent = '✅ ¡Entrando!';
+    loginBtn.classList.add('success');
+    launchConfetti();
+    spawnHearts();
+    // aquí puedes redirigir: window.location.href = '/dashboard';
+    setTimeout(() => {
+      loginBtn.textContent = 'Entrar →';
+      loginBtn.classList.remove('success');
+      applyState('idle');
+    }, 3500);
+  }
+});
+
+// ── Blink animation (random) ──
+function randomBlink() {
+  if(state==='idle') {
+    chars.forEach(c => {
+      setEyelids(c, 'closed');
+      setTimeout(()=>{ if(state==='idle') setEyelids(c,'open'); }, 130);
+    });
+  }
+  setTimeout(randomBlink, 2500 + Math.random()*3000);
+}
+setTimeout(randomBlink, 1500);
+
+// ══════════════════════════════════════════
+// MODAL HELPERS
+// ══════════════════════════════════════════
+function openModal() {
+  const ov = document.getElementById('modalOverlay');
+  ov.style.display = 'flex';
+  setTimeout(() => ov.style.opacity = '1', 10);
+  document.getElementById('regEmail').value = emailInput.value;
+  document.getElementById('regPw').value = '';
+  document.getElementById('regPw2').value = '';
+  document.getElementById('regError').style.display = 'none';
+  const btn = document.getElementById('registerBtn');
+  btn.textContent = 'Crear cuenta';
+  btn.disabled = false;
+  btn.classList.remove('loading');
+}
+function closeModal() {
+  const ov = document.getElementById('modalOverlay');
+  ov.style.opacity = '0';
+  setTimeout(() => ov.style.display = 'none', 300);
+}
+
+document.getElementById('registerLink').addEventListener('click', e => {
+  e.preventDefault(); openModal();
+});
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+
+// ══════════════════════════════════════════
+// CREAR CUENTA — Supabase signUp
+// ══════════════════════════════════════════
+document.getElementById('registerBtn').addEventListener('click', async () => {
+  const email  = document.getElementById('regEmail').value.trim();
+  const pw     = document.getElementById('regPw').value;
+  const pw2    = document.getElementById('regPw2').value;
+  const regErr = document.getElementById('regError');
+  const btn    = document.getElementById('registerBtn');
+
+  regErr.style.display = 'none';
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    regErr.textContent = '🚨 Ingresa un correo válido';
+    regErr.style.display = 'block'; return;
+  }
+  if (pw.length < 6) {
+    regErr.textContent = '🚨 Mínimo 6 caracteres';
+    regErr.style.display = 'block'; return;
+  }
+  if (pw !== pw2) {
+    regErr.textContent = '🚨 Las contraseñas no coinciden';
+    regErr.style.display = 'block'; return;
+  }
+
+  btn.textContent = '⏳ Creando cuenta…';
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const { data, error } = await sb.auth.signUp({ email, password: pw });
+
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    btn.textContent = 'Crear cuenta';
+
+    if (error) {
+      let msg = error.message;
+      if (msg.includes('already registered') || msg.includes('already been registered') || msg.includes('User already registered'))
+        msg = 'Este correo ya está registrado';
+      else if (msg.includes('rate limit') || msg.includes('over_email_send_rate_limit'))
+        msg = 'Demasiados intentos, espera un momento';
+      else if (msg.includes('Password should be'))
+        msg = 'La contraseña debe tener al menos 6 caracteres';
+      regErr.textContent = '🚨 ' + msg;
+      regErr.style.display = 'block';
+      return;
+    }
+
+    // Éxito
+    closeModal();
+    applyState('success');
+    launchConfetti();
+    spawnHearts();
+    errorMsg.style.display = 'none';
+
+    const isEmailConfirmRequired = data.user && !data.session;
+    showBubble(isEmailConfirmRequired ? '📧 ¡Revisa tu correo!' : '🎉 ¡Cuenta creada!');
+
+    const notice = document.createElement('div');
+    notice.style.cssText = 'background:rgba(6,214,160,0.12);border:1px solid rgba(6,214,160,0.3);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#06d6a0;margin-bottom:14px;animation:errorSlide .3s ease;';
+    notice.textContent = isEmailConfirmRequired
+      ? '✅ Revisa tu Gmail — te enviamos un correo de confirmación'
+      : '✅ ¡Cuenta creada! Ya puedes iniciar sesión';
+    loginBtn.before(notice);
+    // Pre-rellenar el email en el login
+    emailInput.value = email;
+    setTimeout(() => { notice.remove(); applyState('idle'); }, 6000);
+
+  } catch(err) {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    btn.textContent = 'Crear cuenta';
+    regErr.textContent = '🚨 Error de conexión: ' + err.message;
+    regErr.style.display = 'block';
+  }
+});
+
+// ══════════════════════════════════════════
+// GOOGLE OAUTH
+// ══════════════════════════════════════════
+document.getElementById('btnGoogle').addEventListener('click', async () => {
+  const btn = document.getElementById('btnGoogle');
+  errorMsg.style.display = 'none';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+  btn.textContent = '⏳ Conectando…';
+
+  try {
+    const { error } = await sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'https://shadowwarden098.github.io/Easy',
+        queryParams: { access_type: 'offline', prompt: 'consent' }
+      }
+    });
+
+    if (error) {
+      throw error;
+    }
+    // Si no hay error, el navegador redirige automáticamente a Google
+    // Restaurar botón por si el redirect falla o el usuario cancela
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.9 29.3 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 1.1 8.1 3l5.7-5.7C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.5 20-20 0-1.3-.2-2.7-.4-4z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 16.1 19 13 24 13c3.1 0 6 1.1 8.1 3l5.7-5.7C34.6 5.1 29.6 3 24 3c-7.6 0-14.2 4.1-17.7 10.2z"/><path fill="#4CAF50" d="M24 45c5.2 0 10-1.8 13.7-4.8l-6.3-5.2C29.5 36.5 26.8 37 24 37c-5.2 0-9.6-3-11.4-7.4l-6.6 5.1C9.7 40.9 16.4 45 24 45z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.9 2.5-2.6 4.6-4.8 6l6.3 5.2c3.7-3.4 6.2-8.5 6.2-15.2 0-1.3-.2-2.7-.4-4z"/></svg> Google`;
+    }, 5000);
+
+  } catch(err) {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.9 29.3 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 1.1 8.1 3l5.7-5.7C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.5 20-20 0-1.3-.2-2.7-.4-4z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 16.1 19 13 24 13c3.1 0 6 1.1 8.1 3l5.7-5.7C34.6 5.1 29.6 3 24 3c-7.6 0-14.2 4.1-17.7 10.2z"/><path fill="#4CAF50" d="M24 45c5.2 0 10-1.8 13.7-4.8l-6.3-5.2C29.5 36.5 26.8 37 24 37c-5.2 0-9.6-3-11.4-7.4l-6.6 5.1C9.7 40.9 16.4 45 24 45z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.9 2.5-2.6 4.6-4.8 6l6.3 5.2c3.7-3.4 6.2-8.5 6.2-15.2 0-1.3-.2-2.7-.4-4z"/></svg> Google`;
+    errorMsg.textContent = '🚨 Google no está habilitado aún. Actívalo en Supabase → Authentication → Providers';
+    errorMsg.style.display = 'block';
+    applyState('disgust');
+    showBubble('😤 Google no está listo aún');
+    setTimeout(() => { applyState('idle'); errorMsg.style.display = 'none'; }, 4000);
+  }
+});
+
+// ══════════════════════════════════════════
+// OLVIDÉ MI CONTRASEÑA
+// ══════════════════════════════════════════
+document.querySelector('.forgot').addEventListener('click', e => {
+  e.preventDefault();
+  const overlay = document.getElementById('resetOverlay');
+  overlay.style.display = 'flex';
+  setTimeout(() => overlay.style.opacity = '1', 10);
+  // pre-fill email if already typed
+  const emailVal = document.getElementById('emailInput').value.trim();
+  if (emailVal) document.getElementById('resetEmail').value = emailVal;
+  document.getElementById('resetMsg').style.display = 'none';
+  document.getElementById('resetError').style.display = 'none';
+  const btn = document.getElementById('resetBtn');
+  btn.textContent = 'Enviar enlace';
+  btn.disabled = false;
+});
+
+function closeResetModal() {
+  const overlay = document.getElementById('resetOverlay');
+  overlay.style.opacity = '0';
+  setTimeout(() => overlay.style.display = 'none', 300);
+}
+
+document.getElementById('resetClose').addEventListener('click', closeResetModal);
+document.getElementById('resetOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('resetOverlay')) closeResetModal();
+});
+
+document.getElementById('resetBtn').addEventListener('click', async () => {
+  const email = document.getElementById('resetEmail').value.trim();
+  const msg   = document.getElementById('resetMsg');
+  const err   = document.getElementById('resetError');
+  const btn   = document.getElementById('resetBtn');
+
+  msg.style.display = 'none';
+  err.style.display = 'none';
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.textContent = '🚨 Ingresa un correo válido';
+    err.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = '⏳ Enviando…';
+  btn.disabled = true;
+
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://shadowwarden098.github.io/Easy/#reset'
+  });
+
+  btn.textContent = 'Enviar enlace';
+  btn.disabled = false;
+
+  if (error) {
+    err.textContent = '🚨 ' + error.message;
+    err.style.display = 'block';
+  } else {
+    msg.style.display = 'block';
+    applyState('success');
+    showBubble('📧 ¡Revisa tu correo!');
+    setTimeout(() => applyState('idle'), 3000);
+    setTimeout(closeResetModal, 4000);
+  }
+});
+
+
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session) {
+    applyState('success');
+    const name = session.user.user_metadata?.full_name
+      || session.user.email.split('@')[0];
+    showBubble('🎉 ¡Bienvenido, ' + name + '!');
+    loginBtn.textContent = '✅ ¡Sesión activa!';
+    loginBtn.classList.add('success');
+    launchConfetti();
+    spawnHearts();
+    setTimeout(() => {
+      loginBtn.textContent = 'Entrar →';
+      loginBtn.classList.remove('success');
+      applyState('idle');
+    }, 3000);
+  }
+});
+</script>
+
+<!-- ══ MODAL OLVIDÉ CONTRASEÑA ══ -->
+<div id="resetOverlay" style="display:none;opacity:0;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;transition:opacity .3s ease;">
+  <div style="background:#1a1927;border:1px solid rgba(255,255,255,0.1);border-radius:24px;width:100%;max-width:400px;padding:32px 28px;box-shadow:0 40px 100px rgba(0,0,0,0.7);position:relative;">
+    <button id="resetClose" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a7a9be;font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;">✕</button>
+    <div style="font-size:40px;text-align:center;margin-bottom:12px;">🔑</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:11px;letter-spacing:.15em;color:#ff6b35;text-transform:uppercase;margin-bottom:6px;">● Recuperar acceso</div>
+    <h2 style="font-family:'Fredoka One',cursive;font-size:26px;color:#fffffe;margin-bottom:4px;">¿Olvidaste tu contraseña?</h2>
+    <p style="font-size:13px;color:#a7a9be;margin-bottom:24px;">Ingresa tu correo y te enviamos un enlace para restablecerla.</p>
+    <div style="margin-bottom:20px;">
+      <div style="font-size:10px;font-weight:600;color:#a7a9be;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;">✉️ Correo electrónico</div>
+      <input id="resetEmail" type="email" placeholder="tu@correo.com" autocomplete="off"
+        style="width:100%;padding:12px 14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.08);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;color:#fffffe;outline:none;caret-color:#ff6b35;box-sizing:border-box;"
+        onfocus="this.style.borderColor='#ff6b35';this.style.boxShadow='0 0 0 3px rgba(255,107,53,0.12)'"
+        onblur="this.style.borderColor='rgba(255,255,255,0.08)';this.style.boxShadow='none'"/>
+    </div>
+    <div id="resetError" style="display:none;background:rgba(239,35,60,0.1);border:1px solid rgba(239,35,60,0.3);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;color:#ff6b7a;margin-bottom:14px;"></div>
+    <div id="resetMsg" style="display:none;background:rgba(6,214,160,0.12);border:1px solid rgba(6,214,160,0.3);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#06d6a0;margin-bottom:14px;">✅ ¡Enlace enviado! Revisa tu correo (también el spam).</div>
+    <button id="resetBtn" class="btn-main" style="margin-bottom:0;">Enviar enlace</button>
+    <p style="text-align:center;margin-top:14px;font-size:13px;color:#a7a9be;">
+      <span style="color:#a47de8;font-weight:600;cursor:pointer;" onclick="closeResetModal()">← Volver al login</span>
+    </p>
+  </div>
+</div>
+
+<!-- ══ MODAL REGISTRO ══ -->
+<div id="modalOverlay" style="display:none;opacity:0;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;transition:opacity .3s ease;">
+  <div style="background:#1a1927;border:1px solid rgba(255,255,255,0.1);border-radius:24px;width:100%;max-width:400px;padding:32px 28px;box-shadow:0 40px 100px rgba(0,0,0,0.7);position:relative;">
+    <button id="modalClose" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#a7a9be;font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;">✕</button>
+    <div style="font-family:'Fredoka One',cursive;font-size:11px;letter-spacing:.15em;color:#ff6b35;text-transform:uppercase;margin-bottom:6px;">● Nueva cuenta</div>
+    <h2 style="font-family:'Fredoka One',cursive;font-size:26px;color:#fffffe;margin-bottom:4px;">Regístrate</h2>
+    <p style="font-size:13px;color:#a7a9be;margin-bottom:24px;">Crea tu cuenta en segundos 🚀</p>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:10px;font-weight:600;color:#a7a9be;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;">✉️ Correo electrónico</div>
+      <input id="regEmail" type="email" placeholder="tu@correo.com" autocomplete="off"
+        style="width:100%;padding:12px 14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.08);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;color:#fffffe;outline:none;caret-color:#ff6b35;box-sizing:border-box;"
+        onfocus="this.style.borderColor='#ff6b35';this.style.boxShadow='0 0 0 3px rgba(255,107,53,0.12)'"
+        onblur="this.style.borderColor='rgba(255,255,255,0.08)';this.style.boxShadow='none'"/>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:10px;font-weight:600;color:#a7a9be;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;">🔑 Contraseña</div>
+      <input id="regPw" type="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password"
+        style="width:100%;padding:12px 14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.08);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;color:#fffffe;outline:none;caret-color:#ff6b35;box-sizing:border-box;"
+        onfocus="this.style.borderColor='#ff6b35';this.style.boxShadow='0 0 0 3px rgba(255,107,53,0.12)'"
+        onblur="this.style.borderColor='rgba(255,255,255,0.08)';this.style.boxShadow='none'"/>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div style="font-size:10px;font-weight:600;color:#a7a9be;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;">🔑 Confirmar contraseña</div>
+      <input id="regPw2" type="password" placeholder="Repite la contraseña" autocomplete="new-password"
+        style="width:100%;padding:12px 14px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.08);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;color:#fffffe;outline:none;caret-color:#ff6b35;box-sizing:border-box;"
+        onfocus="this.style.borderColor='#ff6b35';this.style.boxShadow='0 0 0 3px rgba(255,107,53,0.12)'"
+        onblur="this.style.borderColor='rgba(255,255,255,0.08)';this.style.boxShadow='none'"/>
+    </div>
+    <div id="regError" style="display:none;background:rgba(239,35,60,0.1);border:1px solid rgba(239,35,60,0.3);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;color:#ff6b7a;margin-bottom:14px;"></div>
+    <button id="registerBtn" class="btn-main" style="margin-bottom:0;">Crear cuenta</button>
+    <p style="text-align:center;margin-top:14px;font-size:13px;color:#a7a9be;">
+      ¿Ya tienes cuenta? <span style="color:#a47de8;font-weight:600;cursor:pointer;" onclick="closeModal()">Inicia sesión</span>
+    </p>
+  </div>
+</div>
+</body>
+</html>
