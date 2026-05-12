@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shadow Garden — Autenticación</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #070510;
@@ -21,17 +20,21 @@
             --error: #ff0028;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        html, body {
+        html,
+        body {
             width: 100%;
             height: 100%;
             font-family: 'DM Sans', sans-serif;
             overflow: hidden;
-            background: #000;
         }
 
-        /* Fondo animado con zoom (el mismo que funcionaba) */
+        /* Fondo anime con animación de zoom */
         .background {
             position: fixed;
             inset: 0;
@@ -40,20 +43,27 @@
             background-size: cover;
             animation: bgZoom 20s ease-in-out infinite alternate;
         }
+
         @keyframes bgZoom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.08); }
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.08);
+            }
         }
 
+        /* Capa de superposición para mejorar legibilidad */
         .overlay {
             position: fixed;
             inset: 0;
             z-index: 0;
             background: linear-gradient(to right,
-                rgba(7, 5, 16, 0.6) 0%,
-                rgba(7, 5, 16, 0.2) 100%);
+                    rgba(7, 5, 16, 0.6) 0%,
+                    rgba(7, 5, 16, 0.2) 100%);
         }
 
+        /* Contenedor principal */
         .main-container {
             position: relative;
             z-index: 1;
@@ -65,6 +75,7 @@
             padding-left: 8vw;
         }
 
+        /* Panel de vidrio (login/registro) */
         .auth-panel {
             width: 400px;
             max-width: 90%;
@@ -77,81 +88,41 @@
             color: white;
             animation: slideIn 1s ease forwards;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: visible; /* cambiado para que Gojo no se corte */
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Logo con glitch */
-        .logo {
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .auth-panel .logo {
             font-family: 'Cinzel', serif;
             font-size: 28px;
             letter-spacing: 6px;
             margin-bottom: 5px;
             text-shadow: 0 0 15px rgba(192, 0, 26, 0.7);
-            position: relative;
-            display: inline-block;
-        }
-        .logo::before,
-        .logo::after {
-            content: 'Shadow Garden';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-        }
-        .logo::before { color: #0ff; animation: glitch1 2s infinite; }
-        .logo::after { color: #f0f; animation: glitch2 2s infinite; }
-        @keyframes glitch1 {
-            0%, 100% { opacity: 0; }
-            2% { opacity: 0.8; transform: translate(2px, -1px); }
-            4% { opacity: 0; }
-        }
-        @keyframes glitch2 {
-            0%, 100% { opacity: 0; }
-            3% { opacity: 0.8; transform: translate(-2px, 1px); }
-            5% { opacity: 0; }
         }
 
-        .subtitle {
+        .auth-panel .subtitle {
             font-size: 12px;
             letter-spacing: 3px;
             margin-bottom: 30px;
             opacity: 0.8;
         }
 
-        /* Mini Gojo */
-        .mini-gojo {
-            position: absolute;
-            top: -35px;
-            right: -15px;
-            width: 70px;
-            height: 70px;
-            background: url('gojo_mini.png') no-repeat center/contain;
-            transition: transform 0.3s;
-            z-index: 2;
-            filter: drop-shadow(0 0 8px rgba(0, 180, 255, 0.6));
-        }
-        .mini-gojo.surprised {
-            transform: scale(1.2) rotate(5deg);
-            animation: miniShake 0.5s ease;
-        }
-        @keyframes miniShake {
-            0%, 100% { transform: scale(1.2) rotate(0); }
-            25% { transform: scale(1.2) rotate(-5deg); }
-            75% { transform: scale(1.2) rotate(5deg); }
-        }
-
+        /* Pestañas */
         .tabs {
             display: flex;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             margin-bottom: 25px;
         }
+
         .tab {
             flex: 1;
             padding: 10px;
@@ -164,12 +135,25 @@
             border-bottom: 2px solid transparent;
             color: rgba(255, 255, 255, 0.6);
         }
-        .tab.active { border-bottom-color: var(--red-glow); color: white; }
 
-        .form-section { display: none; }
-        .form-section.active { display: block; }
+        .tab.active {
+            border-bottom-color: var(--red-glow);
+            color: white;
+        }
 
-        .field { margin-bottom: 20px; }
+        /* Formularios */
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
         .field input {
             width: 100%;
             padding: 14px 16px;
@@ -181,91 +165,157 @@
             color: white;
             transition: 0.3s;
         }
-        .field input::placeholder { color: rgba(255, 255, 255, 0.6); }
-        .field input:focus { border-bottom-color: var(--red-glow); }
-        .field input.error { border-bottom-color: var(--error); animation: shake 0.4s ease; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-5px); }
-            60% { transform: translateX(5px); }
-            80% { transform: translateX(-3px); }
+
+        .field input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
-        .pw-strength { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-        .pw-strength .sword-icon { font-size: 16px; transition: 0.3s; }
-        .pw-strength .strength-bar {
-            flex: 1; height: 4px; border-radius: 2px;
-            background: rgba(255,255,255,0.1); overflow: hidden;
+        .field input:focus {
+            border-bottom-color: var(--red-glow);
         }
-        .pw-strength .strength-fill {
-            height: 100%; width: 0%;
-            transition: width 0.4s ease, background-color 0.4s ease;
-            background: var(--error);
+
+        .field input.error {
+            border-bottom-color: var(--error);
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-5px);
+            }
+            60% {
+                transform: translateX(5px);
+            }
+            80% {
+                transform: translateX(-3px);
+            }
         }
 
         .btn {
-            width: 100%; padding: 14px;
+            width: 100%;
+            padding: 14px;
             background: linear-gradient(135deg, var(--red), #7a000f);
-            border: none; border-radius: 6px;
-            font-family: 'Cinzel', serif; font-size: 16px; font-weight: bold;
-            color: white; letter-spacing: 2px; text-transform: uppercase;
-            cursor: pointer; transition: 0.3s; margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
             box-shadow: 0 0 20px rgba(192, 0, 26, 0.4);
         }
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 0 30px rgba(192, 0, 26, 0.6);
-            animation: btnVibrate 0.3s ease;
         }
-        @keyframes btnVibrate {
-            0%, 100% { transform: translateY(-2px) rotate(0); }
-            25% { transform: translateY(-2px) rotate(0.5deg); }
-            75% { transform: translateY(-2px) rotate(-0.5deg); }
+
+        .btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
         }
-        .btn.loading { pointer-events: none; opacity: 0.7; }
+
         .btn.success {
             background: linear-gradient(135deg, #005525, #00ff88);
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
         }
 
         .msg {
-            margin: 15px 0 10px; font-size: 14px; font-weight: 600;
-            display: none; padding: 8px 12px; border-radius: 5px;
+            margin: 15px 0 10px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+            padding: 8px 12px;
+            border-radius: 5px;
         }
-        .msg.error { background: rgba(192, 0, 26, 0.2); border: 1px solid rgba(192, 0, 26, 0.5); color: #ff6070; }
-        .msg.success { background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.3); color: var(--success); }
+
+        .msg.error {
+            background: rgba(192, 0, 26, 0.2);
+            border: 1px solid rgba(192, 0, 26, 0.5);
+            color: #ff6070;
+        }
+
+        .msg.success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--success);
+        }
 
         .extra-links {
-            display: flex; justify-content: space-between;
-            margin-top: 20px; font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 13px;
         }
-        .extra-links a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: 0.3s; }
-        .extra-links a:hover { color: var(--red-glow); }
 
-        .google-btn {
-            width: 100%; padding: 12px; margin-top: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px;
-            color: white; font-size: 14px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+        .extra-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
             transition: 0.3s;
         }
-        .google-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
+        .extra-links a:hover {
+            color: var(--red-glow);
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .google-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         .spinner {
-            display: none; width: 18px; height: 18px;
+            display: none;
+            width: 18px;
+            height: 18px;
             border: 2px solid rgba(255, 255, 255, 0.5);
-            border-top-color: white; border-radius: 50%;
+            border-top-color: white;
+            border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Ajustes responsive */
         @media (max-width: 500px) {
             .main-container {
-                padding-left: 5vw; padding-right: 5vw; justify-content: center;
+                padding-left: 5vw;
+                padding-right: 5vw;
+                justify-content: center;
             }
-            .auth-panel { padding: 30px 20px; }
+            .auth-panel {
+                padding: 30px 20px;
+            }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Fondo animado -->
@@ -274,12 +324,10 @@
 
     <div class="main-container">
         <div class="auth-panel">
-            <!-- Mini Gojo -->
-            <div class="mini-gojo" id="miniGojo"></div>
-
             <div class="logo">Shadow Garden</div>
             <div class="subtitle">Sistema de autenticación</div>
 
+            <!-- Pestañas -->
             <div class="tabs">
                 <div class="tab active" id="tabLogin">Iniciar sesión</div>
                 <div class="tab" id="tabRegister">Registrarse</div>
@@ -292,10 +340,6 @@
                 </div>
                 <div class="field">
                     <input type="password" id="pwInput" placeholder="Contraseña" autocomplete="off">
-                    <div class="pw-strength" id="pwStrengthBox" style="display:none;">
-                        <span class="sword-icon">🗡️</span>
-                        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
-                    </div>
                 </div>
                 <div class="msg error" id="loginError"></div>
                 <div class="msg success" id="loginSuccess"></div>
@@ -345,17 +389,20 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // ================== SUPABASE ==================
+        // ================== CONFIGURACIÓN SUPABASE ==================
         const sb = supabase.createClient(
             'https://mtffjwaybktpwbavsvoa.supabase.co',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10ZmZqd2F5Ymt0cHdiYXZzdm9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNzQ2MzksImV4cCI6MjA5Mzk1MDYzOX0.2qEw2rHe7h3o5RASSncT6w0QI9wCNYKr_mMmmszkFHI'
         );
 
-        // ================== DOM ==================
+        // ================== ELEMENTOS DEL DOM ==================
+        // Pestañas
         const tabLogin = document.getElementById('tabLogin');
         const tabRegister = document.getElementById('tabRegister');
         const loginSection = document.getElementById('loginSection');
         const registerSection = document.getElementById('registerSection');
+
+        // Login
         const emailInput = document.getElementById('emailInput');
         const pwInput = document.getElementById('pwInput');
         const loginBtn = document.getElementById('loginBtn');
@@ -364,20 +411,21 @@
         const googleBtn = document.getElementById('googleLoginBtn');
         const googleSpinner = document.getElementById('googleSpinner');
         const googleText = document.getElementById('googleText');
+
+        // Registro
         const regEmail = document.getElementById('regEmail');
         const regPw = document.getElementById('regPw');
         const regPw2 = document.getElementById('regPw2');
         const registerBtn = document.getElementById('registerBtn');
         const regError = document.getElementById('regError');
         const regSuccess = document.getElementById('regSuccess');
+
+        // Restablecer
         const resetModal = document.getElementById('resetModal');
         const resetEmail = document.getElementById('resetEmail');
         const sendResetBtn = document.getElementById('sendResetBtn');
         const resetMsg = document.getElementById('resetMsg');
         const closeResetModal = document.getElementById('closeResetModal');
-        const pwStrengthBox = document.getElementById('pwStrengthBox');
-        const strengthFill = document.getElementById('strengthFill');
-        const miniGojo = document.getElementById('miniGojo');
 
         // ================== CAMBIO DE PESTAÑAS ==================
         function setActiveTab(tab) {
@@ -386,73 +434,68 @@
                 registerSection.classList.remove('active');
                 tabLogin.classList.add('active');
                 tabRegister.classList.remove('active');
-                miniGojo.classList.remove('surprised');
                 limpiarMensajes();
             } else {
                 registerSection.classList.add('active');
                 loginSection.classList.remove('active');
                 tabRegister.classList.add('active');
                 tabLogin.classList.remove('active');
-                miniGojo.classList.add('surprised');
-                setTimeout(() => miniGojo.classList.remove('surprised'), 600);
                 limpiarMensajes();
             }
         }
+
         tabLogin.addEventListener('click', () => setActiveTab('login'));
         tabRegister.addEventListener('click', () => setActiveTab('register'));
-        document.getElementById('toRegisterLink').addEventListener('click', (e) => { e.preventDefault(); setActiveTab('register'); });
-        document.getElementById('toLoginLink').addEventListener('click', (e) => { e.preventDefault(); setActiveTab('login'); });
-
-        function limpiarMensajes() {
-            loginError.style.display = 'none'; loginSuccess.style.display = 'none';
-            regError.style.display = 'none'; regSuccess.style.display = 'none';
-        }
-
-        function esEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
-        function mostrarError(el, msg) { el.textContent = '⚠ ' + msg; el.style.display = 'block'; }
-        function mostrarExito(el, msg) { el.textContent = '✓ ' + msg; el.style.display = 'block'; }
-
-        // ================== BARRA DE FUERZA ==================
-        pwInput.addEventListener('input', () => {
-            const pw = pwInput.value;
-            if (pw.length === 0) { pwStrengthBox.style.display = 'none'; return; }
-            pwStrengthBox.style.display = 'flex';
-            let score = 0;
-            if (pw.length >= 6) score++;
-            if (pw.length >= 10) score++;
-            if (/[A-Z]/.test(pw)) score++;
-            if (/[0-9]/.test(pw)) score++;
-            if (/[^a-zA-Z0-9]/.test(pw)) score++;
-            strengthFill.style.width = score * 20 + '%';
-            const colors = ['#ff0028', '#ff6000', '#ffd166', '#00cc66', '#00ff88'];
-            strengthFill.style.background = colors[Math.min(score, 4)];
+        document.getElementById('toRegisterLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveTab('register');
+        });
+        document.getElementById('toLoginLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveTab('login');
         });
 
-        // ================== SONIDO ==================
-        function playKeySound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.08);
-            } catch(e) {}
+        function limpiarMensajes() {
+            loginError.style.display = 'none';
+            loginSuccess.style.display = 'none';
+            regError.style.display = 'none';
+            regSuccess.style.display = 'none';
         }
-        document.querySelectorAll('input').forEach(input => input.addEventListener('keydown', playKeySound));
+
+        // ================== FUNCIONES AUXILIARES ==================
+        function esEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+        function mostrarError(elemento, msg) {
+            elemento.textContent = '⚠ ' + msg;
+            elemento.style.display = 'block';
+            elemento.classList.add('error');
+            setTimeout(() => elemento.classList.remove('error'), 2000);
+        }
+
+        function mostrarExito(elemento, msg) {
+            elemento.textContent = '✓ ' + msg;
+            elemento.style.display = 'block';
+        }
 
         // ================== LOGIN ==================
         loginBtn.addEventListener('click', async () => {
             const email = emailInput.value.trim();
             const pw = pwInput.value;
             limpiarMensajes();
-            if (!email || !pw) { mostrarError(loginError, 'Completa todos los campos'); return; }
-            if (!esEmail(email)) { mostrarError(loginError, 'Correo inválido'); return; }
-            loginBtn.classList.add('loading'); loginBtn.textContent = 'Verificando…';
+
+            if (!email || !pw) {
+                mostrarError(loginError, 'Completa todos los campos');
+                return;
+            }
+            if (!esEmail(email)) {
+                mostrarError(loginError, 'Correo inválido');
+                return;
+            }
+
+            loginBtn.classList.add('loading');
+            loginBtn.textContent = 'Verificando…';
             try {
-                const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+                const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
                 if (error) throw error;
                 loginBtn.classList.remove('loading');
                 loginBtn.classList.add('success');
@@ -460,7 +503,8 @@
                 mostrarExito(loginSuccess, 'Redirigiendo…');
                 setTimeout(() => window.location.href = 'dashboard.html', 1800);
             } catch (err) {
-                loginBtn.classList.remove('loading'); loginBtn.textContent = 'Ingresar';
+                loginBtn.classList.remove('loading');
+                loginBtn.textContent = 'Ingresar';
                 let msg = 'Credenciales incorrectas';
                 if (err.message) {
                     if (err.message.includes('Email not confirmed')) msg = 'Confirma tu correo antes de entrar';
@@ -471,9 +515,10 @@
             }
         });
 
-        // ================== GOOGLE ==================
+        // ================== GOOGLE OAUTH ==================
         googleBtn.addEventListener('click', async () => {
-            googleText.style.display = 'none'; googleSpinner.style.display = 'block';
+            googleText.style.display = 'none';
+            googleSpinner.style.display = 'block';
             try {
                 const { error } = await sb.auth.signInWithOAuth({
                     provider: 'google',
@@ -481,7 +526,8 @@
                 });
                 if (error) throw error;
             } catch (err) {
-                googleText.style.display = 'inline'; googleSpinner.style.display = 'none';
+                googleText.style.display = 'inline';
+                googleSpinner.style.display = 'none';
                 mostrarError(loginError, 'Error al conectar con Google');
             }
         });
@@ -492,37 +538,58 @@
             const pw = regPw.value;
             const pw2 = regPw2.value;
             limpiarMensajes();
+
             if (!esEmail(email)) { mostrarError(regError, 'Correo inválido'); return; }
             if (pw.length < 6) { mostrarError(regError, 'Mínimo 6 caracteres'); return; }
             if (pw !== pw2) { mostrarError(regError, 'Las contraseñas no coinciden'); return; }
-            registerBtn.classList.add('loading'); registerBtn.textContent = 'Creando…';
+
+            registerBtn.classList.add('loading');
+            registerBtn.textContent = 'Creando…';
             try {
                 const { data, error } = await sb.auth.signUp({ email, password: pw });
-                registerBtn.classList.remove('loading'); registerBtn.textContent = 'Crear cuenta';
+                registerBtn.classList.remove('loading');
+                registerBtn.textContent = 'Crear cuenta';
                 if (error) {
                     let m = error.message;
-                    if (m.includes('already registered')) m = 'Este correo ya está registrado';
+                    if (m.includes('already registered') || m.includes('User already registered')) m = 'Este correo ya está registrado';
                     mostrarError(regError, m);
                 } else {
-                    const necesita = data.user && !data.session;
-                    mostrarExito(regSuccess, necesita ? '✓ Revisa tu Gmail para confirmar' : '✓ ¡Cuenta creada! Ya puedes iniciar sesión');
-                    if (!necesita) setTimeout(() => { setActiveTab('login'); emailInput.value = email; }, 2500);
+                    const necesitaConfirmar = data.user && !data.session;
+                    const msg = necesitaConfirmar ? '✓ Revisa tu Gmail para confirmar' : '✓ ¡Cuenta creada! Ya puedes iniciar sesión';
+                    mostrarExito(regSuccess, msg);
+                    if (!necesitaConfirmar) {
+                        setTimeout(() => {
+                            setActiveTab('login');
+                            emailInput.value = email;
+                        }, 2500);
+                    }
                 }
             } catch (err) {
-                registerBtn.classList.remove('loading'); registerBtn.textContent = 'Crear cuenta';
+                registerBtn.classList.remove('loading');
+                registerBtn.textContent = 'Crear cuenta';
                 mostrarError(regError, 'Error de conexión');
             }
         });
 
-        // ================== RESTABLECER ==================
+        // ================== RESTABLECER CONTRASEÑA ==================
         document.getElementById('forgotLink').addEventListener('click', (e) => {
-            e.preventDefault(); resetModal.style.display = 'flex'; resetEmail.value = emailInput.value;
+            e.preventDefault();
+            resetModal.style.display = 'flex';
+            resetEmail.value = emailInput.value;
         });
-        closeResetModal.addEventListener('click', () => { resetModal.style.display = 'none'; });
+
+        closeResetModal.addEventListener('click', () => {
+            resetModal.style.display = 'none';
+        });
+
         sendResetBtn.addEventListener('click', async () => {
             const email = resetEmail.value.trim();
-            if (!esEmail(email)) { resetMsg.innerHTML = '<span style="color:#ff6070;">⚠ Correo inválido</span>'; return; }
-            sendResetBtn.classList.add('loading'); sendResetBtn.textContent = 'Enviando…';
+            if (!esEmail(email)) {
+                resetMsg.innerHTML = '<span style="color:#ff6070;">⚠ Correo inválido</span>';
+                return;
+            }
+            sendResetBtn.classList.add('loading');
+            sendResetBtn.textContent = 'Enviando…';
             try {
                 const { error } = await sb.auth.resetPasswordForEmail(email, {
                     redirectTo: 'https://shadowwarden098.github.io/Easy/index.html'
@@ -531,16 +598,13 @@
                 resetMsg.innerHTML = '<span style="color:#00ff88;">✓ Enlace enviado a ' + email + '</span>';
                 sendResetBtn.style.display = 'none';
             } catch (err) {
-                sendResetBtn.classList.remove('loading'); sendResetBtn.textContent = 'Enviar enlace';
+                sendResetBtn.classList.remove('loading');
+                sendResetBtn.textContent = 'Enviar enlace';
                 resetMsg.innerHTML = '<span style="color:#ff6070;">⚠ ' + (err.message || 'Error') + '</span>';
             }
         });
 
         // ================== SESIÓN EXISTENTE ==================
-        window.addEventListener('load', () => {
-            const remembered = localStorage.getItem('rememberedEmail');
-            if (remembered) { emailInput.value = remembered; pwInput.focus(); }
-        });
         sb.auth.getSession().then(({ data: { session } }) => {
             if (session) {
                 loginBtn.textContent = '✓ ¡Acceso concedido!';
