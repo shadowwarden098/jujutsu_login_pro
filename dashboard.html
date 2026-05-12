@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es" data-theme="dark">
 <head>
@@ -293,6 +292,25 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 .toast.success{border-color:rgba(6,214,160,0.38);color:var(--success);}
 .toast.error{border-color:rgba(239,35,60,0.38);color:var(--error);}
+
+/* NUEVOS ESTILOS PARA FUNCIONALIDADES AÑADIDAS */
+.history-table{width:100%;border-collapse:collapse;font-size:11px;}
+.history-table th,.history-table td{padding:8px 6px;text-align:left;border-bottom:1px solid var(--border);}
+.history-table th{font-family:'Fredoka One',cursive;font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;}
+.history-table .won{color:var(--success);font-weight:700;}
+.history-table .lost{color:var(--error);font-weight:700;}
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;}
+.pagination button{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-family:'Fredoka One',cursive;font-size:11px;color:var(--text);cursor:pointer;transition:border-color .2s;}
+.pagination button:hover{border-color:var(--orange);}
+.pagination button:disabled{opacity:0.35;pointer-events:none;}
+.pagination span{font-size:11px;color:var(--text-dim);}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);gap:10px;}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-row .toggle-label{font-size:12px;font-weight:600;}
+.toggle-row .toggle-desc{font-size:9px;color:var(--text-dim);}
+select.lang-select{width:100%;padding:10px 12px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;cursor:pointer;transition:border-color .2s;}
+select.lang-select:focus{border-color:var(--orange);}
+.google-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(66,133,244,0.15);border:1px solid rgba(66,133,244,0.3);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:600;color:#4285f4;}
 </style>
 </head>
 <body>
@@ -310,14 +328,14 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
 <div class="modal-overlay" id="usernameModal">
   <div class="modal-box">
     <span class="modal-emoji">👾</span>
-    <div class="modal-title">¡Elige tu @usuario!</div>
-    <p class="modal-sub">Tus amigos te buscarán con este nombre</p>
+    <div class="modal-title" data-i18n="modal_username_title">¡Elige tu @usuario!</div>
+    <p class="modal-sub" data-i18n="modal_username_sub">Tus amigos te buscarán con este nombre</p>
     <div class="username-input-wrap">
       <span class="username-prefix">@</span>
       <input class="username-input" id="usernameInput" placeholder="tunombredeusuario" maxlength="20" autocomplete="off" spellcheck="false"/>
     </div>
-    <div class="username-hint" id="usernameHint">Solo letras minúsculas, números y _</div>
-    <button class="save-btn" id="usernameBtn" disabled>Guardar y continuar →</button>
+    <div class="username-hint" id="usernameHint" data-i18n="username_hint_default">Solo letras minúsculas, números y _</div>
+    <button class="save-btn" id="usernameBtn" disabled data-i18n="save_continue">Guardar y continuar →</button>
   </div>
 </div>
 
@@ -333,20 +351,20 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
     <div style="display:flex;background:rgba(255,255,255,0.04);border-radius:11px;overflow:hidden;margin-bottom:14px;">
       <div style="flex:1;text-align:center;padding:11px 6px;border-right:1px solid var(--border);">
         <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--orange);" id="fpPartidas">0</div>
-        <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;">Partidas</div>
+        <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;" data-i18n="games_label">Partidas</div>
       </div>
       <div style="flex:1;text-align:center;padding:11px 6px;border-right:1px solid var(--border);">
         <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--orange);" id="fpVictorias">0</div>
-        <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;">Victorias</div>
+        <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;" data-i18n="wins_label">Victorias</div>
       </div>
       <div style="flex:1;text-align:center;padding:11px 6px;">
         <div style="font-family:'Fredoka One',cursive;font-size:16px;color:var(--yellow);" id="fpLeague">🥉</div>
-        <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;">Liga</div>
+        <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;" data-i18n="league_label">Liga</div>
       </div>
     </div>
-    <div style="font-family:'Fredoka One',cursive;font-size:13px;margin-bottom:7px;">🏅 Logros</div>
+    <div style="font-family:'Fredoka One',cursive;font-size:13px;margin-bottom:7px;" data-i18n="achievements_label">🏅 Logros</div>
     <div id="fpLogros" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;min-height:28px;"></div>
-    <button class="save-btn" id="fpChallengeBtn">⚔️ Retar a partida</button>
+    <button class="save-btn" id="fpChallengeBtn" data-i18n="challenge_btn">⚔️ Retar a partida</button>
   </div>
 </div>
 
@@ -354,22 +372,35 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
 <div class="modal-overlay" id="avatarModal">
   <div class="modal-box">
     <span style="font-size:34px;display:block;margin-bottom:7px;">🎨</span>
-    <div class="modal-title">Tu avatar</div>
-    <p class="modal-sub" style="margin-bottom:14px;">Elige un emoji o color favorito</p>
+    <div class="modal-title" data-i18n="avatar_modal_title">Tu avatar</div>
+    <p class="modal-sub" style="margin-bottom:14px;" data-i18n="avatar_modal_sub">Elige un emoji o color favorito</p>
     <div class="avatar-picker" id="avatarPicker"></div>
-    <button class="save-btn" id="saveAvatarBtn">Guardar avatar</button>
-    <div style="margin-top:9px;"><span style="font-size:11px;color:var(--text-dim);cursor:pointer;" onclick="closeModal('avatarModal')">Cancelar</span></div>
+    <button class="save-btn" id="saveAvatarBtn" data-i18n="save_avatar">Guardar avatar</button>
+    <div style="margin-top:9px;"><span style="font-size:11px;color:var(--text-dim);cursor:pointer;" onclick="closeModal('avatarModal')" data-i18n="cancel">Cancelar</span></div>
+  </div>
+</div>
+
+<!-- RESET CONFIRM MODAL -->
+<div class="modal-overlay" id="resetConfirmModal">
+  <div class="modal-box">
+    <span style="font-size:40px;display:block;margin-bottom:7px;">⚠️</span>
+    <div class="modal-title" data-i18n="reset_stats_title">¿Resetear estadísticas?</div>
+    <p class="modal-sub" data-i18n="reset_stats_sub">Se borrarán todas tus partidas, puntos y rachas. Esta acción no se puede deshacer.</p>
+    <div style="display:flex;gap:8px;">
+      <button class="danger-btn" style="flex:1;" id="confirmResetBtn" data-i18n="reset_confirm">Sí, borrar todo</button>
+      <button class="copy-btn" style="flex:1;background:var(--text-dim);" onclick="closeModal('resetConfirmModal')" data-i18n="cancel">Cancelar</button>
+    </div>
   </div>
 </div>
 
 <!-- NOTIF PANEL -->
 <div class="notif-panel" id="notifPanel">
   <div class="notif-header">
-    <span class="notif-title">🔔 Notificaciones</span>
-    <span class="notif-clear" onclick="clearNotifs()">Leer todo</span>
+    <span class="notif-title">🔔 <span data-i18n="notifications">Notificaciones</span></span>
+    <span class="notif-clear" onclick="clearNotifs()" data-i18n="read_all">Leer todo</span>
   </div>
   <div class="notif-list" id="notifList">
-    <div class="notif-empty">Sin notificaciones nuevas</div>
+    <div class="notif-empty" data-i18n="no_notifs">Sin notificaciones nuevas</div>
   </div>
 </div>
 
@@ -396,9 +427,9 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
   <!-- INICIO -->
   <div class="section active" id="sec-home">
     <div class="hero">
-      <div class="hero-label">● Bienvenido de vuelta</div>
-      <h1>¡Hola, <span id="heroName">jugador</span>! 👋</h1>
-      <p>Demuestra tu habilidad y sube de liga</p>
+      <div class="hero-label" data-i18n="welcome_back">● Bienvenido de vuelta</div>
+      <h1><span data-i18n="hello">¡Hola</span>, <span id="heroName">jugador</span>! 👋</h1>
+      <p data-i18n="hero_sub">Demuestra tu habilidad y sube de liga</p>
       <div class="league-badge" onclick="switchTab('profile')">
         <span class="league-icon" id="leagueIcon">🥉</span>
         <div class="league-info">
@@ -409,54 +440,54 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
       </div>
       <div class="streak-banner" id="streakBanner" style="display:none;">
         <span class="streak-fire">🔥</span>
-        <div><div class="streak-num" id="streakNum">0</div><div class="streak-label">victorias consecutivas</div></div>
+        <div><div class="streak-num" id="streakNum">0</div><div class="streak-label" data-i18n="consecutive_wins">victorias consecutivas</div></div>
         <span style="font-size:20px;margin-left:auto;">⚡</span>
       </div>
       <div class="stats-bar">
-        <div class="stat-chip"><div class="stat-num" id="statPartidas">0</div><div class="stat-label">Partidas</div></div>
-        <div class="stat-chip"><div class="stat-num" id="statVictorias">0</div><div class="stat-label">Victorias</div></div>
-        <div class="stat-chip"><div class="stat-num" id="statPuntos">0</div><div class="stat-label">Puntos</div></div>
-        <div class="stat-chip"><div class="stat-num" id="statAmigos">0</div><div class="stat-label">Amigos</div></div>
+        <div class="stat-chip"><div class="stat-num" id="statPartidas">0</div><div class="stat-label" data-i18n="games_label">Partidas</div></div>
+        <div class="stat-chip"><div class="stat-num" id="statVictorias">0</div><div class="stat-label" data-i18n="wins_label">Victorias</div></div>
+        <div class="stat-chip"><div class="stat-num" id="statPuntos">0</div><div class="stat-label" data-i18n="points_label">Puntos</div></div>
+        <div class="stat-chip"><div class="stat-num" id="statAmigos">0</div><div class="stat-label" data-i18n="friends_label">Amigos</div></div>
       </div>
     </div>
 
     <div style="padding:0 16px;">
       <div class="chart-wrap">
-        <div class="chart-title">📊 Rendimiento semanal</div>
+        <div class="chart-title" data-i18n="weekly_perf">📊 Rendimiento semanal</div>
         <div class="chart-bars" id="chartBars"></div>
       </div>
 
-      <div class="section-title">🏅 Logros</div>
+      <div class="section-title" data-i18n="achievements_home">🏅 Logros</div>
       <div class="logros-scroll" id="logrosHome"></div>
 
-      <div class="section-title">🎮 Juegos</div>
+      <div class="section-title" data-i18n="games_title">🎮 Juegos</div>
       <div class="games-grid">
         <div class="game-card chess" onclick="goToGame('chess')">
           <div class="card-art"><span class="card-art-emoji">♟️</span><div class="card-glow"></div></div>
-          <div class="card-info"><div class="card-name">Ajedrez</div><div class="card-desc">Estrategia clásica</div></div>
-          <div class="card-footer"><div class="card-plays">Jugadores: <span>2</span></div><button class="play-btn">Jugar</button></div>
+          <div class="card-info"><div class="card-name">Ajedrez</div><div class="card-desc" data-i18n="chess_desc">Estrategia clásica</div></div>
+          <div class="card-footer"><div class="card-plays"><span data-i18n="players_label">Jugadores</span>: <span>2</span></div><button class="play-btn" data-i18n="play_btn">Jugar</button></div>
         </div>
         <div class="game-card checkers" onclick="goToGame('checkers')">
           <div class="card-art"><span class="card-art-emoji">🔴</span><div class="card-glow"></div></div>
-          <div class="card-info"><div class="card-name">Damas</div><div class="card-desc">El clásico de tablero</div></div>
-          <div class="card-footer"><div class="card-plays">Jugadores: <span>2</span></div><button class="play-btn">Jugar</button></div>
+          <div class="card-info"><div class="card-name">Damas</div><div class="card-desc" data-i18n="checkers_desc">El clásico de tablero</div></div>
+          <div class="card-footer"><div class="card-plays"><span data-i18n="players_label">Jugadores</span>: <span>2</span></div><button class="play-btn" data-i18n="play_btn">Jugar</button></div>
         </div>
         <div class="game-card solitaire" onclick="goToGame('solitaire')">
           <div class="card-art"><span class="card-art-emoji">🃏</span><div class="card-glow"></div></div>
-          <div class="card-info"><div class="card-name">Solitario</div><div class="card-desc">Klondike clásico</div></div>
-          <div class="card-footer"><div class="card-plays">Jugadores: <span>1</span></div><button class="play-btn">Jugar</button></div>
+          <div class="card-info"><div class="card-name">Solitario</div><div class="card-desc" data-i18n="solitaire_desc">Klondike clásico</div></div>
+          <div class="card-footer"><div class="card-plays"><span data-i18n="players_label">Jugadores</span>: <span>1</span></div><button class="play-btn" data-i18n="play_btn">Jugar</button></div>
         </div>
-        <div class="game-card memory" onclick="showToast('🔜 ¡Próximamente!')">
+        <div class="game-card memory" onclick="showToast(tt('coming_soon_toast','🔜 ¡Próximamente!'))">
           <div class="card-art"><span class="card-art-emoji">🧠</span><div class="card-glow"></div></div>
-          <div class="card-info"><div class="card-name">Memoria</div><div class="card-desc">Encuentra los pares</div></div>
-          <div class="card-footer"><div class="card-plays">Jugadores: <span>1</span></div><button class="play-btn">Jugar</button></div>
-          <div class="card-coming"><div class="coming-badge">🔜 Próximamente</div></div>
+          <div class="card-info"><div class="card-name">Memoria</div><div class="card-desc" data-i18n="memory_desc">Encuentra los pares</div></div>
+          <div class="card-footer"><div class="card-plays"><span data-i18n="players_label">Jugadores</span>: <span>1</span></div><button class="play-btn" data-i18n="play_btn">Jugar</button></div>
+          <div class="card-coming"><div class="coming-badge" data-i18n="coming_soon">🔜 Próximamente</div></div>
         </div>
       </div>
 
-      <div class="section-title">🏆 Ranking global</div>
+      <div class="section-title" data-i18n="global_ranking">🏆 Ranking global</div>
       <div class="ranking-list" id="rankingList">
-        <div class="empty-state"><span class="e-icon">🎮</span>Juega una partida para aparecer aquí</div>
+        <div class="empty-state"><span class="e-icon">🎮</span><span data-i18n="ranking_empty">Juega una partida para aparecer aquí</span></div>
       </div>
     </div>
   </div>
@@ -464,19 +495,19 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
   <!-- AMIGOS -->
   <div class="section" id="sec-friends">
     <div class="friends-wrap">
-      <div class="section-title" style="margin-top:4px;">👥 Amigos</div>
+      <div class="section-title" style="margin-top:4px;" data-i18n="friends_section">👥 Amigos</div>
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="friendSearch" placeholder="Buscar por @usuario o nombre…" autocomplete="off"/>
+        <input type="text" id="friendSearch" data-i18n-placeholder="search_placeholder" placeholder="Buscar por @usuario o nombre…" autocomplete="off"/>
       </div>
       <div id="searchResults"></div>
       <div id="requestsWrap" style="display:none;">
-        <div class="section-title" style="font-size:13px;">📬 Solicitudes recibidas</div>
+        <div class="section-title" style="font-size:13px;" data-i18n="pending_requests">📬 Solicitudes recibidas</div>
         <div id="requestsList"></div>
       </div>
-      <div class="section-title" style="font-size:13px;">✅ Mis amigos <span id="friendCountLabel" style="font-size:11px;color:var(--text-dim);font-family:'DM Sans';font-weight:400;"></span></div>
+      <div class="section-title" style="font-size:13px;"><span data-i18n="my_friends">✅ Mis amigos</span> <span id="friendCountLabel" style="font-size:11px;color:var(--text-dim);font-family:'DM Sans';font-weight:400;"></span></div>
       <div id="friendsList">
-        <div class="empty-state"><span class="e-icon">🤝</span>Aún no tienes amigos.<br>¡Busca a alguien y agrégalo!</div>
+        <div class="empty-state"><span class="e-icon">🤝</span><span data-i18n="no_friends">Aún no tienes amigos.<br>¡Busca a alguien y agrégalo!</span></div>
       </div>
     </div>
   </div>
@@ -494,24 +525,36 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
           <span class="league-display-name" id="profileLeagueName">Liga Bronce</span>
         </div>
         <div class="profile-stats">
-          <div class="profile-stat"><div class="profile-stat-num" id="pStatPartidas">0</div><div class="profile-stat-label">Partidas</div></div>
-          <div class="profile-stat"><div class="profile-stat-num" id="pStatVictorias">0</div><div class="profile-stat-label">Victorias</div></div>
-          <div class="profile-stat"><div class="profile-stat-num" id="pStatRacha">0</div><div class="profile-stat-label">Racha</div></div>
-          <div class="profile-stat"><div class="profile-stat-num" id="pStatAmigos">0</div><div class="profile-stat-label">Amigos</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="pStatPartidas">0</div><div class="profile-stat-label" data-i18n="games_label">Partidas</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="pStatVictorias">0</div><div class="profile-stat-label" data-i18n="wins_label">Victorias</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="pStatRacha">0</div><div class="profile-stat-label" data-i18n="streak_label">Racha</div></div>
+          <div class="profile-stat"><div class="profile-stat-num" id="pStatAmigos">0</div><div class="profile-stat-label" data-i18n="friends_label">Amigos</div></div>
+        </div>
+      </div>
+
+      <!-- HISTORIAL DE PARTIDAS -->
+      <div class="profile-section-card">
+        <div class="profile-section-title" data-i18n="match_history">📜 Historial de partidas</div>
+        <div id="historyTableWrap">
+          <table class="history-table">
+            <thead><tr><th data-i18n="th_date">Fecha</th><th data-i18n="th_game">Juego</th><th data-i18n="th_result">Resultado</th><th data-i18n="th_points">Puntos</th></tr></thead>
+            <tbody id="historyBody"><tr><td colspan="4" style="text-align:center;color:var(--text-dim);padding:14px;" data-i18n="loading_history">Cargando…</td></tr></tbody>
+          </table>
+          <div class="pagination" id="historyPagination"></div>
         </div>
       </div>
 
       <div class="profile-section-card">
-        <div class="profile-section-title">🏅 Todos mis logros</div>
+        <div class="profile-section-title" data-i18n="all_achievements">🏅 Todos mis logros</div>
         <div class="logros-grid" id="logrosGrid"></div>
       </div>
 
       <div class="profile-section-card">
-        <div class="profile-section-title">🔗 Compartir perfil</div>
-        <p style="font-size:11px;color:var(--text-dim);margin-bottom:9px;">Tus amigos te buscan con tu @usuario:</p>
+        <div class="profile-section-title" data-i18n="share_profile">🔗 Compartir perfil</div>
+        <p style="font-size:11px;color:var(--text-dim);margin-bottom:9px;" data-i18n="share_hint">Tus amigos te buscan con tu @usuario:</p>
         <div class="share-box">
           <div class="share-val" id="shareUsername">@—</div>
-          <button class="copy-btn" onclick="copyUsername()">📋 Copiar</button>
+          <button class="copy-btn" onclick="copyUsername()" data-i18n="copy_btn">📋 Copiar</button>
         </div>
       </div>
     </div>
@@ -521,41 +564,102 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
   <div class="section" id="sec-settings">
     <div class="profile-wrap">
       <div class="profile-section-card">
-        <div class="profile-section-title">⚙️ Ajustes</div>
-        <p style="font-size:12px;color:var(--text-dim);line-height:1.5;">Administra tu cuenta, apariencia y datos de jugador.</p>
+        <div class="profile-section-title" data-i18n="settings_title">⚙️ Ajustes</div>
+        <p style="font-size:12px;color:var(--text-dim);line-height:1.5;" data-i18n="settings_desc">Administra tu cuenta, apariencia y datos de jugador.</p>
       </div>
 
+      <!-- Avatar -->
       <div class="profile-section-card">
-        <div class="profile-section-title">🎨 Avatar</div>
+        <div class="profile-section-title" data-i18n="avatar_section">🎨 Avatar</div>
         <div style="display:flex;align-items:center;gap:14px;">
           <div class="profile-avatar-big" id="settingsAvatar" style="margin:0;flex-shrink:0;">?</div>
           <div style="flex:1;min-width:0;">
-            <div style="font-size:13px;font-weight:700;margin-bottom:3px;">Imagen de perfil</div>
-            <div style="font-size:11px;color:var(--text-dim);margin-bottom:10px;">Elige un emoji o color para que tus amigos te reconozcan.</div>
-            <button class="copy-btn" onclick="openAvatarPicker()">Cambiar avatar</button>
+            <div style="font-size:13px;font-weight:700;margin-bottom:3px;" data-i18n="profile_pic">Imagen de perfil</div>
+            <div style="font-size:11px;color:var(--text-dim);margin-bottom:10px;" data-i18n="avatar_hint">Elige un emoji o color para que tus amigos te reconozcan.</div>
+            <button class="copy-btn" onclick="openAvatarPicker()" data-i18n="change_avatar">Cambiar avatar</button>
           </div>
         </div>
       </div>
 
+      <!-- Editar datos -->
       <div class="profile-section-card">
-        <div class="profile-section-title">✏️ Editar datos</div>
-        <div class="profile-field"><label>Nombre para mostrar</label><input class="profile-input" id="editDisplayName" placeholder="Tu nombre"/></div>
-        <div class="profile-field"><label>@Usuario único</label><input class="profile-input" id="editUsername" placeholder="tunombre" maxlength="20"/></div>
-        <div class="profile-field"><label>Correo electrónico</label><input class="profile-input" id="editEmail" disabled/></div>
-        <button class="save-btn" id="saveProfileBtn">Guardar cambios</button>
+        <div class="profile-section-title" data-i18n="edit_data">✏️ Editar datos</div>
+        <div class="profile-field"><label data-i18n="display_name_label">Nombre para mostrar</label><input class="profile-input" id="editDisplayName" data-i18n-placeholder="display_name_placeholder" placeholder="Tu nombre"/></div>
+        <div class="profile-field"><label data-i18n="username_label">@Usuario único</label><input class="profile-input" id="editUsername" placeholder="tunombre" maxlength="20"/></div>
+        <div class="profile-field"><label data-i18n="email_label">Correo electrónico</label><input class="profile-input" id="editEmail" disabled/></div>
+        <button class="save-btn" id="saveProfileBtn" data-i18n="save_changes">Guardar cambios</button>
       </div>
 
+      <!-- Apariencia -->
       <div class="profile-section-card">
-        <div class="profile-section-title">🎨 Apariencia</div>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
-          <div><div style="font-size:13px;font-weight:600;">Tema claro</div><div style="font-size:10px;color:var(--text-dim);">Cambiar entre oscuro y claro</div></div>
+        <div class="profile-section-title" data-i18n="appearance">🎨 Apariencia</div>
+        <div class="toggle-row">
+          <div><div class="toggle-label" data-i18n="light_theme">Tema claro</div><div class="toggle-desc" data-i18n="theme_desc">Cambiar entre oscuro y claro</div></div>
           <label class="theme-toggle"><input type="checkbox" id="themeToggle2"/><span class="theme-slider"></span></label>
         </div>
       </div>
 
+      <!-- Sonidos -->
       <div class="profile-section-card">
-        <div class="profile-section-title">⚙️ Cuenta</div>
-        <button class="danger-btn" id="logoutBtn2">🚪 Cerrar sesión</button>
+        <div class="profile-section-title" data-i18n="sounds_title">🔊 Sonidos de interfaz</div>
+        <div class="toggle-row">
+          <div><div class="toggle-label" data-i18n="sound_effects">Efectos de sonido</div><div class="toggle-desc" data-i18n="sound_desc">Clicks, victorias y notificaciones</div></div>
+          <label class="theme-toggle"><input type="checkbox" id="soundToggle"/><span class="theme-slider"></span></label>
+        </div>
+      </div>
+
+      <!-- Preferencias de notificaciones -->
+      <div class="profile-section-card">
+        <div class="profile-section-title" data-i18n="notif_prefs_title">🔔 Preferencias de notificaciones</div>
+        <div class="toggle-row">
+          <div><div class="toggle-label" data-i18n="notif_friend_req">Solicitudes de amistad</div></div>
+          <label class="theme-toggle"><input type="checkbox" id="notifFriendToggle"/><span class="theme-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div><div class="toggle-label" data-i18n="notif_challenges">Retos entrantes</div></div>
+          <label class="theme-toggle"><input type="checkbox" id="notifChallengeToggle"/><span class="theme-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div><div class="toggle-label" data-i18n="notif_achievements">Logros desbloqueados</div></div>
+          <label class="theme-toggle"><input type="checkbox" id="notifAchievementToggle"/><span class="theme-slider"></span></label>
+        </div>
+      </div>
+
+      <!-- Idioma -->
+      <div class="profile-section-card">
+        <div class="profile-section-title" data-i18n="language_title">🌐 Idioma</div>
+        <select class="lang-select" id="langSelect">
+          <option value="es">🇪🇸 Español</option>
+          <option value="en">🇺🇸 English</option>
+        </select>
+      </div>
+
+      <!-- Privacidad -->
+      <div class="profile-section-card">
+        <div class="profile-section-title" data-i18n="privacy_title">🔒 Privacidad del perfil</div>
+        <div class="toggle-row">
+          <div><div class="toggle-label" data-i18n="private_profile">Perfil privado</div><div class="toggle-desc" data-i18n="private_desc">Oculta tu perfil del ranking y búsquedas</div></div>
+          <label class="theme-toggle"><input type="checkbox" id="privacyToggle"/><span class="theme-slider"></span></label>
+        </div>
+      </div>
+
+      <!-- Google -->
+      <div class="profile-section-card">
+        <div class="profile-section-title" data-i18n="google_link_title">🔗 Cuenta vinculada</div>
+        <div id="googleLinkStatus" style="margin-bottom:8px;"></div>
+        <button class="copy-btn" id="googleLinkBtn" style="display:none;" data-i18n="unlink_google">Desvincular Google</button>
+      </div>
+
+      <!-- Reset -->
+      <div class="profile-section-card">
+        <div class="profile-section-title" data-i18n="reset_section">⚙️ Datos de juego</div>
+        <button class="danger-btn" id="resetStatsBtn" data-i18n="reset_stats_btn">🗑️ Resetear estadísticas</button>
+      </div>
+
+      <!-- Cuenta -->
+      <div class="profile-section-card">
+        <div class="profile-section-title" data-i18n="account_section">⚙️ Cuenta</div>
+        <button class="danger-btn" id="logoutBtn2" data-i18n="logout_btn">🚪 Cerrar sesión</button>
       </div>
     </div>
   </div>
@@ -563,10 +667,10 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
 </div>
 
 <nav class="bottom-nav">
-  <div class="nav-item active" id="nav-home" onclick="switchTab('home')"><span class="nav-icon">🏠</span><span class="nav-label">Inicio</span></div>
-  <div class="nav-item" id="nav-friends" onclick="switchTab('friends')"><span class="nav-icon">👥</span><span class="nav-label">Amigos</span><span class="nav-badge" id="friendsBadge">0</span></div>
-  <div class="nav-item" id="nav-profile" onclick="switchTab('profile')"><span class="nav-icon">👤</span><span class="nav-label">Perfil</span></div>
-  <div class="nav-item" id="nav-settings" onclick="switchTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label">Ajustes</span></div>
+  <div class="nav-item active" id="nav-home" onclick="switchTab('home')"><span class="nav-icon">🏠</span><span class="nav-label" data-i18n="nav_home">Inicio</span></div>
+  <div class="nav-item" id="nav-friends" onclick="switchTab('friends')"><span class="nav-icon">👥</span><span class="nav-label" data-i18n="nav_friends">Amigos</span><span class="nav-badge" id="friendsBadge">0</span></div>
+  <div class="nav-item" id="nav-profile" onclick="switchTab('profile')"><span class="nav-icon">👤</span><span class="nav-label" data-i18n="nav_profile">Perfil</span></div>
+  <div class="nav-item" id="nav-settings" onclick="switchTab('settings')"><span class="nav-icon">⚙️</span><span class="nav-label" data-i18n="nav_settings">Ajustes</span></div>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -575,24 +679,429 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
 <script>
 const sb=supabase.createClient('https://mtffjwaybktpwbavsvoa.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10ZmZqd2F5Ymt0cHdiYXZzdm9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNzQ2MzksImV4cCI6MjA5Mzk1MDYzOX0.2qEw2rHe7h3o5RASSncT6w0QI9wCNYKr_mMmmszkFHI');
 
-// STARS
+// ══════════════════════════════════════
+// TRADUCCIONES
+// ══════════════════════════════════════
+const TRANSLATIONS = {
+  es: {
+    modal_username_title: '¡Elige tu @usuario!',
+    modal_username_sub: 'Tus amigos te buscarán con este nombre',
+    username_hint_default: 'Solo letras minúsculas, números y _',
+    save_continue: 'Guardar y continuar →',
+    games_label: 'Partidas',
+    wins_label: 'Victorias',
+    league_label: 'Liga',
+    achievements_label: '🏅 Logros',
+    challenge_btn: '⚔️ Retar a partida',
+    avatar_modal_title: 'Tu avatar',
+    avatar_modal_sub: 'Elige un emoji o color favorito',
+    save_avatar: 'Guardar avatar',
+    cancel: 'Cancelar',
+    reset_stats_title: '¿Resetear estadísticas?',
+    reset_stats_sub: 'Se borrarán todas tus partidas, puntos y rachas. Esta acción no se puede deshacer.',
+    reset_confirm: 'Sí, borrar todo',
+    notifications: 'Notificaciones',
+    read_all: 'Leer todo',
+    no_notifs: 'Sin notificaciones nuevas',
+    welcome_back: '● Bienvenido de vuelta',
+    hello: '¡Hola',
+    hero_sub: 'Demuestra tu habilidad y sube de liga',
+    consecutive_wins: 'victorias consecutivas',
+    points_label: 'Puntos',
+    friends_label: 'Amigos',
+    weekly_perf: '📊 Rendimiento semanal',
+    achievements_home: '🏅 Logros',
+    games_title: '🎮 Juegos',
+    chess_desc: 'Estrategia clásica',
+    checkers_desc: 'El clásico de tablero',
+    solitaire_desc: 'Klondike clásico',
+    memory_desc: 'Encuentra los pares',
+    players_label: 'Jugadores',
+    play_btn: 'Jugar',
+    coming_soon: '🔜 Próximamente',
+    coming_soon_toast: '🔜 ¡Próximamente!',
+    global_ranking: '🏆 Ranking global',
+    ranking_empty: 'Juega una partida para aparecer aquí',
+    friends_section: '👥 Amigos',
+    search_placeholder: 'Buscar por @usuario o nombre…',
+    pending_requests: '📬 Solicitudes recibidas',
+    my_friends: '✅ Mis amigos',
+    no_friends: 'Aún no tienes amigos.<br>¡Busca a alguien y agrégalo!',
+    streak_label: 'Racha',
+    match_history: '📜 Historial de partidas',
+    th_date: 'Fecha',
+    th_game: 'Juego',
+    th_result: 'Resultado',
+    th_points: 'Puntos',
+    loading_history: 'Cargando…',
+    all_achievements: '🏅 Todos mis logros',
+    share_profile: '🔗 Compartir perfil',
+    share_hint: 'Tus amigos te buscan con tu @usuario:',
+    copy_btn: '📋 Copiar',
+    settings_title: '⚙️ Ajustes',
+    settings_desc: 'Administra tu cuenta, apariencia y datos de jugador.',
+    avatar_section: '🎨 Avatar',
+    profile_pic: 'Imagen de perfil',
+    avatar_hint: 'Elige un emoji o color para que tus amigos te reconozcan.',
+    change_avatar: 'Cambiar avatar',
+    edit_data: '✏️ Editar datos',
+    display_name_label: 'Nombre para mostrar',
+    display_name_placeholder: 'Tu nombre',
+    username_label: '@Usuario único',
+    email_label: 'Correo electrónico',
+    save_changes: 'Guardar cambios',
+    appearance: '🎨 Apariencia',
+    light_theme: 'Tema claro',
+    theme_desc: 'Cambiar entre oscuro y claro',
+    sounds_title: '🔊 Sonidos de interfaz',
+    sound_effects: 'Efectos de sonido',
+    sound_desc: 'Clicks, victorias y notificaciones',
+    notif_prefs_title: '🔔 Preferencias de notificaciones',
+    notif_friend_req: 'Solicitudes de amistad',
+    notif_challenges: 'Retos entrantes',
+    notif_achievements: 'Logros desbloqueados',
+    language_title: '🌐 Idioma',
+    privacy_title: '🔒 Privacidad del perfil',
+    private_profile: 'Perfil privado',
+    private_desc: 'Oculta tu perfil del ranking y búsquedas',
+    google_link_title: '🔗 Cuenta vinculada',
+    unlink_google: 'Desvincular Google',
+    reset_section: '⚙️ Datos de juego',
+    reset_stats_btn: '🗑️ Resetear estadísticas',
+    account_section: '⚙️ Cuenta',
+    logout_btn: '🚪 Cerrar sesión',
+    nav_home: 'Inicio',
+    nav_friends: 'Amigos',
+    nav_profile: 'Perfil',
+    nav_settings: 'Ajustes',
+    won_result: 'Victoria',
+    lost_result: 'Derrota',
+    page_of: 'Página {page} de {total}',
+    google_linked: '✅ Vinculado con Google',
+    google_not_linked: '❌ No vinculado con Google',
+    toast_saved: '✅ Cambios guardados',
+    toast_error: '❌ Error',
+    toast_reset_done: '✅ Estadísticas reseteadas',
+    toast_copied: '📋 Copiado: @{user}',
+    toast_friend_added: '✅ ¡Solicitud enviada!',
+    toast_friend_accepted: '🎉 ¡Ahora son amigos!',
+  },
+  en: {
+    modal_username_title: 'Choose your @username!',
+    modal_username_sub: 'Your friends will find you with this name',
+    username_hint_default: 'Only lowercase letters, numbers and _',
+    save_continue: 'Save and continue →',
+    games_label: 'Games',
+    wins_label: 'Wins',
+    league_label: 'League',
+    achievements_label: '🏅 Achievements',
+    challenge_btn: '⚔️ Challenge',
+    avatar_modal_title: 'Your avatar',
+    avatar_modal_sub: 'Choose an emoji or favorite color',
+    save_avatar: 'Save avatar',
+    cancel: 'Cancel',
+    reset_stats_title: 'Reset statistics?',
+    reset_stats_sub: 'All your games, points and streaks will be deleted. This cannot be undone.',
+    reset_confirm: 'Yes, delete everything',
+    notifications: 'Notifications',
+    read_all: 'Read all',
+    no_notifs: 'No new notifications',
+    welcome_back: '● Welcome back',
+    hello: 'Hello',
+    hero_sub: 'Show your skills and climb the league',
+    consecutive_wins: 'consecutive wins',
+    points_label: 'Points',
+    friends_label: 'Friends',
+    weekly_perf: '📊 Weekly Performance',
+    achievements_home: '🏅 Achievements',
+    games_title: '🎮 Games',
+    chess_desc: 'Classic strategy',
+    checkers_desc: 'The board classic',
+    solitaire_desc: 'Classic Klondike',
+    memory_desc: 'Find the pairs',
+    players_label: 'Players',
+    play_btn: 'Play',
+    coming_soon: '🔜 Coming soon',
+    coming_soon_toast: '🔜 Coming soon!',
+    global_ranking: '🏆 Global Ranking',
+    ranking_empty: 'Play a game to appear here',
+    friends_section: '👥 Friends',
+    search_placeholder: 'Search by @username or name…',
+    pending_requests: '📬 Received requests',
+    my_friends: '✅ My friends',
+    no_friends: 'No friends yet.<br>Search for someone and add them!',
+    streak_label: 'Streak',
+    match_history: '📜 Match History',
+    th_date: 'Date',
+    th_game: 'Game',
+    th_result: 'Result',
+    th_points: 'Points',
+    loading_history: 'Loading…',
+    all_achievements: '🏅 All My Achievements',
+    share_profile: '🔗 Share Profile',
+    share_hint: 'Your friends find you with your @username:',
+    copy_btn: '📋 Copy',
+    settings_title: '⚙️ Settings',
+    settings_desc: 'Manage your account, appearance and player data.',
+    avatar_section: '🎨 Avatar',
+    profile_pic: 'Profile picture',
+    avatar_hint: 'Choose an emoji or color so your friends recognize you.',
+    change_avatar: 'Change avatar',
+    edit_data: '✏️ Edit data',
+    display_name_label: 'Display name',
+    display_name_placeholder: 'Your name',
+    username_label: '@Unique username',
+    email_label: 'Email',
+    save_changes: 'Save changes',
+    appearance: '🎨 Appearance',
+    light_theme: 'Light theme',
+    theme_desc: 'Switch between dark and light',
+    sounds_title: '🔊 Interface Sounds',
+    sound_effects: 'Sound effects',
+    sound_desc: 'Clicks, wins and notifications',
+    notif_prefs_title: '🔔 Notification Preferences',
+    notif_friend_req: 'Friend requests',
+    notif_challenges: 'Incoming challenges',
+    notif_achievements: 'Unlocked achievements',
+    language_title: '🌐 Language',
+    privacy_title: '🔒 Profile Privacy',
+    private_profile: 'Private profile',
+    private_desc: 'Hide your profile from ranking and searches',
+    google_link_title: '🔗 Linked Account',
+    unlink_google: 'Unlink Google',
+    reset_section: '⚙️ Game Data',
+    reset_stats_btn: '🗑️ Reset statistics',
+    account_section: '⚙️ Account',
+    logout_btn: '🚪 Log out',
+    nav_home: 'Home',
+    nav_friends: 'Friends',
+    nav_profile: 'Profile',
+    nav_settings: 'Settings',
+    won_result: 'Win',
+    lost_result: 'Loss',
+    page_of: 'Page {page} of {total}',
+    google_linked: '✅ Linked with Google',
+    google_not_linked: '❌ Not linked with Google',
+    toast_saved: '✅ Changes saved',
+    toast_error: '❌ Error',
+    toast_reset_done: '✅ Statistics reset',
+    toast_copied: '📋 Copied: @{user}',
+    toast_friend_added: '✅ Request sent!',
+    toast_friend_accepted: '🎉 You are now friends!',
+  }
+};
+
+let currentLang = localStorage.getItem('gz_lang') || 'es';
+
+function t(key) {
+  return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || (TRANSLATIONS['es'][key]) || key;
+}
+function tt(key, fallback) {
+  return (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || fallback || key;
+}
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const text = t(key);
+    if (text && !el.dataset.i18nRaw) el.textContent = text;
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    el.placeholder = t(key);
+  });
+  document.getElementById('langSelect').value = currentLang;
+  if (currentProfile) populateUI();
+  if (currentTab === 'profile') loadProfileSection();
+  if (currentTab === 'settings') loadSettingsSection();
+}
+document.getElementById('langSelect').addEventListener('change', function() {
+  currentLang = this.value;
+  localStorage.setItem('gz_lang', currentLang);
+  applyTranslations();
+  showToast(tt('toast_saved','✅ Cambios guardados'), 'success');
+});
+
+// ══════════════════════════════════════
+// SISTEMA DE SONIDOS (Web Audio API)
+// ══════════════════════════════════════
+let audioCtx = null;
+let soundEnabled = localStorage.getItem('gz_sound') !== 'false';
+function getAudioCtx() { if(!audioCtx) audioCtx = new(window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
+function playTone(freq,duration,type='sine',vol=0.08) {
+  if(!soundEnabled) return;
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+function soundClick() { playTone(800,0.08,'sine',0.05); }
+function soundSuccess() { playTone(523,0.12,'sine',0.07); setTimeout(()=>playTone(659,0.12,'sine',0.07),100); setTimeout(()=>playTone(784,0.18,'sine',0.07),200); }
+function soundError() { playTone(180,0.25,'triangle',0.06); }
+function soundNotify() { playTone(660,0.08,'sine',0.05); setTimeout(()=>playTone(880,0.1,'sine',0.05),80); }
+function soundAchievement() { playTone(523,0.1,'sine',0.06); setTimeout(()=>playTone(659,0.1,'sine',0.06),120); setTimeout(()=>playTone(784,0.1,'sine',0.06),240); setTimeout(()=>playTone(1047,0.2,'sine',0.07),360); }
+document.getElementById('soundToggle').checked = soundEnabled;
+document.getElementById('soundToggle').addEventListener('change', function() {
+  soundEnabled = this.checked;
+  localStorage.setItem('gz_sound', soundEnabled);
+  if(soundEnabled) soundClick();
+  showToast(soundEnabled ? '🔊 Sonidos activados' : '🔇 Sonidos desactivados', soundEnabled?'success':'');
+});
+
+// ══════════════════════════════════════
+// PREFERENCIAS DE NOTIFICACIONES
+// ══════════════════════════════════════
+function getNotifPref(key) { return localStorage.getItem('gz_notif_'+key) !== 'false'; }
+function setNotifPref(key,val) { localStorage.setItem('gz_notif_'+key, val); }
+const notifFriendToggle = document.getElementById('notifFriendToggle');
+const notifChallengeToggle = document.getElementById('notifChallengeToggle');
+const notifAchievementToggle = document.getElementById('notifAchievementToggle');
+notifFriendToggle.checked = getNotifPref('friend');
+notifChallengeToggle.checked = getNotifPref('challenge');
+notifAchievementToggle.checked = getNotifPref('achievement');
+notifFriendToggle.addEventListener('change', () => setNotifPref('friend', notifFriendToggle.checked));
+notifChallengeToggle.addEventListener('change', () => setNotifPref('challenge', notifChallengeToggle.checked));
+notifAchievementToggle.addEventListener('change', () => setNotifPref('achievement', notifAchievementToggle.checked));
+function shouldNotify(type) { return getNotifPref(type); }
+
+// ══════════════════════════════════════
+// PRIVACIDAD
+// ══════════════════════════════════════
+async function loadPrivacySetting() {
+  if(!currentProfile) return;
+  document.getElementById('privacyToggle').checked = currentProfile.is_private || false;
+}
+document.getElementById('privacyToggle').addEventListener('change', async function() {
+  if(!currentUser) return;
+  const val = this.checked;
+  const { error } = await sb.from('profiles').update({ is_private: val }).eq('id', currentUser.id);
+  if(error) { showToast(tt('toast_error','❌ Error'), 'error'); this.checked = !val; }
+  else { if(currentProfile) currentProfile.is_private = val; showToast(tt('toast_saved','✅ Cambios guardados'), 'success'); soundClick(); }
+});
+
+// ══════════════════════════════════════
+// GOOGLE OAUTH
+// ══════════════════════════════════════
+function loadGoogleLinkStatus() {
+  const statusEl = document.getElementById('googleLinkStatus');
+  const btnEl = document.getElementById('googleLinkBtn');
+  if(!currentUser) return;
+  const identities = currentUser.identities || [];
+  const hasGoogle = identities.some(i => i.provider === 'google');
+  const hasPassword = currentUser.app_metadata?.provider === 'email' || identities.some(i => i.provider === 'email');
+  if(hasGoogle) {
+    statusEl.innerHTML = '<span class="google-badge">🔗 G</span> ' + tt('google_linked','✅ Vinculado con Google');
+    if(hasPassword || identities.length > 1) {
+      btnEl.style.display = 'inline-block';
+      btnEl.onclick = async () => {
+        if(!confirm('¿Desvincular cuenta de Google? Necesitarás tu contraseña para iniciar sesión.')) return;
+        const { error } = await sb.auth.unlinkIdentity({ provider: 'google' });
+        if(error) showToast(tt('toast_error','❌ Error')+': '+error.message, 'error');
+        else { showToast('✅ Google desvinculado', 'success'); setTimeout(()=>location.reload(), 1200); }
+      };
+    } else { btnEl.style.display = 'none'; }
+  } else {
+    statusEl.textContent = tt('google_not_linked','❌ No vinculado con Google');
+    btnEl.style.display = 'none';
+  }
+}
+
+// ══════════════════════════════════════
+// RESET ESTADÍSTICAS
+// ══════════════════════════════════════
+document.getElementById('resetStatsBtn').addEventListener('click', () => { soundClick(); openModal('resetConfirmModal'); });
+document.getElementById('confirmResetBtn').addEventListener('click', async () => {
+  if(!currentUser) return;
+  soundClick();
+  const { error } = await sb.from('scores').delete().eq('user_id', currentUser.id);
+  if(error) { showToast(tt('toast_error','❌ Error')+': '+error.message, 'error'); }
+  else {
+    showToast(tt('toast_reset_done','✅ Estadísticas reseteadas'), 'success');
+    soundSuccess();
+    closeModal('resetConfirmModal');
+    await loadStats();
+    if(currentTab === 'profile') loadProfileSection();
+    loadHistoryPage(1);
+  }
+});
+
+// ══════════════════════════════════════
+// HISTORIAL DE PARTIDAS
+// ══════════════════════════════════════
+let historyPage = 1;
+const HISTORY_PAGE_SIZE = 8;
+async function loadHistoryPage(page) {
+  historyPage = page;
+  if(!currentUser) return;
+  const tbody = document.getElementById('historyBody');
+  const pag = document.getElementById('historyPagination');
+  tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-dim);padding:14px;">'+tt('loading_history','Cargando…')+'</td></tr>';
+  try {
+    const from = (page-1)*HISTORY_PAGE_SIZE;
+    const to = from + HISTORY_PAGE_SIZE - 1;
+    const { data, count, error } = await sb.from('scores')
+      .select('*', { count: 'exact' })
+      .eq('user_id', currentUser.id)
+      .order('created_at', { ascending: false })
+      .range(from, to);
+    if(error) throw error;
+    const totalPages = Math.ceil((count||0)/HISTORY_PAGE_SIZE) || 1;
+    if(!data || !data.length) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-dim);padding:14px;">Sin partidas aún</td></tr>';
+    } else {
+      const gameNames = { chess:'♟️ Ajedrez', checkers:'🔴 Damas', solitaire:'🃏 Solitario' };
+      tbody.innerHTML = data.map(r => {
+        const d = new Date(r.created_at);
+        const dateStr = d.toLocaleDateString(currentLang==='en'?'en-US':'es-ES', { day:'2-digit', month:'short', year:'numeric' });
+        const resultClass = r.won ? 'won' : 'lost';
+        const resultText = r.won ? tt('won_result','Victoria') : tt('lost_result','Derrota');
+        return `<tr><td>${dateStr}</td><td>${gameNames[r.game]||r.game}</td><td class="${resultClass}">${resultText}</td><td style="font-weight:700;">${r.score||0}</td></tr>`;
+      }).join('');
+    }
+    pag.innerHTML = `
+      <button ${page<=1?'disabled':''} onclick="loadHistoryPage(${page-1})">←</button>
+      <span>${tt('page_of','Página {page} de {total}').replace('{page}',page).replace('{total}',totalPages)}</span>
+      <button ${page>=totalPages?'disabled':''} onclick="loadHistoryPage(${page+1})">→</button>
+    `;
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--error);padding:14px;">Error al cargar</td></tr>';
+  }
+}
+
+function loadSettingsSection() {
+  loadPrivacySetting();
+  loadGoogleLinkStatus();
+  document.getElementById('soundToggle').checked = soundEnabled;
+  notifFriendToggle.checked = getNotifPref('friend');
+  notifChallengeToggle.checked = getNotifPref('challenge');
+  notifAchievementToggle.checked = getNotifPref('achievement');
+  document.getElementById('langSelect').value = currentLang;
+}
+
+// STARS (sin cambios)
 (function(){const c=document.getElementById('starsCanvas'),ctx=c.getContext('2d');function r(){c.width=innerWidth;c.height=innerHeight;}r();window.addEventListener('resize',r);const s=Array.from({length:70},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+.3,o:Math.random(),sp:.003+Math.random()*.007,d:Math.random()<.5?1:-1}));function draw(){ctx.clearRect(0,0,c.width,c.height);s.forEach(s=>{s.o+=s.sp*s.d;if(s.o>=1||s.o<=0)s.d*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.o*.55})`;ctx.fill();});requestAnimationFrame(draw);}draw();})();
 
 let currentUser=null,currentProfile=null,currentViewedProfile=null,currentTab='home',searchTimer=null,selectedAvatar=null,realtimeChannel=null,challengeChannel=null,challengePollInterval=null,notifications=[];
 const seenChallengeIds=new Set();
 const CHESS_PAGE='chess.html';
 
-// LIGAS
+// LIGAS (sin cambios)
 const LEAGUES=[{name:'Bronce',icon:'🥉',maxXp:100,bar:'linear-gradient(90deg,#cd7f32,#ffb347)'},{name:'Plata',icon:'🥈',maxXp:300,bar:'linear-gradient(90deg,#9e9e9e,#e0e0e0)'},{name:'Oro',icon:'🥇',maxXp:700,bar:'linear-gradient(90deg,#f7b731,#ffd700)'},{name:'Diamante',icon:'💎',maxXp:1500,bar:'linear-gradient(90deg,#7c5cbf,#a47de8)'},{name:'Maestro',icon:'👑',maxXp:Infinity,bar:'linear-gradient(90deg,#ff6b35,#ffd166)'}];
 function getLeague(xp){let t=0;for(let i=0;i<LEAGUES.length;i++){if(xp<t+LEAGUES[i].maxXp)return{...LEAGUES[i],xp:xp-t,idx:i};t+=LEAGUES[i].maxXp;}return{...LEAGUES[4],xp,idx:4};}
 
-// LOGROS
+// LOGROS (sin cambios)
 const ACHIEVEMENTS=[{id:'first_game',emoji:'🎮',name:'Primera partida',desc:'Juega tu primera partida'},{id:'first_win',emoji:'🏆',name:'Primera victoria',desc:'Gana tu primera partida'},{id:'win_5',emoji:'⚡',name:'En racha',desc:'Gana 5 partidas'},{id:'win_10',emoji:'🔥',name:'Imparable',desc:'Gana 10 partidas'},{id:'first_friend',emoji:'🤝',name:'Sociable',desc:'Agrega tu primer amigo'},{id:'friends_5',emoji:'👥',name:'Popular',desc:'Consigue 5 amigos'},{id:'streak_3',emoji:'💫',name:'Racha 3',desc:'3 victorias seguidas'},{id:'streak_5',emoji:'🌟',name:'Racha 5',desc:'5 victorias seguidas'},{id:'gold_league',emoji:'🥇',name:'Liga Oro',desc:'Llega a liga de oro'},{id:'diamond',emoji:'💎',name:'Diamante',desc:'Llega a liga diamante'},{id:'score_1000',emoji:'💯',name:'1000 pts',desc:'Acumula 1000 puntos'},{id:'play_chess',emoji:'♟️',name:'Ajedrecista',desc:'Juega al ajedrez'}];
 function computeAchievements(s,fc){const e=new Set();if(s.partidas>=1)e.add('first_game');if(s.victorias>=1)e.add('first_win');if(s.victorias>=5)e.add('win_5');if(s.victorias>=10)e.add('win_10');if(fc>=1)e.add('first_friend');if(fc>=5)e.add('friends_5');if(s.streak>=3)e.add('streak_3');if(s.streak>=5)e.add('streak_5');if(s.xp>=400)e.add('gold_league');if(s.xp>=1000)e.add('diamond');if(s.puntos>=1000)e.add('score_1000');return e;}
 
 // TOAST
 let toastTimer;
-function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(type?' '+type:'');t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000);}
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(type?' '+type:'');t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000);if(type==='success')soundSuccess();if(type==='error')soundError();}
 
 // ANIM NUM
 function animNum(el,target,dur=900){if(!el)return;const start=performance.now();function tick(now){const p=Math.min((now-start)/dur,1);el.textContent=Math.round((1-Math.pow(1-p,3))*target);if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);}
@@ -602,13 +1111,13 @@ const AVATARS=['😎','🐱','🦊','🐼','🦁','🐸','👾','🤖','🦄','�
 const COLORS=['#ff6b35','#7c5cbf','#06d6a0','#ffd166','#ef233c','#1e88e5','#00bcd4','#e91e63','#ff9800','#4caf50'];
 function setAvatar(el,profile,user){if(!el)return;const pu=user?.user_metadata?.avatar_url||user?.user_metadata?.picture;const em=profile?.avatar_emoji,cl=profile?.avatar_color;const big=el.classList.contains('profile-avatar-big');if(em){el.style.background=cl||'linear-gradient(135deg,#ff6b35,#7c5cbf)';el.innerHTML=`<span style="font-size:${big?'30':'10'}px">${em}</span>`;}else if(pu){el.innerHTML=`<img src="${pu}" alt="av" onerror="this.parentElement.textContent='${(profile?.display_name||user?.email||'?')[0].toUpperCase()}'"/>`;}else{el.style.background=cl||'linear-gradient(135deg,#ff6b35,#7c5cbf)';el.textContent=(profile?.display_name||user?.email||'?')[0].toUpperCase();}}
 
-function openAvatarPicker(){const p=document.getElementById('avatarPicker');p.innerHTML='';AVATARS.forEach(em=>{const d=document.createElement('div');d.className='av-opt'+(selectedAvatar===em?' selected':'');d.textContent=em;d.style.background='rgba(255,255,255,0.05)';d.onclick=()=>{selectedAvatar=em;document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('selected'));d.classList.add('selected');};p.appendChild(d);});COLORS.forEach(col=>{const d=document.createElement('div');d.className='av-opt'+(selectedAvatar==='color:'+col?' selected':'');d.style.background=col;d.onclick=()=>{selectedAvatar='color:'+col;document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('selected'));d.classList.add('selected');};p.appendChild(d);});openModal('avatarModal');}
+function openAvatarPicker(){const p=document.getElementById('avatarPicker');p.innerHTML='';AVATARS.forEach(em=>{const d=document.createElement('div');d.className='av-opt'+(selectedAvatar===em?' selected':'');d.textContent=em;d.style.background='rgba(255,255,255,0.05)';d.onclick=()=>{selectedAvatar=em;document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('selected'));d.classList.add('selected');soundClick();};p.appendChild(d);});COLORS.forEach(col=>{const d=document.createElement('div');d.className='av-opt'+(selectedAvatar==='color:'+col?' selected':'');d.style.background=col;d.onclick=()=>{selectedAvatar='color:'+col;document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('selected'));d.classList.add('selected');soundClick();};p.appendChild(d);});openModal('avatarModal');}
 document.getElementById('saveAvatarBtn').addEventListener('click',async()=>{if(!selectedAvatar)return;const isC=selectedAvatar.startsWith('color:');const emoji=isC?null:selectedAvatar,color=isC?selectedAvatar.replace('color:',''):null;await sb.from('profiles').update({avatar_emoji:emoji,avatar_color:color}).eq('id',currentUser.id);if(currentProfile){currentProfile.avatar_emoji=emoji;currentProfile.avatar_color=color;}setAvatar(document.getElementById('userAvatar'),currentProfile,currentUser);setAvatar(document.getElementById('profileAvatarBig'),currentProfile,currentUser);setAvatar(document.getElementById('settingsAvatar'),currentProfile,currentUser);closeModal('avatarModal');showToast('✅ Avatar actualizado','success');});
 
 // THEME
 function applyTheme(light){document.documentElement.setAttribute('data-theme',light?'light':'dark');document.getElementById('themeToggle').checked=light;document.getElementById('themeToggle2').checked=light;localStorage.setItem('gz_theme',light?'light':'dark');}
-document.getElementById('themeToggle').addEventListener('change',e=>applyTheme(e.target.checked));
-document.getElementById('themeToggle2').addEventListener('change',e=>applyTheme(e.target.checked));
+document.getElementById('themeToggle').addEventListener('change',e=>{applyTheme(e.target.checked);soundClick();});
+document.getElementById('themeToggle2').addEventListener('change',e=>{applyTheme(e.target.checked);soundClick();});
 
 // MODALS
 function openModal(id){const m=document.getElementById(id);m.style.display='flex';setTimeout(()=>m.style.opacity='1',10);}
@@ -616,21 +1125,26 @@ function closeModal(id){const m=document.getElementById(id);m.style.opacity='0';
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id);}));
 
 // NOTIFS
-document.getElementById('notifBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('notifPanel').classList.toggle('show');});
+document.getElementById('notifBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('notifPanel').classList.toggle('show');soundClick();});
 document.addEventListener('click',()=>document.getElementById('notifPanel').classList.remove('show'));
 document.getElementById('notifPanel').addEventListener('click',e=>e.stopPropagation());
-function addNotif(emoji,text){notifications.unshift({emoji,text,time:new Date(),unread:true});renderNotifs();const d=document.getElementById('notifDot'),u=notifications.filter(n=>n.unread).length;if(u>0){d.textContent=u;d.style.display='block';}}
-function renderNotifs(){const l=document.getElementById('notifList');if(!notifications.length){l.innerHTML='<div class="notif-empty">Sin notificaciones nuevas</div>';return;}l.innerHTML=notifications.slice(0,10).map(n=>`<div class="notif-item ${n.unread?'unread':''}"><div class="notif-emoji">${n.emoji}</div><div><div class="notif-text">${n.text}</div><div class="notif-time">${timeAgo(n.time)}</div></div></div>`).join('');}
-function clearNotifs(){notifications.forEach(n=>n.unread=false);document.getElementById('notifDot').style.display='none';renderNotifs();}
+function addNotif(emoji,text,type=''){
+  if(type==='friend'&&!shouldNotify('friend'))return;
+  if(type==='challenge'&&!shouldNotify('challenge'))return;
+  if(type==='achievement'&&!shouldNotify('achievement'))return;
+  notifications.unshift({emoji,text,time:new Date(),unread:true});renderNotifs();
+  const d=document.getElementById('notifDot'),u=notifications.filter(n=>n.unread).length;
+  if(u>0){d.textContent=u;d.style.display='block';}
+  if(type==='achievement')soundAchievement();else soundNotify();
+}
+function renderNotifs(){const l=document.getElementById('notifList');if(!notifications.length){l.innerHTML='<div class="notif-empty">'+tt('no_notifs','Sin notificaciones nuevas')+'</div>';return;}l.innerHTML=notifications.slice(0,10).map(n=>`<div class="notif-item ${n.unread?'unread':''}"><div class="notif-emoji">${n.emoji}</div><div><div class="notif-text">${n.text}</div><div class="notif-time">${timeAgo(n.time)}</div></div></div>`).join('');}
+function clearNotifs(){notifications.forEach(n=>n.unread=false);document.getElementById('notifDot').style.display='none';renderNotifs();soundClick();}
 function timeAgo(d){const s=Math.round((Date.now()-d)/1000);if(s<60)return 'ahora mismo';if(s<3600)return Math.round(s/60)+' min';return Math.round(s/3600)+'h';}
 
 // NAV
-function switchTab(tab){currentTab=tab;document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('sec-'+tab).classList.add('active');document.getElementById('nav-'+tab).classList.add('active');if(tab==='friends')loadFriendsSection();if(tab==='profile'||tab==='settings')loadProfileSection();}
-function gameUrl(g,params=''){
-  const page=g==='chess'?CHESS_PAGE:g+'.html';
-  return page+(params?'?'+params:'');
-}
-function goToGame(g){showToast('🚀 Cargando…');setTimeout(()=>window.location.href=gameUrl(g),700);}
+function switchTab(tab){currentTab=tab;document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('sec-'+tab).classList.add('active');document.getElementById('nav-'+tab).classList.add('active');if(tab==='friends')loadFriendsSection();if(tab==='profile'||tab==='settings')loadProfileSection();if(tab==='settings')loadSettingsSection();if(tab==='profile')loadHistoryPage(1);soundClick();}
+function gameUrl(g,params=''){const page=g==='chess'?CHESS_PAGE:g+'.html';return page+(params?'?'+params:'');}
+function goToGame(g){soundClick();showToast('🚀 Cargando…');setTimeout(()=>window.location.href=gameUrl(g),700);}
 
 // CHART
 function renderChart(data){const days=['L','M','X','J','V','S','D'],bars=document.getElementById('chartBars'),max=Math.max(...data,1);bars.innerHTML=days.map((d,i)=>`<div class="chart-bar-wrap"><div class="chart-bar" style="height:${Math.round(data[i]/max*100)}%;"></div><div class="chart-day">${d}</div></div>`).join('');}
@@ -642,138 +1156,79 @@ function renderLogros(earned,container,compact=true){if(!container)return;if(com
 async function loadStats(){try{const{data}=await sb.from('scores').select('score,won,game,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false});const partidas=data?.length||0,victorias=data?.filter(r=>r.won).length||0,puntos=data?.reduce((a,r)=>a+(r.score||0),0)||0,xp=victorias*20+partidas*5;let streak=0;for(const r of(data||[])){if(r.won)streak++;else break;}const league=getLeague(xp);document.getElementById('leagueIcon').textContent=league.icon;document.getElementById('leagueName').textContent=league.name;document.getElementById('leagueXp').textContent=`${league.xp}/${league.maxXp===Infinity?'∞':league.maxXp} XP`;document.getElementById('leagueBar').style.width=league.maxXp===Infinity?'100%':`${Math.min(league.xp/league.maxXp*100,100)}%`;document.getElementById('leagueBar').style.background=league.bar;if(streak>=2){document.getElementById('streakBanner').style.display='flex';document.getElementById('streakNum').textContent=streak;}animNum(document.getElementById('statPartidas'),partidas);animNum(document.getElementById('statVictorias'),victorias);animNum(document.getElementById('statPuntos'),puntos,1100);const chartData=[0,0,0,0,0,0,0],now=new Date();(data||[]).forEach(r=>{const d=new Date(r.created_at),diff=Math.floor((now-d)/(1000*60*60*24));if(diff<7){const idx=(6-diff+new Date().getDay())%7;chartData[idx]=(chartData[idx]||0)+1;}});renderChart(chartData);return{partidas,victorias,puntos,xp,streak};}catch(e){return{partidas:0,victorias:0,puntos:0,xp:0,streak:0};}}
 
 // RANKING
-async function loadRanking(){try{const{data}=await sb.from('scores').select('user_name,game,score').order('score',{ascending:false}).limit(5);if(!data?.length)return;const medals=['gold','silver','bronze','other','other'],emojis=['🥇','🥈','🥉','4','5'];document.getElementById('rankingList').innerHTML=data.map((r,i)=>`<div class="rank-item"><div class="rank-pos ${medals[i]}">${emojis[i]}</div><div class="rank-avatar">${r.user_name[0].toUpperCase()}</div><div class="rank-info"><div class="rank-name">${r.user_name}</div><div class="rank-game">${{chess:'♟️ Ajedrez',checkers:'🔴 Damas',solitaire:'🃏 Solitario'}[r.game]||r.game}</div></div><div class="rank-score">${r.score}</div></div>`).join('');}catch(e){}}
+async function loadRanking(){try{const{data}=await sb.from('scores').select('user_name,game,score,user_id').order('score',{ascending:false}).limit(20);if(!data?.length)return;const userIds=[...new Set(data.map(r=>r.user_id))];const{data:profiles}=await sb.from('profiles').select('id,is_private').in('id',userIds);const privMap={};(profiles||[]).forEach(p=>privMap[p.id]=p.is_private);const filtered=data.filter(r=>!privMap[r.user_id]).slice(0,5);if(!filtered.length)return;const medals=['gold','silver','bronze','other','other'],emojis=['🥇','🥈','🥉','4','5'];document.getElementById('rankingList').innerHTML=filtered.map((r,i)=>`<div class="rank-item"><div class="rank-pos ${medals[i]}">${emojis[i]}</div><div class="rank-avatar">${r.user_name[0].toUpperCase()}</div><div class="rank-info"><div class="rank-name">${r.user_name}</div><div class="rank-game">${{chess:'♟️ Ajedrez',checkers:'🔴 Damas',solitaire:'🃏 Solitario'}[r.game]||r.game}</div></div><div class="rank-score">${r.score}</div></div>`).join('');}catch(e){}}
 
 // BUSCAR AMIGOS
 document.getElementById('friendSearch').addEventListener('input',function(){clearTimeout(searchTimer);const q=this.value.trim().replace('@','');const rd=document.getElementById('searchResults');if(!q){rd.innerHTML='';return;}rd.innerHTML='<p style="font-size:11px;color:var(--text-dim);padding:3px 0 7px;">Buscando…</p>';searchTimer=setTimeout(()=>searchUsers(q),500);});
-async function searchUsers(q){const rd=document.getElementById('searchResults');try{const{data}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color').or(`username.ilike.%${q}%,display_name.ilike.%${q}%`).neq('id',currentUser.id).limit(8);if(!data?.length){rd.innerHTML='<div class="empty-state" style="padding:12px;"><span class="e-icon" style="font-size:20px;margin-bottom:4px;">🔍</span>No se encontraron usuarios</div>';return;}const{data:myF}=await sb.from('friends').select('friend_id,status').eq('user_id',currentUser.id);const fm={};(myF||[]).forEach(f=>fm[f.friend_id]=f.status);rd.innerHTML=data.map(u=>{const st=fm[u.id],bg=u.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)',av=u.avatar_emoji||(u.display_name||u.username)[0].toUpperCase();let btn=`<button class="add-btn" onclick="sendRequest('${u.id}',this)">➕ Agregar</button>`;if(st==='accepted')btn=`<button class="add-btn friends-btn" disabled>✅ Amigos</button>`;if(st==='pending')btn=`<button class="add-btn sent" disabled>⏳ Enviada</button>`;return`<div class="user-result"><div class="rank-avatar" style="background:${bg};">${av}</div><div class="result-info"><div class="result-name">${u.display_name||u.username}</div><div class="result-user">@${u.username}</div></div>${btn}</div>`;}).join('');}catch(e){rd.innerHTML='';}}
-async function sendRequest(fid,btn){btn.disabled=true;btn.textContent='⏳';const{error}=await sb.from('friends').insert({user_id:currentUser.id,friend_id:fid,status:'pending'});if(error){showToast('❌ Error al enviar','error');btn.disabled=false;btn.textContent='➕ Agregar';}else{btn.textContent='⏳ Enviada';btn.className='add-btn sent';showToast('✅ ¡Solicitud enviada!','success');}}
+async function searchUsers(q){const rd=document.getElementById('searchResults');try{const{data}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color,is_private').or(`username.ilike.%${q}%,display_name.ilike.%${q}%`).neq('id',currentUser.id).limit(8);if(!data?.length){rd.innerHTML='<div class="empty-state" style="padding:12px;"><span class="e-icon" style="font-size:20px;margin-bottom:4px;">🔍</span>No se encontraron usuarios</div>';return;}const visible=data.filter(p=>!p.is_private);if(!visible.length){rd.innerHTML='<div class="empty-state" style="padding:12px;"><span class="e-icon" style="font-size:20px;margin-bottom:4px;">🔍</span>No se encontraron usuarios</div>';return;}const{data:myF}=await sb.from('friends').select('friend_id,status').eq('user_id',currentUser.id);const fm={};(myF||[]).forEach(f=>fm[f.friend_id]=f.status);rd.innerHTML=visible.map(u=>{const st=fm[u.id],bg=u.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)',av=u.avatar_emoji||(u.display_name||u.username)[0].toUpperCase();let btn=`<button class="add-btn" onclick="sendRequest('${u.id}',this)">➕ Agregar</button>`;if(st==='accepted')btn=`<button class="add-btn friends-btn" disabled>✅ Amigos</button>`;if(st==='pending')btn=`<button class="add-btn sent" disabled>⏳ Enviada</button>`;return`<div class="user-result"><div class="rank-avatar" style="background:${bg};">${av}</div><div class="result-info"><div class="result-name">${u.display_name||u.username}</div><div class="result-user">@${u.username}</div></div>${btn}</div>`;}).join('');}catch(e){rd.innerHTML='';}}
+async function sendRequest(fid,btn){btn.disabled=true;btn.textContent='⏳';soundClick();const{error}=await sb.from('friends').insert({user_id:currentUser.id,friend_id:fid,status:'pending'});if(error){showToast(tt('toast_error','❌ Error al enviar'),'error');btn.disabled=false;btn.textContent='➕ Agregar';}else{btn.textContent='⏳ Enviada';btn.className='add-btn sent';showToast(tt('toast_friend_added','✅ ¡Solicitud enviada!'),'success');}}
 async function checkPendingRequests(){try{const{data}=await sb.from('friends').select('id').eq('friend_id',currentUser.id).eq('status','pending');const b=document.getElementById('friendsBadge');if(data?.length>0){b.textContent=data.length;b.classList.add('show');}else b.classList.remove('show');}catch(e){}}
 async function loadRequests(){try{const{data}=await sb.from('friends').select('id,user_id').eq('friend_id',currentUser.id).eq('status','pending');const wrap=document.getElementById('requestsWrap');if(!data?.length){wrap.style.display='none';return;}wrap.style.display='block';const ids=data.map(r=>r.user_id);const{data:profiles}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color').in('id',ids);const pm={};(profiles||[]).forEach(p=>pm[p.id]=p);document.getElementById('requestsList').innerHTML=data.map(r=>{const p=pm[r.user_id]||{display_name:'Usuario',username:'unknown'};const bg=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)';return`<div class="req-item" id="req-${r.id}"><div class="rank-avatar" style="background:${bg};">${p.avatar_emoji||p.display_name[0].toUpperCase()}</div><div class="result-info"><div class="result-name">${p.display_name||p.username}</div><div class="result-user">@${p.username}</div></div><div class="req-actions"><button class="req-accept" onclick="acceptRequest('${r.id}','${r.user_id}')">✅</button><button class="req-reject" onclick="rejectRequest('${r.id}')">✕</button></div></div>`;}).join('');}catch(e){}}
-async function acceptRequest(reqId,fromId){await sb.from('friends').update({status:'accepted'}).eq('id',reqId);await sb.from('friends').upsert({user_id:currentUser.id,friend_id:fromId,status:'accepted'});document.getElementById('req-'+reqId)?.remove();showToast('🎉 ¡Ahora son amigos!','success');addNotif('🤝','Nueva amistad aceptada');checkPendingRequests();loadFriendsList();}
-async function rejectRequest(reqId){await sb.from('friends').delete().eq('id',reqId);document.getElementById('req-'+reqId)?.remove();showToast('Solicitud rechazada');checkPendingRequests();}
-async function loadFriendsList(){try{const{data:rows}=await sb.from('friends').select('friend_id').eq('user_id',currentUser.id).eq('status','accepted');const list=document.getElementById('friendsList');if(!rows?.length){list.innerHTML='<div class="empty-state"><span class="e-icon">🤝</span>Aún no tienes amigos.<br>¡Busca a alguien y agrégalo!</div>';['statAmigos','pStatAmigos'].forEach(id=>document.getElementById(id).textContent='0');document.getElementById('friendCountLabel').textContent='';return 0;}const ids=rows.map(f=>f.friend_id);const{data:profiles}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color').in('id',ids);const cnt=profiles?.length||0;['statAmigos','pStatAmigos'].forEach(id=>document.getElementById(id).textContent=cnt);document.getElementById('friendCountLabel').textContent=`(${cnt})`;list.innerHTML=(profiles||[]).map(p=>{const bg=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)',av=p.avatar_emoji||(p.display_name||p.username)[0].toUpperCase();return`<div class="friend-item" onclick="showFriendProfile('${p.id}')"><div class="rank-avatar" style="background:${bg};">${av}</div><div class="online-dot"></div><div class="friend-info"><div class="friend-name">${p.display_name||p.username}</div><div class="friend-sub">@${p.username}</div></div><button class="challenge-btn" onclick="event.stopPropagation();retarAmigo('${p.id}','${(p.display_name||p.username).replace(/'/g,"\\'")}')">⚔️ Retar</button></div>`;}).join('');return cnt;}catch(e){return 0;}}
+async function acceptRequest(reqId,fromId){soundClick();await sb.from('friends').update({status:'accepted'}).eq('id',reqId);await sb.from('friends').upsert({user_id:currentUser.id,friend_id:fromId,status:'accepted'});document.getElementById('req-'+reqId)?.remove();showToast(tt('toast_friend_accepted','🎉 ¡Ahora son amigos!'),'success');soundSuccess();addNotif('🤝','Nueva amistad aceptada','friend');checkPendingRequests();loadFriendsList();}
+async function rejectRequest(reqId){soundClick();await sb.from('friends').delete().eq('id',reqId);document.getElementById('req-'+reqId)?.remove();showToast('Solicitud rechazada');checkPendingRequests();}
+async function loadFriendsList(){try{const{data:rows}=await sb.from('friends').select('friend_id').eq('user_id',currentUser.id).eq('status','accepted');const list=document.getElementById('friendsList');if(!rows?.length){list.innerHTML='<div class="empty-state"><span class="e-icon">🤝</span>'+tt('no_friends','Aún no tienes amigos.<br>¡Busca a alguien y agrégalo!')+'</div>';['statAmigos','pStatAmigos'].forEach(id=>document.getElementById(id).textContent='0');document.getElementById('friendCountLabel').textContent='';return 0;}const ids=rows.map(f=>f.friend_id);const{data:profiles}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color').in('id',ids);const cnt=profiles?.length||0;['statAmigos','pStatAmigos'].forEach(id=>document.getElementById(id).textContent=cnt);document.getElementById('friendCountLabel').textContent=`(${cnt})`;list.innerHTML=(profiles||[]).map(p=>{const bg=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)',av=p.avatar_emoji||(p.display_name||p.username)[0].toUpperCase();return`<div class="friend-item" onclick="showFriendProfile('${p.id}')"><div class="rank-avatar" style="background:${bg};">${av}</div><div class="online-dot"></div><div class="friend-info"><div class="friend-name">${p.display_name||p.username}</div><div class="friend-sub">@${p.username}</div></div><button class="challenge-btn" onclick="event.stopPropagation();retarAmigo('${p.id}','${(p.display_name||p.username).replace(/'/g,"\\'")}')">⚔️ Retar</button></div>`;}).join('');return cnt;}catch(e){return 0;}}
 
 // VER PERFIL AMIGO
-async function showFriendProfile(uid){try{const{data:p}=await sb.from('profiles').select('*').eq('id',uid).single();currentViewedProfile=p;const{data:sc}=await sb.from('scores').select('score,won').eq('user_id',uid);const partidas=sc?.length||0,victorias=sc?.filter(r=>r.won).length||0,xp=victorias*20+partidas*5;const league=getLeague(xp);const fpAv=document.getElementById('fpAvatar');fpAv.style.background=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)';fpAv.innerHTML=p.avatar_emoji?`<span style="font-size:28px">${p.avatar_emoji}</span>`:(p.display_name||'?')[0].toUpperCase();document.getElementById('fpName').textContent=p.display_name||p.username;document.getElementById('fpUser').textContent='@'+p.username;document.getElementById('fpPartidas').textContent=partidas;document.getElementById('fpVictorias').textContent=victorias;document.getElementById('fpLeague').textContent=league.icon+' '+league.name;const{data:frR}=await sb.from('friends').select('id').eq('user_id',uid).eq('status','accepted');const earned=computeAchievements({partidas,victorias,puntos:sc?.reduce((a,r)=>a+(r.score||0),0)||0,xp,streak:0},frR?.length||0);document.getElementById('fpLogros').innerHTML=ACHIEVEMENTS.filter(a=>earned.has(a.id)).map(a=>`<span title="${a.name}" style="font-size:20px;">${a.emoji}</span>`).join('')||'<span style="font-size:11px;color:var(--text-dim)">Sin logros aún</span>';openModal('friendProfileModal');}catch(e){showToast('❌ Error al cargar perfil','error');}}
-document.getElementById('fpChallengeBtn').addEventListener('click',()=>{
-  if(currentViewedProfile){
-    retarAmigo(currentViewedProfile.id, currentViewedProfile.display_name||currentViewedProfile.username);
-    closeModal('friendProfileModal');
-  }
-});
+async function showFriendProfile(uid){soundClick();try{const{data:p}=await sb.from('profiles').select('*').eq('id',uid).single();currentViewedProfile=p;const{data:sc}=await sb.from('scores').select('score,won').eq('user_id',uid);const partidas=sc?.length||0,victorias=sc?.filter(r=>r.won).length||0,xp=victorias*20+partidas*5;const league=getLeague(xp);const fpAv=document.getElementById('fpAvatar');fpAv.style.background=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)';fpAv.innerHTML=p.avatar_emoji?`<span style="font-size:28px">${p.avatar_emoji}</span>`:(p.display_name||'?')[0].toUpperCase();document.getElementById('fpName').textContent=p.display_name||p.username;document.getElementById('fpUser').textContent='@'+p.username;document.getElementById('fpPartidas').textContent=partidas;document.getElementById('fpVictorias').textContent=victorias;document.getElementById('fpLeague').textContent=league.icon+' '+league.name;const{data:frR}=await sb.from('friends').select('id').eq('user_id',uid).eq('status','accepted');const earned=computeAchievements({partidas,victorias,puntos:sc?.reduce((a,r)=>a+(r.score||0),0)||0,xp,streak:0},frR?.length||0);document.getElementById('fpLogros').innerHTML=ACHIEVEMENTS.filter(a=>earned.has(a.id)).map(a=>`<span title="${a.name}" style="font-size:20px;">${a.emoji}</span>`).join('')||'<span style="font-size:11px;color:var(--text-dim)">Sin logros aún</span>';openModal('friendProfileModal');}catch(e){showToast(tt('toast_error','❌ Error al cargar perfil'),'error');}}
+document.getElementById('fpChallengeBtn').addEventListener('click',()=>{if(currentViewedProfile){retarAmigo(currentViewedProfile.id,currentViewedProfile.display_name||currentViewedProfile.username);closeModal('friendProfileModal');}});
 
 async function loadFriendsSection(){await loadRequests();await loadFriendsList();}
 
 // PERFIL
 async function loadProfileSection(){if(!currentProfile||!currentUser)return;const name=currentProfile.display_name||currentUser.email.split('@')[0];setAvatar(document.getElementById('profileAvatarBig'),currentProfile,currentUser);setAvatar(document.getElementById('settingsAvatar'),currentProfile,currentUser);document.getElementById('profileDisplayName').textContent=name;document.getElementById('profileUsername').textContent='@'+(currentProfile.username||'—');document.getElementById('profileEmail').textContent=currentUser.email||'—';document.getElementById('shareUsername').textContent='@'+(currentProfile.username||'—');document.getElementById('editDisplayName').value=name;document.getElementById('editUsername').value=currentProfile.username||'';document.getElementById('editEmail').value=currentUser.email||'';try{const{data:sc}=await sb.from('scores').select('score,won').eq('user_id',currentUser.id);const partidas=sc?.length||0,victorias=sc?.filter(r=>r.won).length||0,puntos=sc?.reduce((a,r)=>a+(r.score||0),0)||0,xp=victorias*20+partidas*5;let streak=0;for(const r of(sc||[])){if(r.won)streak++;else break;}document.getElementById('pStatPartidas').textContent=partidas;document.getElementById('pStatVictorias').textContent=victorias;document.getElementById('pStatRacha').textContent=streak;const league=getLeague(xp);document.getElementById('profileLeagueIcon').textContent=league.icon;document.getElementById('profileLeagueName').textContent='Liga '+league.name;const{data:frR}=await sb.from('friends').select('id').eq('user_id',currentUser.id).eq('status','accepted');const fc=frR?.length||0;document.getElementById('pStatAmigos').textContent=fc;const earned=computeAchievements({partidas,victorias,puntos,xp,streak},fc);renderLogros(earned,document.getElementById('logrosGrid'),false);}catch(e){}}
 
-document.getElementById('saveProfileBtn').addEventListener('click',async()=>{const dn=document.getElementById('editDisplayName').value.trim(),un=document.getElementById('editUsername').value.trim().toLowerCase(),btn=document.getElementById('saveProfileBtn');if(!dn||!un){showToast('❌ Completa todos los campos','error');return;}if(!/^[a-z0-9_]{3,20}$/.test(un)){showToast('❌ Usuario inválido (3-20 chars, a-z/0-9/_)','error');return;}btn.textContent='⏳ Guardando…';btn.classList.add('loading');const{error}=await sb.from('profiles').update({display_name:dn,username:un}).eq('id',currentUser.id);btn.classList.remove('loading');btn.textContent='Guardar cambios';if(error){showToast('❌ '+(error.message.includes('unique')?'Ese @usuario ya está en uso':error.message),'error');}else{currentProfile.display_name=dn;currentProfile.username=un;populateUI();loadProfileSection();showToast('✅ Perfil actualizado','success');}});
+document.getElementById('saveProfileBtn').addEventListener('click',async()=>{const dn=document.getElementById('editDisplayName').value.trim(),un=document.getElementById('editUsername').value.trim().toLowerCase(),btn=document.getElementById('saveProfileBtn');if(!dn||!un){showToast('❌ Completa todos los campos','error');return;}if(!/^[a-z0-9_]{3,20}$/.test(un)){showToast('❌ Usuario inválido (3-20 chars, a-z/0-9/_)','error');return;}soundClick();btn.textContent='⏳ Guardando…';btn.classList.add('loading');const{error}=await sb.from('profiles').update({display_name:dn,username:un}).eq('id',currentUser.id);btn.classList.remove('loading');btn.textContent=tt('save_changes','Guardar cambios');if(error){showToast('❌ '+(error.message.includes('unique')?'Ese @usuario ya está en uso':error.message),'error');}else{currentProfile.display_name=dn;currentProfile.username=un;populateUI();loadProfileSection();showToast(tt('toast_saved','✅ Perfil actualizado'),'success');}});
 
-function copyUsername(){const u=currentProfile?.username||'';if(!u)return;navigator.clipboard.writeText('@'+u).then(()=>showToast('📋 Copiado: @'+u,'success'));}
+function copyUsername(){const u=currentProfile?.username||'';if(!u)return;navigator.clipboard.writeText('@'+u).then(()=>showToast(tt('toast_copied','📋 Copiado: @{user}').replace('{user}',u),'success'));soundClick();}
 
 // POPULATE
-function populateUI(){const name=currentProfile?.display_name||currentUser.email.split('@')[0];document.getElementById('userName').textContent='@'+(currentProfile?.username||name);setAvatar(document.getElementById('userAvatar'),currentProfile,currentUser);document.getElementById('heroName').textContent=name.split(' ')[0];}
+function populateUI(){const name=currentProfile?.display_name||currentUser.email.split('@')[0];document.getElementById('userName').textContent='@'+(currentProfile?.username||name);setAvatar(document.getElementById('userAvatar'),currentProfile,currentUser);document.getElementById('heroName').textContent=name.split(' ')[0];applyTranslations();}
 
-// REALTIME
-// ── GENERAR CÓDIGO DE SALA ──
-function genRoomCode(){
-  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  return Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
-}
-
-// ── RETAR AMIGO ──
-async function retarAmigo(friendId, friendName){
-  try{
-    const roomCode=genRoomCode();
-    const myName=currentProfile?.display_name||currentProfile?.username||'Alguien';
-
-    // Crear sala en games
-    const{error:gameErr}=await sb.from('games').insert({
-      id:roomCode,fen:'start',turn:'w',
-      player_w:currentUser.id,status:'waiting'
-    });
-    if(gameErr){showToast('❌ Error creando sala');return;}
-
-    // Guardar reto en challenges
-    const{error:chalErr}=await sb.from('challenges').insert({
-      id:roomCode,from_user:currentUser.id,
-      to_user:friendId,game:'chess',status:'pending'
-    });
-    if(chalErr){
-      await sb.from('games').delete().eq('id',roomCode);
-      showToast('❌ Error enviando reto: '+chalErr.message,'error');
-      return;
-    }
-
-    showToast(`⚔️ ¡Reto enviado a ${friendName}!`);
-    addNotif('⚔️',`Retaste a ${friendName} a jugar Ajedrez`);
-
-    // Mostrar modal con código para que el retador también pueda entrar
-    const go=confirm(`✅ Reto enviado a ${friendName}!\n\nTu código de sala: ${roomCode}\n\n¿Ir al juego ahora?`);
-    if(go) window.location.href=gameUrl('chess',`room=${roomCode}&color=w`);
-  }catch(e){showToast('❌ Error al retar');}
-}
-
-// ── ESCUCHAR RETOS ENTRANTES ──
-async function handleIncomingChallenge(ch){
-  if(!ch||seenChallengeIds.has(ch.id)||ch.status!=='pending') return;
-  seenChallengeIds.add(ch.id);
-  const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',ch.from_user).single();
-  const name=p?.display_name||p?.username||'Alguien';
-  addNotif('⚔️',`${name} te retó a jugar Ajedrez - Código: ${ch.id}`);
-  const accept=confirm(`⚔️ ¡${name} te retó a Ajedrez!\n\nCódigo de sala: ${ch.id}\n\n¿Aceptar y jugar ahora?`);
-  if(accept){
-    await sb.from('challenges').update({status:'accepted'}).eq('id',ch.id);
-    window.location.href=gameUrl('chess',`room=${ch.id}&color=b`);
-  }
-}
-
-async function checkPendingChallenges(){
-  if(!currentUser) return;
-  try{
-    const{data,error}=await sb.from('challenges')
-      .select('id,from_user,to_user,game,status')
-      .eq('to_user',currentUser.id)
-      .eq('game','chess')
-      .eq('status','pending')
-      .order('id',{ascending:false})
-      .limit(5);
-    if(error) return;
-    for(const ch of data||[]) await handleIncomingChallenge(ch);
-  }catch(e){}
-}
-
-function setupChallengeListener(){
-  if(challengeChannel) sb.removeChannel(challengeChannel);
-  challengeChannel=sb.channel('challenges-'+currentUser.id)
-    .on('postgres_changes',{
-      event:'INSERT',schema:'public',table:'challenges',
-      filter:`to_user=eq.${currentUser.id}`
-    }, payload=>{
-      handleIncomingChallenge(payload.new);
-    })
-    .subscribe(()=>checkPendingChallenges());
-
-  checkPendingChallenges();
-  clearInterval(challengePollInterval);
-  challengePollInterval=setInterval(checkPendingChallenges,5000);
-}
-
-function setupRealtime(){realtimeChannel=sb.channel('friends-'+currentUser.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'friends',filter:`friend_id=eq.${currentUser.id}`},async payload=>{const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',payload.new.user_id).single();const name=p?.display_name||p?.username||'Alguien';addNotif('🤝',`${name} te envió una solicitud de amistad`);checkPendingRequests();if(currentTab==='friends')loadRequests();}).subscribe();}
+// REALTIME (RETOS)
+function genRoomCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';return Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join('');}
+async function retarAmigo(friendId,friendName){try{const roomCode=genRoomCode();const myName=currentProfile?.display_name||currentProfile?.username||'Alguien';const{error:gameErr}=await sb.from('games').insert({id:roomCode,fen:'start',turn:'w',player_w:currentUser.id,status:'waiting'});if(gameErr){showToast('❌ Error creando sala');return;}const{error:chalErr}=await sb.from('challenges').insert({id:roomCode,from_user:currentUser.id,to_user:friendId,game:'chess',status:'pending'});if(chalErr){await sb.from('games').delete().eq('id',roomCode);showToast('❌ Error enviando reto: '+chalErr.message,'error');return;}soundSuccess();showToast(`⚔️ ¡Reto enviado a ${friendName}!`);addNotif('⚔️',`Retaste a ${friendName} a jugar Ajedrez`,'challenge');const go=confirm(`✅ Reto enviado a ${friendName}!\n\nTu código de sala: ${roomCode}\n\n¿Ir al juego ahora?`);if(go)window.location.href=gameUrl('chess',`room=${roomCode}&color=w`);}catch(e){showToast('❌ Error al retar');}}
+async function handleIncomingChallenge(ch){if(!ch||seenChallengeIds.has(ch.id)||ch.status!=='pending')return;seenChallengeIds.add(ch.id);const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',ch.from_user).single();const name=p?.display_name||p?.username||'Alguien';addNotif('⚔️',`${name} te retó a jugar Ajedrez - Código: ${ch.id}`,'challenge');const accept=confirm(`⚔️ ¡${name} te retó a Ajedrez!\n\nCódigo de sala: ${ch.id}\n\n¿Aceptar y jugar ahora?`);if(accept){soundClick();await sb.from('challenges').update({status:'accepted'}).eq('id',ch.id);window.location.href=gameUrl('chess',`room=${ch.id}&color=b`);}}
+async function checkPendingChallenges(){if(!currentUser)return;try{const{data,error}=await sb.from('challenges').select('id,from_user,to_user,game,status').eq('to_user',currentUser.id).eq('game','chess').eq('status','pending').order('id',{ascending:false}).limit(5);if(error)return;for(const ch of data||[])await handleIncomingChallenge(ch);}catch(e){}}
+function setupChallengeListener(){if(challengeChannel)sb.removeChannel(challengeChannel);challengeChannel=sb.channel('challenges-'+currentUser.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'challenges',filter:`to_user=eq.${currentUser.id}`},payload=>{handleIncomingChallenge(payload.new);}).subscribe(()=>checkPendingChallenges());checkPendingChallenges();clearInterval(challengePollInterval);challengePollInterval=setInterval(checkPendingChallenges,5000);}
+function setupRealtime(){realtimeChannel=sb.channel('friends-'+currentUser.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'friends',filter:`friend_id=eq.${currentUser.id}`},async payload=>{if(!shouldNotify('friend'))return;const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',payload.new.user_id).single();const name=p?.display_name||p?.username||'Alguien';addNotif('🤝',`${name} te envió una solicitud de amistad`,'friend');checkPendingRequests();if(currentTab==='friends')loadRequests();}).subscribe();}
 
 // USERNAME MODAL
-async function showUsernameModal(){openModal('usernameModal');const input=document.getElementById('usernameInput'),hint=document.getElementById('usernameHint'),btn=document.getElementById('usernameBtn');const suggested=(currentUser.user_metadata?.full_name||currentUser.email||'').split(' ')[0].toLowerCase().replace(/[^a-z0-9_]/g,'');if(suggested)input.value=suggested;let ct;input.addEventListener('input',()=>{const val=input.value.trim();input.className='username-input';btn.disabled=true;clearTimeout(ct);if(!val){hint.textContent='Solo letras minúsculas, números y _';hint.className='username-hint';return;}if(!/^[a-z0-9_]{3,20}$/.test(val)){hint.textContent=val.length<3?'Mínimo 3 caracteres':'Solo a-z, 0-9 y _';hint.className='username-hint taken';input.className='username-input taken';return;}hint.textContent='Verificando…';hint.className='username-hint checking';ct=setTimeout(async()=>{const{data}=await sb.from('profiles').select('id').eq('username',val).single();if(data){hint.textContent='❌ @'+val+' ya está en uso';hint.className='username-hint taken';input.className='username-input taken';}else{hint.textContent='✅ @'+val+' está disponible';hint.className='username-hint ok';input.className='username-input ok';btn.disabled=false;}},600);});if(input.value)input.dispatchEvent(new Event('input'));btn.onclick=async()=>{const username=input.value.trim().toLowerCase();btn.textContent='⏳ Guardando…';btn.classList.add('loading');btn.disabled=true;const displayName=currentUser.user_metadata?.full_name||currentUser.user_metadata?.name||username;const{error}=await sb.from('profiles').upsert({id:currentUser.id,username,display_name:displayName,avatar_color:'#ff6b35'});btn.classList.remove('loading');if(error){showToast('❌ '+error.message,'error');btn.textContent='Guardar y continuar →';btn.disabled=false;}else{closeModal('usernameModal');currentProfile={id:currentUser.id,username,display_name:displayName};populateUI();showToast('🎉 ¡Bienvenido, @'+username+'!','success');}};}
+async function showUsernameModal(){openModal('usernameModal');const input=document.getElementById('usernameInput'),hint=document.getElementById('usernameHint'),btn=document.getElementById('usernameBtn');const suggested=(currentUser.user_metadata?.full_name||currentUser.email||'').split(' ')[0].toLowerCase().replace(/[^a-z0-9_]/g,'');if(suggested)input.value=suggested;let ct;input.addEventListener('input',()=>{const val=input.value.trim();input.className='username-input';btn.disabled=true;clearTimeout(ct);if(!val){hint.textContent=tt('username_hint_default','Solo letras minúsculas, números y _');hint.className='username-hint';return;}if(!/^[a-z0-9_]{3,20}$/.test(val)){hint.textContent=val.length<3?'Mínimo 3 caracteres':'Solo a-z, 0-9 y _';hint.className='username-hint taken';input.className='username-input taken';return;}hint.textContent='Verificando…';hint.className='username-hint checking';ct=setTimeout(async()=>{const{data}=await sb.from('profiles').select('id').eq('username',val).single();if(data){hint.textContent='❌ @'+val+' ya está en uso';hint.className='username-hint taken';input.className='username-input taken';}else{hint.textContent='✅ @'+val+' está disponible';hint.className='username-hint ok';input.className='username-input ok';btn.disabled=false;}},600);});if(input.value)input.dispatchEvent(new Event('input'));btn.onclick=async()=>{const username=input.value.trim().toLowerCase();soundClick();btn.textContent='⏳ Guardando…';btn.classList.add('loading');btn.disabled=true;const displayName=currentUser.user_metadata?.full_name||currentUser.user_metadata?.name||username;const{error}=await sb.from('profiles').upsert({id:currentUser.id,username,display_name:displayName,avatar_color:'#ff6b35'});btn.classList.remove('loading');if(error){showToast('❌ '+error.message,'error');btn.textContent=tt('save_continue','Guardar y continuar →');btn.disabled=false;}else{closeModal('usernameModal');currentProfile={id:currentUser.id,username,display_name:displayName};populateUI();showToast('🎉 ¡Bienvenido, @'+username+'!','success');soundSuccess();}};}
 
 // LOGOUT
-async function doLogout(){if(realtimeChannel)sb.removeChannel(realtimeChannel);if(challengeChannel)sb.removeChannel(challengeChannel);clearInterval(challengePollInterval);showToast('👋 Hasta pronto…');await sb.auth.signOut();setTimeout(()=>window.location.href='index.html',800);}
+async function doLogout(){if(realtimeChannel)sb.removeChannel(realtimeChannel);if(challengeChannel)sb.removeChannel(challengeChannel);clearInterval(challengePollInterval);soundClick();showToast('👋 Hasta pronto…');await sb.auth.signOut();setTimeout(()=>window.location.href='index.html',800);}
 document.getElementById('logoutBtn2').addEventListener('click',doLogout);
 
 // INIT
-async function init(){const saved=localStorage.getItem('gz_theme');if(saved==='light')applyTheme(true);const{data:{session}}=await sb.auth.getSession();const loading=document.getElementById('loadingScreen');loading.style.opacity='0';setTimeout(()=>loading.style.display='none',400);if(!session){window.location.href='index.html';return;}currentUser=session.user;if(window.location.hash)history.replaceState(null,'',window.location.pathname);document.getElementById('mainPage').style.display='block';const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();if(!profile||!profile.username){await showUsernameModal();}else{currentProfile=profile;populateUI();}const stats=await loadStats();await loadRanking();await checkPendingRequests();setupRealtime();setupChallengeListener();
-  // Cargar amigos y actualizar contador en home
+async function init(){
+  const saved=localStorage.getItem('gz_theme');if(saved==='light')applyTheme(true);
+  currentLang=localStorage.getItem('gz_lang')||'es';
+  document.getElementById('langSelect').value=currentLang;
+  soundEnabled=localStorage.getItem('gz_sound')!=='false';
+  document.getElementById('soundToggle').checked=soundEnabled;
+  notifFriendToggle.checked=getNotifPref('friend');
+  notifChallengeToggle.checked=getNotifPref('challenge');
+  notifAchievementToggle.checked=getNotifPref('achievement');
+  const{data:{session}}=await sb.auth.getSession();
+  const loading=document.getElementById('loadingScreen');
+  loading.style.opacity='0';setTimeout(()=>loading.style.display='none',400);
+  if(!session){window.location.href='index.html';return;}
+  currentUser=session.user;
+  if(window.location.hash)history.replaceState(null,'',window.location.pathname);
+  document.getElementById('mainPage').style.display='block';
+  const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
+  if(!profile||!profile.username){await showUsernameModal();}else{currentProfile=profile;populateUI();}
+  const stats=await loadStats();
+  await loadRanking();
+  await checkPendingRequests();
+  setupRealtime();
+  setupChallengeListener();
   const friendCount=await loadFriendsList();
-  const earned=computeAchievements(stats||{},friendCount||0);renderLogros(earned,document.getElementById('logrosHome'),true);sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_IN'&&s)history.replaceState(null,'',window.location.pathname);});}
+  const earned=computeAchievements(stats||{},friendCount||0);
+  renderLogros(earned,document.getElementById('logrosHome'),true);
+  applyTranslations();
+  sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_IN'&&s)history.replaceState(null,'',window.location.pathname);});
+}
 init();
 </script>
 </body>
