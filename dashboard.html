@@ -293,54 +293,67 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
 .toast.success{border-color:rgba(6,214,160,0.38);color:var(--success);}
 .toast.error{border-color:rgba(239,35,60,0.38);color:var(--error);}
 
-/* ── NUEVOS ESTILOS DE AJUSTES ── */
-.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
-.setting-row:last-child{border-bottom:none;padding-bottom:0;}
-.setting-info{flex:1;min-width:0;padding-right:12px;}
-.setting-label{font-size:13px;font-weight:600;margin-bottom:2px;}
-.setting-desc{font-size:10px;color:var(--text-dim);line-height:1.4;}
-.lang-selector{display:flex;gap:6px;margin-top:10px;}
-.lang-opt{flex:1;padding:8px 6px;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:10px;font-family:'Fredoka One',cursive;font-size:12px;cursor:pointer;text-align:center;transition:all .2s;color:var(--text-dim);}
-[data-theme="light"] .lang-opt{background:rgba(0,0,0,0.04);}
-.lang-opt.active{border-color:var(--orange);color:var(--orange);background:rgba(255,107,53,0.08);}
-.lang-opt:hover:not(.active){border-color:rgba(255,107,53,0.3);color:var(--text);}
-.hist-filter{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
-.hist-chip{font-family:'Fredoka One',cursive;font-size:10px;padding:5px 11px;border:1px solid var(--border);border-radius:50px;cursor:pointer;color:var(--text-dim);transition:all .2s;background:none;}
-.hist-chip.active{border-color:var(--orange);color:var(--orange);background:rgba(255,107,53,0.08);}
-.hist-item{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);}
-.hist-item:last-child{border-bottom:none;}
-.hist-game-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.hist-info{flex:1;min-width:0;}
-.hist-game-name{font-size:12px;font-weight:600;}
-.hist-date{font-size:9px;color:var(--text-dim);margin-top:1px;}
-.hist-result{text-align:right;flex-shrink:0;}
-.hist-won{font-family:'Fredoka One',cursive;font-size:11px;color:var(--success);}
-.hist-lost{font-family:'Fredoka One',cursive;font-size:11px;color:var(--error);}
-.hist-score{font-size:11px;color:var(--orange);font-weight:600;}
-.hist-pagination{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;}
-.hist-page-btn{font-family:'Fredoka One',cursive;font-size:11px;padding:5px 12px;border:1px solid var(--border);border-radius:50px;cursor:pointer;background:none;color:var(--text-dim);transition:all .2s;}
-.hist-page-btn:hover:not(:disabled){border-color:var(--orange);color:var(--orange);}
-.hist-page-btn:disabled{opacity:0.3;cursor:not-allowed;}
-.hist-page-info{font-size:11px;color:var(--text-dim);}
-.privacy-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:3px 8px;border-radius:50px;font-weight:600;margin-left:6px;}
-.privacy-tag.public{background:rgba(6,214,160,0.12);color:var(--success);border:1px solid rgba(6,214,160,0.3);}
-.privacy-tag.private{background:rgba(239,35,60,0.1);color:var(--error);border:1px solid rgba(239,35,60,0.25);}
-.google-status{display:flex;align-items:center;gap:10px;padding:10px 0;}
-.google-icon{width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#4285F4;flex-shrink:0;border:1px solid rgba(0,0,0,0.1);}
-.google-info{flex:1;min-width:0;}
-.google-label{font-size:12px;font-weight:600;}
-.google-sub{font-size:10px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.google-badge{font-size:10px;padding:3px 9px;border-radius:50px;font-family:'Fredoka One',cursive;flex-shrink:0;}
-.google-badge.linked{background:rgba(6,214,160,0.12);color:var(--success);border:1px solid rgba(6,214,160,0.3);}
-.google-badge.unlinked{background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.3);}
-.confirm-actions{display:flex;gap:8px;margin-top:4px;}
-.confirm-cancel{flex:1;padding:10px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;font-family:'Fredoka One',cursive;font-size:13px;color:var(--text-dim);cursor:pointer;transition:background .2s;}
-.confirm-cancel:hover{background:rgba(255,255,255,0.09);}
-.confirm-danger{flex:1;padding:10px;background:rgba(239,35,60,0.15);border:1px solid rgba(239,35,60,0.35);border-radius:10px;font-family:'Fredoka One',cursive;font-size:13px;color:var(--error);cursor:pointer;transition:background .2s;}
-.confirm-danger:hover{background:rgba(239,35,60,0.25);}
-.warn-btn{width:100%;padding:10px;background:rgba(255,209,102,0.08);border:1px solid rgba(255,209,102,0.25);border-radius:10px;font-family:'Fredoka One',cursive;font-size:13px;color:var(--yellow);cursor:pointer;transition:background .2s;margin-bottom:8px;}
-.warn-btn:hover{background:rgba(255,209,102,0.15);}
-</style>
+/* ── RANKING POR JUEGO ── */
+.rank-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+.rank-tabs::-webkit-scrollbar{display:none;}
+.rank-tab{font-family:'Fredoka One',cursive;font-size:10px;padding:5px 12px;border:1px solid var(--border);border-radius:50px;cursor:pointer;color:var(--text-dim);transition:all .2s;background:none;white-space:nowrap;flex-shrink:0;}
+.rank-tab.active{border-color:var(--orange);color:var(--orange);background:rgba(255,107,53,0.08);}
+.rank-tab:hover:not(.active){border-color:rgba(255,107,53,0.3);color:var(--text);}
+
+/* ── NIVEL DE JUGADOR ── */
+.player-level-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(124,92,191,0.18),rgba(255,107,53,0.12));border:1px solid rgba(164,125,232,0.35);border-radius:50px;padding:5px 13px;margin-bottom:12px;}
+.level-num{font-family:'Fredoka One',cursive;font-size:15px;color:var(--purple-light);}
+.level-label{font-size:10px;color:var(--text-dim);}
+.level-bar-wrap{width:70px;height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+.level-bar-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple-light));border-radius:4px;transition:width 1s ease;}
+
+/* ── ESTADÍSTICAS AMPLIADAS ── */
+.ext-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0;}
+.ext-stat{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:11px;padding:10px 12px;}
+[data-theme="light"] .ext-stat{background:rgba(0,0,0,0.03);}
+.ext-stat-val{font-family:'Fredoka One',cursive;font-size:17px;color:var(--orange);}
+.ext-stat-label{font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-top:1px;}
+
+/* ── ACTIVIDAD CALENDAR ── */
+.activity-grid{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;}
+.act-day{width:14px;height:14px;border-radius:3px;background:var(--border);transition:background .2s;}
+.act-day.lvl1{background:rgba(255,107,53,0.25);}
+.act-day.lvl2{background:rgba(255,107,53,0.5);}
+.act-day.lvl3{background:rgba(255,107,53,0.75);}
+.act-day.lvl4{background:var(--orange);}
+.act-months{display:flex;gap:0;margin-bottom:4px;font-size:8px;color:var(--text-dim);}
+
+/* ── ESTADO DEL PERFIL ── */
+.status-select{width:100%;padding:9px 12px;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);outline:none;cursor:pointer;transition:border-color .2s;caret-color:var(--orange);appearance:none;-webkit-appearance:none;}
+[data-theme="light"] .status-select{background:rgba(0,0,0,0.04);}
+.status-select:focus{border-color:var(--orange);}
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;color:var(--text-dim);margin-top:4px;font-style:italic;}
+
+/* ── FOTO DE PERFIL UPLOAD ── */
+.photo-upload-wrap{position:relative;cursor:pointer;width:74px;margin:0 auto 3px;}
+.photo-upload-wrap:hover .photo-upload-overlay{opacity:1;}
+.photo-upload-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;pointer-events:none;}
+.photo-upload-overlay span{font-size:18px;}
+.photo-upload-input{display:none;}
+.photo-progress{display:none;font-size:10px;color:var(--orange);text-align:center;margin-top:4px;}
+.photo-progress.show{display:block;}
+
+/* ── INVITAR AMIGOS ── */
+.invite-box{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.invite-val{flex:1;background:rgba(255,107,53,0.06);border:1px solid rgba(255,107,53,0.2);border-radius:9px;padding:8px 10px;font-size:11px;color:var(--orange);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.invite-copy{padding:8px 11px;background:var(--orange);border:none;border-radius:9px;color:#fff;font-family:'Fredoka One',cursive;font-size:10px;cursor:pointer;transition:transform .15s;flex-shrink:0;}
+.invite-copy:hover{transform:scale(1.06);}
+
+/* ── ACHIEVEMENT POPUP ── */
+.achievement-popup{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:linear-gradient(135deg,var(--card),rgba(255,209,102,0.08));border:1px solid rgba(255,209,102,0.4);border-radius:18px;padding:14px 20px;display:flex;align-items:center;gap:12px;z-index:500;opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;box-shadow:0 12px 40px rgba(255,209,102,0.15);min-width:220px;}
+.achievement-popup.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.ach-pop-emoji{font-size:32px;animation:floatEmoji 2s ease-in-out infinite;}
+.ach-pop-title{font-family:'Fredoka One',cursive;font-size:13px;color:var(--yellow);}
+.ach-pop-name{font-size:11px;color:var(--text-dim);}
+/* Confetti */
+.confetti-piece{position:fixed;width:7px;height:10px;border-radius:2px;pointer-events:none;z-index:499;animation:confettiFall linear forwards;}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+
 </head>
 <body>
 
@@ -409,16 +422,12 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
   </div>
 </div>
 
-<!-- CONFIRM MODAL -->
-<div class="modal-overlay" id="confirmModal">
-  <div class="modal-box">
-    <span class="modal-emoji" id="confirmEmoji">⚠️</span>
-    <div class="modal-title" id="confirmTitle">¿Estás seguro?</div>
-    <p class="modal-sub" id="confirmDesc">Esta acción no se puede deshacer.</p>
-    <div class="confirm-actions">
-      <button class="confirm-cancel" onclick="closeModal('confirmModal')">Cancelar</button>
-      <button class="confirm-danger" id="confirmOkBtn">Confirmar</button>
-    </div>
+<!-- ACHIEVEMENT POPUP -->
+<div class="achievement-popup" id="achievementPopup">
+  <div class="ach-pop-emoji" id="achPopEmoji">🏆</div>
+  <div>
+    <div class="ach-pop-title">¡Logro desbloqueado!</div>
+    <div class="ach-pop-name" id="achPopName">—</div>
   </div>
 </div>
 
@@ -515,6 +524,12 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
       </div>
 
       <div class="section-title">🏆 Ranking global</div>
+      <div class="rank-tabs">
+        <button class="rank-tab active" onclick="switchRankTab('all',this)">🌐 Global</button>
+        <button class="rank-tab" onclick="switchRankTab('chess',this)">♟️ Ajedrez</button>
+        <button class="rank-tab" onclick="switchRankTab('checkers',this)">🔴 Damas</button>
+        <button class="rank-tab" onclick="switchRankTab('solitaire',this)">🃏 Solitario</button>
+      </div>
       <div class="ranking-list" id="rankingList">
         <div class="empty-state"><span class="e-icon">🎮</span>Juega una partida para aparecer aquí</div>
       </div>
@@ -545,19 +560,61 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
   <div class="section" id="sec-profile">
     <div class="profile-wrap">
       <div class="profile-card">
-        <div class="profile-avatar-big" id="profileAvatarBig" style="cursor:default;">?</div>
+        <!-- Foto con overlay de cámara -->
+        <div class="photo-upload-wrap" onclick="document.getElementById('photoInput').click()" title="Cambiar foto">
+          <div class="profile-avatar-big" id="profileAvatarBig" style="cursor:pointer;margin:0;">?</div>
+          <div class="photo-upload-overlay"><span>📷</span></div>
+          <input type="file" id="photoInput" class="photo-upload-input" accept="image/*"/>
+        </div>
+        <div class="photo-progress" id="photoProgress">⏳ Subiendo foto…</div>
+
         <div class="profile-display-name" id="profileDisplayName">—</div>
         <div class="profile-username" id="profileUsername">@—</div>
-        <div class="profile-email" id="profileEmail">—</div>
+        <!-- Estado del perfil -->
+        <div class="status-badge" id="profileStatusBadge">💤 Sin estado</div>
+        <div class="profile-email" id="profileEmail" style="margin-top:4px;">—</div>
         <div class="league-display">
           <span class="league-display-icon" id="profileLeagueIcon">🥉</span>
           <span class="league-display-name" id="profileLeagueName">Liga Bronce</span>
+        </div>
+        <!-- Nivel de jugador -->
+        <div class="player-level-badge">
+          <span>⭐</span>
+          <span class="level-num" id="playerLevelNum">1</span>
+          <span class="level-label">Nivel</span>
+          <div class="level-bar-wrap"><div class="level-bar-fill" id="playerLevelBar" style="width:0%"></div></div>
         </div>
         <div class="profile-stats">
           <div class="profile-stat"><div class="profile-stat-num" id="pStatPartidas">0</div><div class="profile-stat-label">Partidas</div></div>
           <div class="profile-stat"><div class="profile-stat-num" id="pStatVictorias">0</div><div class="profile-stat-label">Victorias</div></div>
           <div class="profile-stat"><div class="profile-stat-num" id="pStatRacha">0</div><div class="profile-stat-label">Racha</div></div>
           <div class="profile-stat"><div class="profile-stat-num" id="pStatAmigos">0</div><div class="profile-stat-label">Amigos</div></div>
+        </div>
+      </div>
+
+      <!-- Estadísticas ampliadas -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">📊 Estadísticas ampliadas</div>
+        <div class="ext-stats-grid">
+          <div class="ext-stat"><div class="ext-stat-val" id="extWinrate">0%</div><div class="ext-stat-label">Winrate</div></div>
+          <div class="ext-stat"><div class="ext-stat-val" id="extBestStreak">0</div><div class="ext-stat-label">Mejor racha</div></div>
+          <div class="ext-stat"><div class="ext-stat-val" id="extFavGame">—</div><div class="ext-stat-label">Juego favorito</div></div>
+          <div class="ext-stat"><div class="ext-stat-val" id="extTotalPts">0</div><div class="ext-stat-label">Pts totales</div></div>
+        </div>
+      </div>
+
+      <!-- Calendario de actividad -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">📅 Actividad reciente</div>
+        <div style="font-size:9px;color:var(--text-dim);margin-bottom:6px;">Últimos 28 días — cada cuadro = 1 partida</div>
+        <div class="activity-grid" id="activityGrid"></div>
+        <div style="display:flex;align-items:center;gap:5px;margin-top:8px;">
+          <span style="font-size:9px;color:var(--text-dim);">Menos</span>
+          <div style="width:10px;height:10px;border-radius:2px;background:var(--border);"></div>
+          <div style="width:10px;height:10px;border-radius:2px;" class="act-day lvl1"></div>
+          <div style="width:10px;height:10px;border-radius:2px;" class="act-day lvl2"></div>
+          <div style="width:10px;height:10px;border-radius:2px;" class="act-day lvl4"></div>
+          <span style="font-size:9px;color:var(--text-dim);">Más</span>
         </div>
       </div>
 
@@ -573,6 +630,11 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
           <div class="share-val" id="shareUsername">@—</div>
           <button class="copy-btn" onclick="copyUsername()">📋 Copiar</button>
         </div>
+        <p style="font-size:11px;color:var(--text-dim);margin-top:12px;margin-bottom:0;">🎯 Link de invitación:</p>
+        <div class="invite-box">
+          <div class="invite-val" id="inviteLink">—</div>
+          <button class="invite-copy" onclick="copyInviteLink()">📎 Copiar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -580,8 +642,11 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
   <!-- AJUSTES -->
   <div class="section" id="sec-settings">
     <div class="profile-wrap">
+      <div class="profile-section-card">
+        <div class="profile-section-title">⚙️ Ajustes</div>
+        <p style="font-size:12px;color:var(--text-dim);line-height:1.5;">Administra tu cuenta, apariencia y datos de jugador.</p>
+      </div>
 
-      <!-- Avatar -->
       <div class="profile-section-card">
         <div class="profile-section-title">🎨 Avatar</div>
         <div style="display:flex;align-items:center;gap:14px;">
@@ -594,129 +659,25 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
         </div>
       </div>
 
-      <!-- Editar datos -->
       <div class="profile-section-card">
         <div class="profile-section-title">✏️ Editar datos</div>
         <div class="profile-field"><label>Nombre para mostrar</label><input class="profile-input" id="editDisplayName" placeholder="Tu nombre"/></div>
         <div class="profile-field"><label>@Usuario único</label><input class="profile-input" id="editUsername" placeholder="tunombre" maxlength="20"/></div>
+        <div class="profile-field"><label>Estado del perfil</label>
+          <select class="status-select" id="editStatus">
+            <option value="">Sin estado</option>
+            <option value="🎮 Buscando rival">🎮 Buscando rival</option>
+            <option value="🔥 En racha">🔥 En racha</option>
+            <option value="☕ Tomando un descanso">☕ Tomando un descanso</option>
+            <option value="📚 Practicando">📚 Practicando</option>
+            <option value="⚔️ Listo para competir">⚔️ Listo para competir</option>
+            <option value="😴 Inactivo">😴 Inactivo</option>
+          </select>
+        </div>
         <div class="profile-field"><label>Correo electrónico</label><input class="profile-input" id="editEmail" disabled/></div>
         <button class="save-btn" id="saveProfileBtn">Guardar cambios</button>
       </div>
 
-      <!-- SONIDOS -->
-      <div class="profile-section-card">
-        <div class="profile-section-title">🔊 Sonidos</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Efectos de sonido</div>
-            <div class="setting-desc">Clics, victorias y notificaciones con audio</div>
-          </div>
-          <label class="theme-toggle"><input type="checkbox" id="sfxToggle"/><span class="theme-slider"></span></label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Sonido de victoria</div>
-            <div class="setting-desc">Fanfarria al ganar una partida</div>
-          </div>
-          <label class="theme-toggle"><input type="checkbox" id="winSoundToggle"/><span class="theme-slider"></span></label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Sonido de notificación</div>
-            <div class="setting-desc">Pitido al recibir retos o solicitudes</div>
-          </div>
-          <label class="theme-toggle"><input type="checkbox" id="notifSoundToggle"/><span class="theme-slider"></span></label>
-        </div>
-      </div>
-
-      <!-- NOTIFICACIONES -->
-      <div class="profile-section-card">
-        <div class="profile-section-title">🔔 Preferencias de notificaciones</div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Solicitudes de amistad</div>
-            <div class="setting-desc">Avisar cuando alguien te agrega</div>
-          </div>
-          <label class="theme-toggle"><input type="checkbox" id="notifFriendsToggle"/><span class="theme-slider"></span></label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Retos entrantes</div>
-            <div class="setting-desc">Avisar cuando un amigo te reta</div>
-          </div>
-          <label class="theme-toggle"><input type="checkbox" id="notifChallengesToggle"/><span class="theme-slider"></span></label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Logros desbloqueados</div>
-            <div class="setting-desc">Avisar cuando consigues un nuevo logro</div>
-          </div>
-          <label class="theme-toggle"><input type="checkbox" id="notifAchievementsToggle"/><span class="theme-slider"></span></label>
-        </div>
-      </div>
-
-      <!-- IDIOMA -->
-      <div class="profile-section-card">
-        <div class="profile-section-title">🌐 Idioma de la interfaz</div>
-        <div style="font-size:11px;color:var(--text-dim);margin-bottom:2px;">Cambia el idioma de todos los textos de la app</div>
-        <div class="lang-selector">
-          <button class="lang-opt active" id="langEs" onclick="setLanguage('es')">🇵🇪 Español</button>
-          <button class="lang-opt" id="langEn" onclick="setLanguage('en')">🇺🇸 English</button>
-        </div>
-      </div>
-
-      <!-- HISTORIAL -->
-      <div class="profile-section-card">
-        <div class="profile-section-title">📋 Historial de partidas</div>
-        <div class="hist-filter">
-          <button class="hist-chip active" data-game="all" onclick="setHistFilter('all')">Todas</button>
-          <button class="hist-chip" data-game="chess" onclick="setHistFilter('chess')">♟️ Ajedrez</button>
-          <button class="hist-chip" data-game="checkers" onclick="setHistFilter('checkers')">🔴 Damas</button>
-          <button class="hist-chip" data-game="solitaire" onclick="setHistFilter('solitaire')">🃏 Solitario</button>
-        </div>
-        <div id="histList"><div class="empty-state" style="padding:14px;"><span class="e-icon" style="font-size:22px;margin-bottom:5px;">🎮</span>Sin partidas aún</div></div>
-        <div class="hist-pagination" id="histPagination" style="display:none;">
-          <button class="hist-page-btn" id="histPrev" onclick="changeHistPage(-1)">← Ant</button>
-          <span class="hist-page-info" id="histPageInfo">1 / 1</span>
-          <button class="hist-page-btn" id="histNext" onclick="changeHistPage(1)">Sig →</button>
-        </div>
-      </div>
-
-      <!-- PRIVACIDAD -->
-      <div class="profile-section-card">
-        <div class="profile-section-title">🛡️ Privacidad del perfil <span class="privacy-tag public" id="privacyTag">🌍 Público</span></div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Ocultar del ranking global</div>
-            <div class="setting-desc">Tu nombre no aparecerá en el top de puntuaciones</div>
-          </div>
-          <label class="theme-toggle"><input type="checkbox" id="hideRankingToggle"/><span class="theme-slider"></span></label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-info">
-            <div class="setting-label">Ocultar de búsquedas</div>
-            <div class="setting-desc">Solo tus amigos podrán encontrarte</div>
-          </div>
-          <label class="theme-toggle"><input type="checkbox" id="hideSearchToggle"/><span class="theme-slider"></span></label>
-        </div>
-        <button class="save-btn" style="margin-top:12px;" id="savePrivacyBtn">Guardar privacidad</button>
-      </div>
-
-      <!-- GOOGLE -->
-      <div class="profile-section-card">
-        <div class="profile-section-title">🔗 Cuenta de Google</div>
-        <div class="google-status">
-          <div class="google-icon">G</div>
-          <div class="google-info">
-            <div class="google-label" id="googleLabel">Google vinculado</div>
-            <div class="google-sub" id="googleSub">—</div>
-          </div>
-          <span class="google-badge linked" id="googleBadge">Vinculado</span>
-        </div>
-        <button class="danger-btn" id="googleActionBtn" onclick="handleGoogleAction()" style="margin-top:4px;">🔓 Desvincular Google</button>
-      </div>
-
-      <!-- APARIENCIA -->
       <div class="profile-section-card">
         <div class="profile-section-title">🎨 Apariencia</div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -725,13 +686,10 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
         </div>
       </div>
 
-      <!-- CUENTA -->
       <div class="profile-section-card">
         <div class="profile-section-title">⚙️ Cuenta</div>
-        <button class="warn-btn" id="resetStatsBtn">🗑️ Resetear estadísticas</button>
         <button class="danger-btn" id="logoutBtn2">🚪 Cerrar sesión</button>
       </div>
-
     </div>
   </div>
 
@@ -794,22 +752,13 @@ document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click
 document.getElementById('notifBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('notifPanel').classList.toggle('show');});
 document.addEventListener('click',()=>document.getElementById('notifPanel').classList.remove('show'));
 document.getElementById('notifPanel').addEventListener('click',e=>e.stopPropagation());
-function addNotif(emoji,text,type=''){
-  if(type==='friend'&&!getSetting('notifFriends'))return;
-  if(type==='challenge'&&!getSetting('notifChallenges'))return;
-  if(type==='achievement'&&!getSetting('notifAchievements'))return;
-  notifications.unshift({emoji,text,time:new Date(),unread:true});
-  renderNotifs();
-  const d=document.getElementById('notifDot'),u=notifications.filter(n=>n.unread).length;
-  if(u>0){d.textContent=u;d.style.display='block';}
-  playNotifSound();
-}
+function addNotif(emoji,text){notifications.unshift({emoji,text,time:new Date(),unread:true});renderNotifs();const d=document.getElementById('notifDot'),u=notifications.filter(n=>n.unread).length;if(u>0){d.textContent=u;d.style.display='block';}}
 function renderNotifs(){const l=document.getElementById('notifList');if(!notifications.length){l.innerHTML='<div class="notif-empty">Sin notificaciones nuevas</div>';return;}l.innerHTML=notifications.slice(0,10).map(n=>`<div class="notif-item ${n.unread?'unread':''}"><div class="notif-emoji">${n.emoji}</div><div><div class="notif-text">${n.text}</div><div class="notif-time">${timeAgo(n.time)}</div></div></div>`).join('');}
 function clearNotifs(){notifications.forEach(n=>n.unread=false);document.getElementById('notifDot').style.display='none';renderNotifs();}
 function timeAgo(d){const s=Math.round((Date.now()-d)/1000);if(s<60)return 'ahora mismo';if(s<3600)return Math.round(s/60)+' min';return Math.round(s/3600)+'h';}
 
 // NAV
-function switchTab(tab){currentTab=tab;document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('sec-'+tab).classList.add('active');document.getElementById('nav-'+tab).classList.add('active');if(tab==='friends')loadFriendsSection();if(tab==='profile'||tab==='settings'){loadProfileSection();if(tab==='settings'){loadHistorial();loadGoogleStatus();loadSettingsUI();}}}
+function switchTab(tab){currentTab=tab;document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('sec-'+tab).classList.add('active');document.getElementById('nav-'+tab).classList.add('active');if(tab==='friends')loadFriendsSection();if(tab==='profile'||tab==='settings')loadProfileSection();}
 function gameUrl(g,params=''){
   const page=g==='chess'?CHESS_PAGE:g+'.html';
   return page+(params?'?'+params:'');
@@ -825,8 +774,181 @@ function renderLogros(earned,container,compact=true){if(!container)return;if(com
 // STATS
 async function loadStats(){try{const{data}=await sb.from('scores').select('score,won,game,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false});const partidas=data?.length||0,victorias=data?.filter(r=>r.won).length||0,puntos=data?.reduce((a,r)=>a+(r.score||0),0)||0,xp=victorias*20+partidas*5;let streak=0;for(const r of(data||[])){if(r.won)streak++;else break;}const league=getLeague(xp);document.getElementById('leagueIcon').textContent=league.icon;document.getElementById('leagueName').textContent=league.name;document.getElementById('leagueXp').textContent=`${league.xp}/${league.maxXp===Infinity?'∞':league.maxXp} XP`;document.getElementById('leagueBar').style.width=league.maxXp===Infinity?'100%':`${Math.min(league.xp/league.maxXp*100,100)}%`;document.getElementById('leagueBar').style.background=league.bar;if(streak>=2){document.getElementById('streakBanner').style.display='flex';document.getElementById('streakNum').textContent=streak;}animNum(document.getElementById('statPartidas'),partidas);animNum(document.getElementById('statVictorias'),victorias);animNum(document.getElementById('statPuntos'),puntos,1100);const chartData=[0,0,0,0,0,0,0],now=new Date();(data||[]).forEach(r=>{const d=new Date(r.created_at),diff=Math.floor((now-d)/(1000*60*60*24));if(diff<7){const idx=(6-diff+new Date().getDay())%7;chartData[idx]=(chartData[idx]||0)+1;}});renderChart(chartData);return{partidas,victorias,puntos,xp,streak};}catch(e){return{partidas:0,victorias:0,puntos:0,xp:0,streak:0};}}
 
-// RANKING
-async function loadRanking(){try{const{data}=await sb.from('scores').select('user_name,game,score').order('score',{ascending:false}).limit(5);if(!data?.length)return;const medals=['gold','silver','bronze','other','other'],emojis=['🥇','🥈','🥉','4','5'];document.getElementById('rankingList').innerHTML=data.map((r,i)=>`<div class="rank-item"><div class="rank-pos ${medals[i]}">${emojis[i]}</div><div class="rank-avatar">${r.user_name[0].toUpperCase()}</div><div class="rank-info"><div class="rank-name">${r.user_name}</div><div class="rank-game">${{chess:'♟️ Ajedrez',checkers:'🔴 Damas',solitaire:'🃏 Solitario'}[r.game]||r.game}</div></div><div class="rank-score">${r.score}</div></div>`).join('');}catch(e){}}
+// RANKING POR JUEGO (tabs)
+let currentRankGame='all';
+async function loadRanking(game='all'){
+  currentRankGame=game;
+  try{
+    let q=sb.from('scores').select('user_name,game,score,user_id').order('score',{ascending:false});
+    if(game!=='all')q=q.eq('game',game);
+    const{data:raw}=await q.limit(20);
+    if(!raw?.length){document.getElementById('rankingList').innerHTML='<div class="empty-state"><span class="e-icon">🎮</span>Sin datos para este juego aún</div>';return;}
+    // Agrupar por user_id+game → mejor score por jugador
+    const best={};
+    for(const r of raw){
+      const key=r.user_id+'|'+(game==='all'?r.game:game);
+      if(!best[key]||r.score>best[key].score)best[key]={...r};
+    }
+    const sorted=Object.values(best).sort((a,b)=>b.score-a.score).slice(0,5);
+    const medals=['gold','silver','bronze','other','other'],emojis=['🥇','🥈','🥉','4','5'];
+    const gameLabels={chess:'♟️ Ajedrez',checkers:'🔴 Damas',solitaire:'🃏 Solitario'};
+    document.getElementById('rankingList').innerHTML=sorted.map((r,i)=>`
+      <div class="rank-item">
+        <div class="rank-pos ${medals[i]}">${emojis[i]}</div>
+        <div class="rank-avatar" style="background:linear-gradient(135deg,var(--purple),var(--orange));">${(r.user_name||'?')[0].toUpperCase()}</div>
+        <div class="rank-info">
+          <div class="rank-name">${r.user_name||'Jugador'}</div>
+          ${game==='all'?`<div class="rank-game">${gameLabels[r.game]||r.game}</div>`:''}
+        </div>
+        <div class="rank-score">${r.score.toLocaleString()}</div>
+      </div>`).join('');
+  }catch(e){}
+}
+function switchRankTab(game,btn){
+  document.querySelectorAll('.rank-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  loadRanking(game);
+}
+
+// NIVEL DE JUGADOR
+function calcLevel(xp){
+  const level=Math.floor(Math.sqrt(xp/10))+1;
+  const current=Math.floor(Math.sqrt(xp/10));
+  const xpForCurrent=current*current*10;
+  const xpForNext=(current+1)*(current+1)*10;
+  const progress=xp>=xpForNext?100:Math.round((xp-xpForCurrent)/(xpForNext-xpForCurrent)*100);
+  return{level:Math.min(level,50),progress};
+}
+function updatePlayerLevel(xp){
+  const{level,progress}=calcLevel(xp);
+  const el=document.getElementById('playerLevelNum');
+  const bar=document.getElementById('playerLevelBar');
+  if(el)el.textContent=level;
+  if(bar)bar.style.width=progress+'%';
+}
+
+// ESTADÍSTICAS AMPLIADAS
+function renderExtStats(data){
+  const partidas=data?.length||0;
+  const victorias=data?.filter(r=>r.won).length||0;
+  const winrate=partidas>0?Math.round(victorias/partidas*100):0;
+  // mejor racha histórica
+  let bestStreak=0,cur=0;
+  for(const r of(data||[])){if(r.won){cur++;if(cur>bestStreak)bestStreak=cur;}else cur=0;}
+  // juego favorito
+  const gameCounts={};
+  (data||[]).forEach(r=>gameCounts[r.game]=(gameCounts[r.game]||0)+1);
+  const favGame=Object.entries(gameCounts).sort((a,b)=>b[1]-a[1])[0];
+  const gameEmojis={chess:'♟️',checkers:'🔴',solitaire:'🃏',memory:'🧠'};
+  const totalPts=data?.reduce((a,r)=>a+(r.score||0),0)||0;
+  const wr=document.getElementById('extWinrate');const bs=document.getElementById('extBestStreak');
+  const fg=document.getElementById('extFavGame');const tp=document.getElementById('extTotalPts');
+  if(wr)wr.textContent=winrate+'%';
+  if(bs)bs.textContent=bestStreak;
+  if(fg)fg.textContent=favGame?gameEmojis[favGame[0]]||favGame[0]:'—';
+  if(tp)tp.textContent=totalPts.toLocaleString();
+}
+
+// CALENDARIO DE ACTIVIDAD (28 días)
+function renderActivityCalendar(data){
+  const grid=document.getElementById('activityGrid');
+  if(!grid)return;
+  const counts={};
+  const now=new Date();
+  (data||[]).forEach(r=>{
+    const d=new Date(r.created_at);
+    const diff=Math.floor((now-d)/(1000*60*60*24));
+    if(diff<28){const key=diff;counts[key]=(counts[key]||0)+1;}
+  });
+  let html='';
+  for(let i=27;i>=0;i--){
+    const c=counts[i]||0;
+    const lvl=c===0?'':c===1?'lvl1':c===2?'lvl2':c===3?'lvl3':'lvl4';
+    const d=new Date(now);d.setDate(d.getDate()-i);
+    const label=d.toLocaleDateString('es-PE',{day:'2-digit',month:'short'});
+    html+=`<div class="act-day ${lvl}" title="${label}: ${c} partida${c!==1?'s':''}"></div>`;
+  }
+  grid.innerHTML=html;
+}
+
+// ANIMACIÓN DE LOGRO
+let lastEarnedIds=new Set();
+function showAchievementPopup(achievement){
+  const pop=document.getElementById('achievementPopup');
+  document.getElementById('achPopEmoji').textContent=achievement.emoji;
+  document.getElementById('achPopName').textContent=achievement.name;
+  pop.classList.add('show');
+  spawnConfetti();
+  setTimeout(()=>pop.classList.remove('show'),3500);
+}
+function spawnConfetti(){
+  const colors=['#ff6b35','#ffd166','#7c5cbf','#06d6a0','#a47de8','#fff'];
+  for(let i=0;i<40;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${20+Math.random()*60}%;top:0;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1.2+Math.random()*1.5}s;animation-delay:${Math.random()*0.4}s;transform:rotate(${Math.random()*360}deg);width:${5+Math.random()*6}px;height:${8+Math.random()*8}px;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3000);
+  }
+}
+function checkNewAchievements(earned){
+  earned.forEach(id=>{
+    if(!lastEarnedIds.has(id)){
+      const ach=ACHIEVEMENTS.find(a=>a.id===id);
+      if(ach){setTimeout(()=>showAchievementPopup(ach),800);}
+    }
+  });
+  lastEarnedIds=new Set(earned);
+}
+
+// FOTO DE PERFIL — subir desde dispositivo
+document.getElementById('photoInput')?.addEventListener('change',async function(){
+  const file=this.files[0];
+  if(!file)return;
+  if(file.size>3*1024*1024){showToast('❌ Máximo 3 MB','error');return;}
+  const prog=document.getElementById('photoProgress');
+  prog.classList.add('show');
+  try{
+    const ext=file.name.split('.').pop();
+    const path=`avatars/${currentUser.id}.${ext}`;
+    const{error:upErr}=await sb.storage.from('avatars').upload(path,file,{upsert:true,contentType:file.type});
+    if(upErr)throw upErr;
+    const{data:{publicUrl}}=sb.storage.from('avatars').getPublicUrl(path);
+    await sb.from('profiles').update({avatar_url:publicUrl,avatar_emoji:null}).eq('id',currentUser.id);
+    if(currentProfile){currentProfile.avatar_url=publicUrl;currentProfile.avatar_emoji=null;}
+    // Actualizar todos los avatares visibles
+    ['profileAvatarBig','userAvatar','settingsAvatar'].forEach(id=>{
+      const el=document.getElementById(id);if(!el)return;
+      el.style.background='';
+      el.innerHTML=`<img src="${publicUrl}?t=${Date.now()}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`;
+    });
+    showToast('✅ Foto actualizada','success');
+  }catch(e){showToast('❌ Error al subir foto','error');}
+  prog.classList.remove('show');
+  this.value='';
+});
+
+// INVITAR AMIGOS
+function copyInviteLink(){
+  const user=currentProfile?.username||'';
+  if(!user){showToast('❌ Necesitas un @usuario primero','error');return;}
+  const link=`${location.origin}${location.pathname}?invite=${user}`;
+  navigator.clipboard.writeText(link).then(()=>showToast('📎 Link copiado','success'));
+}
+function updateInviteLink(){
+  const el=document.getElementById('inviteLink');
+  if(!el||!currentProfile?.username)return;
+  el.textContent=`${location.origin.replace('https://','').replace('http://','')}/...?invite=${currentProfile.username}`;
+}
+
+// ESTADO DEL PERFIL
+async function saveProfileStatus(status){
+  await sb.from('profiles').update({status_text:status}).eq('id',currentUser.id);
+  if(currentProfile)currentProfile.status_text=status;
+  const badge=document.getElementById('profileStatusBadge');
+  if(badge)badge.textContent=status||'💤 Sin estado';
+}
+
 
 // BUSCAR AMIGOS
 document.getElementById('friendSearch').addEventListener('input',function(){clearTimeout(searchTimer);const q=this.value.trim().replace('@','');const rd=document.getElementById('searchResults');if(!q){rd.innerHTML='';return;}rd.innerHTML='<p style="font-size:11px;color:var(--text-dim);padding:3px 0 7px;">Buscando…</p>';searchTimer=setTimeout(()=>searchUsers(q),500);});
@@ -834,7 +956,7 @@ async function searchUsers(q){const rd=document.getElementById('searchResults');
 async function sendRequest(fid,btn){btn.disabled=true;btn.textContent='⏳';const{error}=await sb.from('friends').insert({user_id:currentUser.id,friend_id:fid,status:'pending'});if(error){showToast('❌ Error al enviar','error');btn.disabled=false;btn.textContent='➕ Agregar';}else{btn.textContent='⏳ Enviada';btn.className='add-btn sent';showToast('✅ ¡Solicitud enviada!','success');}}
 async function checkPendingRequests(){try{const{data}=await sb.from('friends').select('id').eq('friend_id',currentUser.id).eq('status','pending');const b=document.getElementById('friendsBadge');if(data?.length>0){b.textContent=data.length;b.classList.add('show');}else b.classList.remove('show');}catch(e){}}
 async function loadRequests(){try{const{data}=await sb.from('friends').select('id,user_id').eq('friend_id',currentUser.id).eq('status','pending');const wrap=document.getElementById('requestsWrap');if(!data?.length){wrap.style.display='none';return;}wrap.style.display='block';const ids=data.map(r=>r.user_id);const{data:profiles}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color').in('id',ids);const pm={};(profiles||[]).forEach(p=>pm[p.id]=p);document.getElementById('requestsList').innerHTML=data.map(r=>{const p=pm[r.user_id]||{display_name:'Usuario',username:'unknown'};const bg=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)';return`<div class="req-item" id="req-${r.id}"><div class="rank-avatar" style="background:${bg};">${p.avatar_emoji||p.display_name[0].toUpperCase()}</div><div class="result-info"><div class="result-name">${p.display_name||p.username}</div><div class="result-user">@${p.username}</div></div><div class="req-actions"><button class="req-accept" onclick="acceptRequest('${r.id}','${r.user_id}')">✅</button><button class="req-reject" onclick="rejectRequest('${r.id}')">✕</button></div></div>`;}).join('');}catch(e){}}
-async function acceptRequest(reqId,fromId){await sb.from('friends').update({status:'accepted'}).eq('id',reqId);await sb.from('friends').upsert({user_id:currentUser.id,friend_id:fromId,status:'accepted'});document.getElementById('req-'+reqId)?.remove();showToast('🎉 ¡Ahora son amigos!','success');addNotif('🤝','Nueva amistad aceptada','friend');checkPendingRequests();loadFriendsList();}
+async function acceptRequest(reqId,fromId){await sb.from('friends').update({status:'accepted'}).eq('id',reqId);await sb.from('friends').upsert({user_id:currentUser.id,friend_id:fromId,status:'accepted'});document.getElementById('req-'+reqId)?.remove();showToast('🎉 ¡Ahora son amigos!','success');addNotif('🤝','Nueva amistad aceptada');checkPendingRequests();loadFriendsList();}
 async function rejectRequest(reqId){await sb.from('friends').delete().eq('id',reqId);document.getElementById('req-'+reqId)?.remove();showToast('Solicitud rechazada');checkPendingRequests();}
 async function loadFriendsList(){try{const{data:rows}=await sb.from('friends').select('friend_id').eq('user_id',currentUser.id).eq('status','accepted');const list=document.getElementById('friendsList');if(!rows?.length){list.innerHTML='<div class="empty-state"><span class="e-icon">🤝</span>Aún no tienes amigos.<br>¡Busca a alguien y agrégalo!</div>';['statAmigos','pStatAmigos'].forEach(id=>document.getElementById(id).textContent='0');document.getElementById('friendCountLabel').textContent='';return 0;}const ids=rows.map(f=>f.friend_id);const{data:profiles}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color').in('id',ids);const cnt=profiles?.length||0;['statAmigos','pStatAmigos'].forEach(id=>document.getElementById(id).textContent=cnt);document.getElementById('friendCountLabel').textContent=`(${cnt})`;list.innerHTML=(profiles||[]).map(p=>{const bg=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)',av=p.avatar_emoji||(p.display_name||p.username)[0].toUpperCase();return`<div class="friend-item" onclick="showFriendProfile('${p.id}')"><div class="rank-avatar" style="background:${bg};">${av}</div><div class="online-dot"></div><div class="friend-info"><div class="friend-name">${p.display_name||p.username}</div><div class="friend-sub">@${p.username}</div></div><button class="challenge-btn" onclick="event.stopPropagation();retarAmigo('${p.id}','${(p.display_name||p.username).replace(/'/g,"\\'")}')">⚔️ Retar</button></div>`;}).join('');return cnt;}catch(e){return 0;}}
 
@@ -850,9 +972,24 @@ document.getElementById('fpChallengeBtn').addEventListener('click',()=>{
 async function loadFriendsSection(){await loadRequests();await loadFriendsList();}
 
 // PERFIL
-async function loadProfileSection(){if(!currentProfile||!currentUser)return;const name=currentProfile.display_name||currentUser.email.split('@')[0];setAvatar(document.getElementById('profileAvatarBig'),currentProfile,currentUser);setAvatar(document.getElementById('settingsAvatar'),currentProfile,currentUser);document.getElementById('profileDisplayName').textContent=name;document.getElementById('profileUsername').textContent='@'+(currentProfile.username||'—');document.getElementById('profileEmail').textContent=currentUser.email||'—';document.getElementById('shareUsername').textContent='@'+(currentProfile.username||'—');document.getElementById('editDisplayName').value=name;document.getElementById('editUsername').value=currentProfile.username||'';document.getElementById('editEmail').value=currentUser.email||'';try{const{data:sc}=await sb.from('scores').select('score,won').eq('user_id',currentUser.id);const partidas=sc?.length||0,victorias=sc?.filter(r=>r.won).length||0,puntos=sc?.reduce((a,r)=>a+(r.score||0),0)||0,xp=victorias*20+partidas*5;let streak=0;for(const r of(sc||[])){if(r.won)streak++;else break;}document.getElementById('pStatPartidas').textContent=partidas;document.getElementById('pStatVictorias').textContent=victorias;document.getElementById('pStatRacha').textContent=streak;const league=getLeague(xp);document.getElementById('profileLeagueIcon').textContent=league.icon;document.getElementById('profileLeagueName').textContent='Liga '+league.name;const{data:frR}=await sb.from('friends').select('id').eq('user_id',currentUser.id).eq('status','accepted');const fc=frR?.length||0;document.getElementById('pStatAmigos').textContent=fc;const earned=computeAchievements({partidas,victorias,puntos,xp,streak},fc);renderLogros(earned,document.getElementById('logrosGrid'),false);}catch(e){}}
+async function loadProfileSection(){if(!currentProfile||!currentUser)return;const name=currentProfile.display_name||currentUser.email.split('@')[0];setAvatar(document.getElementById('profileAvatarBig'),currentProfile,currentUser);setAvatar(document.getElementById('settingsAvatar'),currentProfile,currentUser);
+  // Si hay foto subida, mostrarla
+  if(currentProfile.avatar_url){['profileAvatarBig','userAvatar','settingsAvatar'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.style.background='';el.innerHTML=`<img src="${currentProfile.avatar_url}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`;});}
+  document.getElementById('profileDisplayName').textContent=name;
+  document.getElementById('profileUsername').textContent='@'+(currentProfile.username||'—');
+  document.getElementById('profileEmail').textContent=currentUser.email||'—';
+  document.getElementById('shareUsername').textContent='@'+(currentProfile.username||'—');
+  const statusBadge=document.getElementById('profileStatusBadge');
+  if(statusBadge)statusBadge.textContent=currentProfile.status_text||'💤 Sin estado';
+  document.getElementById('editDisplayName').value=name;
+  document.getElementById('editUsername').value=currentProfile.username||'';
+  document.getElementById('editEmail').value=currentUser.email||'';
+  const statusSel=document.getElementById('editStatus');
+  if(statusSel)statusSel.value=currentProfile.status_text||'';
+  updateInviteLink();
+  try{const{data:sc}=await sb.from('scores').select('score,won,game,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false});const partidas=sc?.length||0,victorias=sc?.filter(r=>r.won).length||0,puntos=sc?.reduce((a,r)=>a+(r.score||0),0)||0,xp=victorias*20+partidas*5;let streak=0;for(const r of(sc||[])){if(r.won)streak++;else break;}document.getElementById('pStatPartidas').textContent=partidas;document.getElementById('pStatVictorias').textContent=victorias;document.getElementById('pStatRacha').textContent=streak;const league=getLeague(xp);document.getElementById('profileLeagueIcon').textContent=league.icon;document.getElementById('profileLeagueName').textContent='Liga '+league.name;updatePlayerLevel(xp);renderExtStats(sc);renderActivityCalendar(sc);const{data:frR}=await sb.from('friends').select('id').eq('user_id',currentUser.id).eq('status','accepted');const fc=frR?.length||0;document.getElementById('pStatAmigos').textContent=fc;const earned=computeAchievements({partidas,victorias,puntos,xp,streak},fc);checkNewAchievements(earned);renderLogros(earned,document.getElementById('logrosGrid'),false);}catch(e){}}
 
-document.getElementById('saveProfileBtn').addEventListener('click',async()=>{const dn=document.getElementById('editDisplayName').value.trim(),un=document.getElementById('editUsername').value.trim().toLowerCase(),btn=document.getElementById('saveProfileBtn');if(!dn||!un){showToast('❌ Completa todos los campos','error');return;}if(!/^[a-z0-9_]{3,20}$/.test(un)){showToast('❌ Usuario inválido (3-20 chars, a-z/0-9/_)','error');return;}btn.textContent='⏳ Guardando…';btn.classList.add('loading');const{error}=await sb.from('profiles').update({display_name:dn,username:un}).eq('id',currentUser.id);btn.classList.remove('loading');btn.textContent='Guardar cambios';if(error){showToast('❌ '+(error.message.includes('unique')?'Ese @usuario ya está en uso':error.message),'error');}else{currentProfile.display_name=dn;currentProfile.username=un;populateUI();loadProfileSection();showToast('✅ Perfil actualizado','success');}});
+document.getElementById('saveProfileBtn').addEventListener('click',async()=>{const dn=document.getElementById('editDisplayName').value.trim(),un=document.getElementById('editUsername').value.trim().toLowerCase(),status=document.getElementById('editStatus')?.value||'',btn=document.getElementById('saveProfileBtn');if(!dn||!un){showToast('❌ Completa todos los campos','error');return;}if(!/^[a-z0-9_]{3,20}$/.test(un)){showToast('❌ Usuario inválido (3-20 chars, a-z/0-9/_)','error');return;}btn.textContent='⏳ Guardando…';btn.classList.add('loading');const{error}=await sb.from('profiles').update({display_name:dn,username:un,status_text:status}).eq('id',currentUser.id);btn.classList.remove('loading');btn.textContent='Guardar cambios';if(error){showToast('❌ '+(error.message.includes('unique')?'Ese @usuario ya está en uso':error.message),'error');}else{currentProfile.display_name=dn;currentProfile.username=un;currentProfile.status_text=status;populateUI();loadProfileSection();showToast('✅ Perfil actualizado','success');}});
 
 function copyUsername(){const u=currentProfile?.username||'';if(!u)return;navigator.clipboard.writeText('@'+u).then(()=>showToast('📋 Copiado: @'+u,'success'));}
 
@@ -891,7 +1028,7 @@ async function retarAmigo(friendId, friendName){
     }
 
     showToast(`⚔️ ¡Reto enviado a ${friendName}!`);
-    addNotif('⚔️',`Retaste a ${friendName} a jugar Ajedrez`,'challenge');
+    addNotif('⚔️',`Retaste a ${friendName} a jugar Ajedrez`);
 
     // Mostrar modal con código para que el retador también pueda entrar
     const go=confirm(`✅ Reto enviado a ${friendName}!\n\nTu código de sala: ${roomCode}\n\n¿Ir al juego ahora?`);
@@ -905,7 +1042,7 @@ async function handleIncomingChallenge(ch){
   seenChallengeIds.add(ch.id);
   const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',ch.from_user).single();
   const name=p?.display_name||p?.username||'Alguien';
-  addNotif('⚔️',`${name} te retó a jugar Ajedrez - Código: ${ch.id}`,'challenge');
+  addNotif('⚔️',`${name} te retó a jugar Ajedrez - Código: ${ch.id}`);
   const accept=confirm(`⚔️ ¡${name} te retó a Ajedrez!\n\nCódigo de sala: ${ch.id}\n\n¿Aceptar y jugar ahora?`);
   if(accept){
     await sb.from('challenges').update({status:'accepted'}).eq('id',ch.id);
@@ -944,230 +1081,23 @@ function setupChallengeListener(){
   challengePollInterval=setInterval(checkPendingChallenges,5000);
 }
 
-function setupRealtime(){realtimeChannel=sb.channel('friends-'+currentUser.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'friends',filter:`friend_id=eq.${currentUser.id}`},async payload=>{const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',payload.new.user_id).single();const name=p?.display_name||p?.username||'Alguien';addNotif('🤝',`${name} te envió una solicitud de amistad`,'friend');checkPendingRequests();if(currentTab==='friends')loadRequests();}).subscribe();}
+function setupRealtime(){realtimeChannel=sb.channel('friends-'+currentUser.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'friends',filter:`friend_id=eq.${currentUser.id}`},async payload=>{const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',payload.new.user_id).single();const name=p?.display_name||p?.username||'Alguien';addNotif('🤝',`${name} te envió una solicitud de amistad`);checkPendingRequests();if(currentTab==='friends')loadRequests();}).subscribe();}
 
 // USERNAME MODAL
 async function showUsernameModal(){openModal('usernameModal');const input=document.getElementById('usernameInput'),hint=document.getElementById('usernameHint'),btn=document.getElementById('usernameBtn');const suggested=(currentUser.user_metadata?.full_name||currentUser.email||'').split(' ')[0].toLowerCase().replace(/[^a-z0-9_]/g,'');if(suggested)input.value=suggested;let ct;input.addEventListener('input',()=>{const val=input.value.trim();input.className='username-input';btn.disabled=true;clearTimeout(ct);if(!val){hint.textContent='Solo letras minúsculas, números y _';hint.className='username-hint';return;}if(!/^[a-z0-9_]{3,20}$/.test(val)){hint.textContent=val.length<3?'Mínimo 3 caracteres':'Solo a-z, 0-9 y _';hint.className='username-hint taken';input.className='username-input taken';return;}hint.textContent='Verificando…';hint.className='username-hint checking';ct=setTimeout(async()=>{const{data}=await sb.from('profiles').select('id').eq('username',val).single();if(data){hint.textContent='❌ @'+val+' ya está en uso';hint.className='username-hint taken';input.className='username-input taken';}else{hint.textContent='✅ @'+val+' está disponible';hint.className='username-hint ok';input.className='username-input ok';btn.disabled=false;}},600);});if(input.value)input.dispatchEvent(new Event('input'));btn.onclick=async()=>{const username=input.value.trim().toLowerCase();btn.textContent='⏳ Guardando…';btn.classList.add('loading');btn.disabled=true;const displayName=currentUser.user_metadata?.full_name||currentUser.user_metadata?.name||username;const{error}=await sb.from('profiles').upsert({id:currentUser.id,username,display_name:displayName,avatar_color:'#ff6b35'});btn.classList.remove('loading');if(error){showToast('❌ '+error.message,'error');btn.textContent='Guardar y continuar →';btn.disabled=false;}else{closeModal('usernameModal');currentProfile={id:currentUser.id,username,display_name:displayName};populateUI();showToast('🎉 ¡Bienvenido, @'+username+'!','success');}};}
-
-// ══════════════════════════════════════════
-// SONIDOS — Web Audio API
-// ══════════════════════════════════════════
-let audioCtx=null;
-function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
-function playTone(freq,type,dur,vol=0.12){
-  if(!getSetting('sfx'))return;
-  try{const ctx=getAudioCtx();const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(vol,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);o.start(ctx.currentTime);o.stop(ctx.currentTime+dur);}catch(e){}}
-function playClick(){playTone(780,'sine',0.055,0.07);}
-function playWin(){
-  if(!getSetting('sfx')||!getSetting('winSound'))return;
-  try{const ctx=getAudioCtx();[523,659,784,1047].forEach((f,i)=>{const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;const t=ctx.currentTime+i*0.12;g.gain.setValueAtTime(0.16,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.25);o.start(t);o.stop(t+0.26);});}catch(e){}}
-function playNotifSound(){
-  if(!getSetting('sfx')||!getSetting('notifSound'))return;
-  try{const ctx=getAudioCtx();[880,1100].forEach((f,i)=>{const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;const t=ctx.currentTime+i*0.1;g.gain.setValueAtTime(0.10,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.14);o.start(t);o.stop(t+0.15);});}catch(e){}}
-
-// ══════════════════════════════════════════
-// SETTINGS — localStorage
-// ══════════════════════════════════════════
-const SETTING_DEFAULTS={sfx:true,winSound:true,notifSound:true,notifFriends:true,notifChallenges:true,notifAchievements:true,hideRanking:false,hideSearch:false};
-function getSetting(k){const v=localStorage.getItem('gz_'+k);if(v===null)return SETTING_DEFAULTS[k];return v==='1'||v==='true';}
-function setSetting(k,v){localStorage.setItem('gz_'+k,v?'1':'0');}
-function loadSettingsUI(){
-  ['sfx','winSound','notifSound','notifFriends','notifChallenges','notifAchievements'].forEach(k=>{
-    const el=document.getElementById(k+'Toggle');if(el)el.checked=getSetting(k);
-  });
-  const hr=document.getElementById('hideRankingToggle');if(hr)hr.checked=getSetting('hideRanking');
-  const hs=document.getElementById('hideSearchToggle');if(hs)hs.checked=getSetting('hideSearch');
-  updatePrivacyTag();
-  const lang=localStorage.getItem('gz_lang')||'es';
-  document.getElementById('langEs')?.classList.toggle('active',lang==='es');
-  document.getElementById('langEn')?.classList.toggle('active',lang==='en');
-}
-function bindSettingToggle(id,key){
-  const el=document.getElementById(id);if(!el)return;
-  el.addEventListener('change',()=>{setSetting(key,el.checked);playClick();if(key==='hideRanking'||key==='hideSearch')updatePrivacyTag();});
-}
-function bindAllToggles(){
-  ['sfx','winSound','notifSound','notifFriends','notifChallenges','notifAchievements'].forEach(k=>bindSettingToggle(k+'Toggle',k));
-  bindSettingToggle('hideRankingToggle','hideRanking');
-  bindSettingToggle('hideSearchToggle','hideSearch');
-}
-function updatePrivacyTag(){
-  const tag=document.getElementById('privacyTag');if(!tag)return;
-  const isPriv=getSetting('hideRanking')||getSetting('hideSearch');
-  tag.className='privacy-tag '+(isPriv?'private':'public');
-  tag.textContent=isPriv?'🔒 Privado':'🌍 Público';
-}
-
-// ══════════════════════════════════════════
-// IDIOMA
-// ══════════════════════════════════════════
-const I18N={
-  es:{won:'Victoria',lost:'Derrota',noHistory:'Sin partidas aún',
-      resetConfirmTitle:'¿Resetear estadísticas?',
-      resetConfirmDesc:'Se borrarán todas tus partidas y puntos. Tu cuenta y amigos quedan intactos. Esta acción NO se puede deshacer.',
-      resetConfirmBtn:'Sí, resetear todo',resetOk:'✅ Estadísticas reseteadas',
-      unlinkConfirmTitle:'¿Desvincular Google?',
-      unlinkConfirmDesc:'Si desvincula Google y no tienes contraseña configurada, podrías perder acceso a tu cuenta.',
-      unlinkConfirmBtn:'Desvincular',privacySaved:'✅ Privacidad guardada',
-      linkedLabel:'Google vinculado',notLinkedLabel:'Google no vinculado',
-      linkedBadge:'Vinculado',notLinkedBadge:'No vinculado',
-      unlinkBtn:'🔓 Desvincular Google',linkBtn:'🔗 Vincular Google',
-  },
-  en:{won:'Win',lost:'Loss',noHistory:'No matches yet',
-      resetConfirmTitle:'Reset statistics?',
-      resetConfirmDesc:'All your matches and points will be deleted. Your account and friends stay intact. This action CANNOT be undone.',
-      resetConfirmBtn:'Yes, reset everything',resetOk:'✅ Statistics reset',
-      unlinkConfirmTitle:'Unlink Google?',
-      unlinkConfirmDesc:"If you unlink Google and don't have a password set, you could lose access to your account.",
-      unlinkConfirmBtn:'Unlink',privacySaved:'✅ Privacy saved',
-      linkedLabel:'Google linked',notLinkedLabel:'Google not linked',
-      linkedBadge:'Linked',notLinkedBadge:'Not linked',
-      unlinkBtn:'🔓 Unlink Google',linkBtn:'🔗 Link Google',
-  }
-};
-let currentLang=localStorage.getItem('gz_lang')||'es';
-function t(k){return I18N[currentLang]?.[k]||I18N.es[k]||k;}
-function setLanguage(lang){
-  currentLang=lang;localStorage.setItem('gz_lang',lang);
-  document.getElementById('langEs')?.classList.toggle('active',lang==='es');
-  document.getElementById('langEn')?.classList.toggle('active',lang==='en');
-  showToast(lang==='es'?'🇵🇪 Español activado':'🇺🇸 English enabled','success');
-  loadGoogleStatus();
-}
-
-// ══════════════════════════════════════════
-// CONFIRM MODAL
-// ══════════════════════════════════════════
-function showConfirm({emoji,title,desc,confirmLabel,onConfirm}){
-  document.getElementById('confirmEmoji').textContent=emoji;
-  document.getElementById('confirmTitle').textContent=title;
-  document.getElementById('confirmDesc').textContent=desc;
-  const btn=document.getElementById('confirmOkBtn');
-  btn.textContent=confirmLabel;
-  btn.onclick=()=>{closeModal('confirmModal');onConfirm();};
-  openModal('confirmModal');
-}
-
-// ══════════════════════════════════════════
-// HISTORIAL DE PARTIDAS
-// ══════════════════════════════════════════
-let histData=[],histFilter='all',histPage=1;
-const HIST_PER_PAGE=7;
-const GAME_ICONS={chess:'♟️',checkers:'🔴',solitaire:'🃏',memory:'🧠'};
-const GAME_BG={chess:'rgba(124,92,191,0.15)',checkers:'rgba(255,107,53,0.15)',solitaire:'rgba(6,214,160,0.15)',memory:'rgba(255,209,102,0.15)'};
-const GAME_NAMES={chess:'Ajedrez',checkers:'Damas',solitaire:'Solitario',memory:'Memoria'};
-async function loadHistorial(){
-  if(!currentUser)return;
-  try{
-    const{data}=await sb.from('scores').select('score,won,game,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false});
-    histData=data||[];renderHistorial();
-  }catch(e){}
-}
-function setHistFilter(f){
-  histFilter=f;histPage=1;
-  document.querySelectorAll('.hist-chip').forEach(c=>c.classList.toggle('active',c.dataset.game===f));
-  renderHistorial();
-}
-function changeHistPage(dir){histPage+=dir;renderHistorial();}
-function renderHistorial(){
-  const filtered=histFilter==='all'?histData:histData.filter(r=>r.game===histFilter);
-  const total=Math.max(1,Math.ceil(filtered.length/HIST_PER_PAGE));
-  histPage=Math.max(1,Math.min(histPage,total));
-  const slice=filtered.slice((histPage-1)*HIST_PER_PAGE,histPage*HIST_PER_PAGE);
-  const list=document.getElementById('histList');
-  if(!list)return;
-  if(!slice.length){
-    list.innerHTML=`<div class="empty-state" style="padding:14px;"><span class="e-icon" style="font-size:22px;margin-bottom:5px;">🎮</span>${t('noHistory')}</div>`;
-    document.getElementById('histPagination').style.display='none';return;
-  }
-  list.innerHTML=slice.map(r=>{
-    const d=new Date(r.created_at);
-    const dateStr=d.toLocaleDateString(currentLang==='en'?'en-US':'es-PE',{day:'2-digit',month:'short'});
-    const timeStr=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    return`<div class="hist-item">
-      <div class="hist-game-icon" style="background:${GAME_BG[r.game]||'rgba(255,255,255,0.05)'};">${GAME_ICONS[r.game]||'🎮'}</div>
-      <div class="hist-info">
-        <div class="hist-game-name">${GAME_NAMES[r.game]||r.game}</div>
-        <div class="hist-date">${dateStr} · ${timeStr}</div>
-      </div>
-      <div class="hist-result">
-        <div class="${r.won?'hist-won':'hist-lost'}">${r.won?t('won'):t('lost')}</div>
-        <div class="hist-score">${r.score} pts</div>
-      </div>
-    </div>`;
-  }).join('');
-  const pag=document.getElementById('histPagination');
-  pag.style.display=total>1?'flex':'none';
-  document.getElementById('histPageInfo').textContent=`${histPage} / ${total}`;
-  document.getElementById('histPrev').disabled=histPage<=1;
-  document.getElementById('histNext').disabled=histPage>=total;
-}
-
-// ══════════════════════════════════════════
-// PRIVACIDAD
-// ══════════════════════════════════════════
-document.getElementById('savePrivacyBtn').addEventListener('click',async()=>{
-  const hideR=document.getElementById('hideRankingToggle').checked;
-  const hideS=document.getElementById('hideSearchToggle').checked;
-  setSetting('hideRanking',hideR);setSetting('hideSearch',hideS);
-  await sb.from('profiles').update({is_private:hideS,hide_ranking:hideR}).eq('id',currentUser.id);
-  updatePrivacyTag();showToast(t('privacySaved'),'success');
-});
-
-// ══════════════════════════════════════════
-// GOOGLE VINCULAR / DESVINCULAR
-// ══════════════════════════════════════════
-async function loadGoogleStatus(){
-  if(!currentUser)return;
-  const isGoogle=currentUser.app_metadata?.providers?.includes('google')||currentUser.app_metadata?.provider==='google';
-  document.getElementById('googleLabel').textContent=isGoogle?t('linkedLabel'):t('notLinkedLabel');
-  document.getElementById('googleSub').textContent=currentUser.email||'—';
-  const badge=document.getElementById('googleBadge');
-  badge.className='google-badge '+(isGoogle?'linked':'unlinked');
-  badge.textContent=isGoogle?t('linkedBadge'):t('notLinkedBadge');
-  const btn=document.getElementById('googleActionBtn');
-  btn.textContent=isGoogle?t('unlinkBtn'):t('linkBtn');
-  btn.className=isGoogle?'danger-btn':'save-btn';
-  btn.style.marginTop='4px';
-}
-function handleGoogleAction(){
-  const isGoogle=currentUser.app_metadata?.providers?.includes('google')||currentUser.app_metadata?.provider==='google';
-  if(isGoogle){
-    showConfirm({emoji:'🔓',title:t('unlinkConfirmTitle'),desc:t('unlinkConfirmDesc'),confirmLabel:t('unlinkConfirmBtn'),onConfirm:async()=>{
-      try{const{error}=await sb.auth.unlinkIdentity({provider:'google'});
-        if(error)showToast('❌ '+error.message,'error');
-        else{showToast('✅ Google desvinculado','success');loadGoogleStatus();}
-      }catch(e){showToast('❌ No se pudo desvincular','error');}
-    }});
-  }else{
-    sb.auth.linkWithOAuth({provider:'google',options:{redirectTo:window.location.href}}).then(({error})=>{if(error)showToast('❌ '+error.message,'error');});
-  }
-}
-
-// ══════════════════════════════════════════
-// RESETEAR ESTADÍSTICAS
-// ══════════════════════════════════════════
-document.getElementById('resetStatsBtn').addEventListener('click',()=>{
-  showConfirm({emoji:'⚠️',title:t('resetConfirmTitle'),desc:t('resetConfirmDesc'),confirmLabel:t('resetConfirmBtn'),onConfirm:async()=>{
-    const{error}=await sb.from('scores').delete().eq('user_id',currentUser.id);
-    if(error)showToast('❌ Error al resetear','error');
-    else{showToast(t('resetOk'),'success');await loadStats();await loadRanking();loadHistorial();}
-  }});
-});
 
 // LOGOUT
 async function doLogout(){if(realtimeChannel)sb.removeChannel(realtimeChannel);if(challengeChannel)sb.removeChannel(challengeChannel);clearInterval(challengePollInterval);showToast('👋 Hasta pronto…');await sb.auth.signOut();setTimeout(()=>window.location.href='index.html',800);}
 document.getElementById('logoutBtn2').addEventListener('click',doLogout);
 
 // INIT
-async function init(){const saved=localStorage.getItem('gz_theme');if(saved==='light')applyTheme(true);currentLang=localStorage.getItem('gz_lang')||'es';const{data:{session}}=await sb.auth.getSession();const loading=document.getElementById('loadingScreen');loading.style.opacity='0';setTimeout(()=>loading.style.display='none',400);if(!session){window.location.href='index.html';return;}currentUser=session.user;if(window.location.hash)history.replaceState(null,'',window.location.pathname);document.getElementById('mainPage').style.display='block';const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();if(!profile||!profile.username){await showUsernameModal();}else{currentProfile=profile;populateUI();}
-  // Aplicar privacidad guardada en Supabase si existe
-  if(profile?.hide_ranking!==undefined)setSetting('hideRanking',profile.hide_ranking);
-  if(profile?.is_private!==undefined)setSetting('hideSearch',profile.is_private);
-  loadSettingsUI();bindAllToggles();
-  const stats=await loadStats();await loadRanking();await checkPendingRequests();setupRealtime();setupChallengeListener();
+async function init(){const saved=localStorage.getItem('gz_theme');if(saved==='light')applyTheme(true);const{data:{session}}=await sb.auth.getSession();const loading=document.getElementById('loadingScreen');loading.style.opacity='0';setTimeout(()=>loading.style.display='none',400);if(!session){window.location.href='index.html';return;}currentUser=session.user;if(window.location.hash)history.replaceState(null,'',window.location.pathname);document.getElementById('mainPage').style.display='block';const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();if(!profile||!profile.username){await showUsernameModal();}else{currentProfile=profile;populateUI();}
+  const stats=await loadStats();await loadRanking('all');await checkPendingRequests();setupRealtime();setupChallengeListener();
   const friendCount=await loadFriendsList();
-  const earned=computeAchievements(stats||{},friendCount||0);renderLogros(earned,document.getElementById('logrosHome'),true);sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_IN'&&s)history.replaceState(null,'',window.location.pathname);});}
+  const earned=computeAchievements(stats||{},friendCount||0);
+  lastEarnedIds=new Set(earned); // Registrar sin mostrar popup al inicio
+  renderLogros(earned,document.getElementById('logrosHome'),true);
+  sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_IN'&&s)history.replaceState(null,'',window.location.pathname);});}
 init();
 </script>
 </body>
