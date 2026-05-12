@@ -292,6 +292,54 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 .toast.success{border-color:rgba(6,214,160,0.38);color:var(--success);}
 .toast.error{border-color:rgba(239,35,60,0.38);color:var(--error);}
+
+/* ── NUEVOS ESTILOS DE AJUSTES ── */
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.setting-row:last-child{border-bottom:none;padding-bottom:0;}
+.setting-info{flex:1;min-width:0;padding-right:12px;}
+.setting-label{font-size:13px;font-weight:600;margin-bottom:2px;}
+.setting-desc{font-size:10px;color:var(--text-dim);line-height:1.4;}
+.lang-selector{display:flex;gap:6px;margin-top:10px;}
+.lang-opt{flex:1;padding:8px 6px;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:10px;font-family:'Fredoka One',cursive;font-size:12px;cursor:pointer;text-align:center;transition:all .2s;color:var(--text-dim);}
+[data-theme="light"] .lang-opt{background:rgba(0,0,0,0.04);}
+.lang-opt.active{border-color:var(--orange);color:var(--orange);background:rgba(255,107,53,0.08);}
+.lang-opt:hover:not(.active){border-color:rgba(255,107,53,0.3);color:var(--text);}
+.hist-filter{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.hist-chip{font-family:'Fredoka One',cursive;font-size:10px;padding:5px 11px;border:1px solid var(--border);border-radius:50px;cursor:pointer;color:var(--text-dim);transition:all .2s;background:none;}
+.hist-chip.active{border-color:var(--orange);color:var(--orange);background:rgba(255,107,53,0.08);}
+.hist-item{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);}
+.hist-item:last-child{border-bottom:none;}
+.hist-game-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.hist-info{flex:1;min-width:0;}
+.hist-game-name{font-size:12px;font-weight:600;}
+.hist-date{font-size:9px;color:var(--text-dim);margin-top:1px;}
+.hist-result{text-align:right;flex-shrink:0;}
+.hist-won{font-family:'Fredoka One',cursive;font-size:11px;color:var(--success);}
+.hist-lost{font-family:'Fredoka One',cursive;font-size:11px;color:var(--error);}
+.hist-score{font-size:11px;color:var(--orange);font-weight:600;}
+.hist-pagination{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:12px;}
+.hist-page-btn{font-family:'Fredoka One',cursive;font-size:11px;padding:5px 12px;border:1px solid var(--border);border-radius:50px;cursor:pointer;background:none;color:var(--text-dim);transition:all .2s;}
+.hist-page-btn:hover:not(:disabled){border-color:var(--orange);color:var(--orange);}
+.hist-page-btn:disabled{opacity:0.3;cursor:not-allowed;}
+.hist-page-info{font-size:11px;color:var(--text-dim);}
+.privacy-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:3px 8px;border-radius:50px;font-weight:600;margin-left:6px;}
+.privacy-tag.public{background:rgba(6,214,160,0.12);color:var(--success);border:1px solid rgba(6,214,160,0.3);}
+.privacy-tag.private{background:rgba(239,35,60,0.1);color:var(--error);border:1px solid rgba(239,35,60,0.25);}
+.google-status{display:flex;align-items:center;gap:10px;padding:10px 0;}
+.google-icon{width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#4285F4;flex-shrink:0;border:1px solid rgba(0,0,0,0.1);}
+.google-info{flex:1;min-width:0;}
+.google-label{font-size:12px;font-weight:600;}
+.google-sub{font-size:10px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.google-badge{font-size:10px;padding:3px 9px;border-radius:50px;font-family:'Fredoka One',cursive;flex-shrink:0;}
+.google-badge.linked{background:rgba(6,214,160,0.12);color:var(--success);border:1px solid rgba(6,214,160,0.3);}
+.google-badge.unlinked{background:rgba(255,107,53,0.1);color:var(--orange);border:1px solid rgba(255,107,53,0.3);}
+.confirm-actions{display:flex;gap:8px;margin-top:4px;}
+.confirm-cancel{flex:1;padding:10px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;font-family:'Fredoka One',cursive;font-size:13px;color:var(--text-dim);cursor:pointer;transition:background .2s;}
+.confirm-cancel:hover{background:rgba(255,255,255,0.09);}
+.confirm-danger{flex:1;padding:10px;background:rgba(239,35,60,0.15);border:1px solid rgba(239,35,60,0.35);border-radius:10px;font-family:'Fredoka One',cursive;font-size:13px;color:var(--error);cursor:pointer;transition:background .2s;}
+.confirm-danger:hover{background:rgba(239,35,60,0.25);}
+.warn-btn{width:100%;padding:10px;background:rgba(255,209,102,0.08);border:1px solid rgba(255,209,102,0.25);border-radius:10px;font-family:'Fredoka One',cursive;font-size:13px;color:var(--yellow);cursor:pointer;transition:background .2s;margin-bottom:8px;}
+.warn-btn:hover{background:rgba(255,209,102,0.15);}
 </style>
 </head>
 <body>
@@ -358,6 +406,19 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
     <div class="avatar-picker" id="avatarPicker"></div>
     <button class="save-btn" id="saveAvatarBtn">Guardar avatar</button>
     <div style="margin-top:9px;"><span style="font-size:11px;color:var(--text-dim);cursor:pointer;" onclick="closeModal('avatarModal')">Cancelar</span></div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <span class="modal-emoji" id="confirmEmoji">⚠️</span>
+    <div class="modal-title" id="confirmTitle">¿Estás seguro?</div>
+    <p class="modal-sub" id="confirmDesc">Esta acción no se puede deshacer.</p>
+    <div class="confirm-actions">
+      <button class="confirm-cancel" onclick="closeModal('confirmModal')">Cancelar</button>
+      <button class="confirm-danger" id="confirmOkBtn">Confirmar</button>
+    </div>
   </div>
 </div>
 
@@ -519,11 +580,8 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
   <!-- AJUSTES -->
   <div class="section" id="sec-settings">
     <div class="profile-wrap">
-      <div class="profile-section-card">
-        <div class="profile-section-title">⚙️ Ajustes</div>
-        <p style="font-size:12px;color:var(--text-dim);line-height:1.5;">Administra tu cuenta, apariencia y datos de jugador.</p>
-      </div>
 
+      <!-- Avatar -->
       <div class="profile-section-card">
         <div class="profile-section-title">🎨 Avatar</div>
         <div style="display:flex;align-items:center;gap:14px;">
@@ -536,6 +594,7 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
         </div>
       </div>
 
+      <!-- Editar datos -->
       <div class="profile-section-card">
         <div class="profile-section-title">✏️ Editar datos</div>
         <div class="profile-field"><label>Nombre para mostrar</label><input class="profile-input" id="editDisplayName" placeholder="Tu nombre"/></div>
@@ -544,6 +603,120 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
         <button class="save-btn" id="saveProfileBtn">Guardar cambios</button>
       </div>
 
+      <!-- SONIDOS -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">🔊 Sonidos</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Efectos de sonido</div>
+            <div class="setting-desc">Clics, victorias y notificaciones con audio</div>
+          </div>
+          <label class="theme-toggle"><input type="checkbox" id="sfxToggle"/><span class="theme-slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Sonido de victoria</div>
+            <div class="setting-desc">Fanfarria al ganar una partida</div>
+          </div>
+          <label class="theme-toggle"><input type="checkbox" id="winSoundToggle"/><span class="theme-slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Sonido de notificación</div>
+            <div class="setting-desc">Pitido al recibir retos o solicitudes</div>
+          </div>
+          <label class="theme-toggle"><input type="checkbox" id="notifSoundToggle"/><span class="theme-slider"></span></label>
+        </div>
+      </div>
+
+      <!-- NOTIFICACIONES -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">🔔 Preferencias de notificaciones</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Solicitudes de amistad</div>
+            <div class="setting-desc">Avisar cuando alguien te agrega</div>
+          </div>
+          <label class="theme-toggle"><input type="checkbox" id="notifFriendsToggle"/><span class="theme-slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Retos entrantes</div>
+            <div class="setting-desc">Avisar cuando un amigo te reta</div>
+          </div>
+          <label class="theme-toggle"><input type="checkbox" id="notifChallengesToggle"/><span class="theme-slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Logros desbloqueados</div>
+            <div class="setting-desc">Avisar cuando consigues un nuevo logro</div>
+          </div>
+          <label class="theme-toggle"><input type="checkbox" id="notifAchievementsToggle"/><span class="theme-slider"></span></label>
+        </div>
+      </div>
+
+      <!-- IDIOMA -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">🌐 Idioma de la interfaz</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:2px;">Cambia el idioma de todos los textos de la app</div>
+        <div class="lang-selector">
+          <button class="lang-opt active" id="langEs" onclick="setLanguage('es')">🇵🇪 Español</button>
+          <button class="lang-opt" id="langEn" onclick="setLanguage('en')">🇺🇸 English</button>
+        </div>
+      </div>
+
+      <!-- HISTORIAL -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">📋 Historial de partidas</div>
+        <div class="hist-filter">
+          <button class="hist-chip active" data-game="all" onclick="setHistFilter('all')">Todas</button>
+          <button class="hist-chip" data-game="chess" onclick="setHistFilter('chess')">♟️ Ajedrez</button>
+          <button class="hist-chip" data-game="checkers" onclick="setHistFilter('checkers')">🔴 Damas</button>
+          <button class="hist-chip" data-game="solitaire" onclick="setHistFilter('solitaire')">🃏 Solitario</button>
+        </div>
+        <div id="histList"><div class="empty-state" style="padding:14px;"><span class="e-icon" style="font-size:22px;margin-bottom:5px;">🎮</span>Sin partidas aún</div></div>
+        <div class="hist-pagination" id="histPagination" style="display:none;">
+          <button class="hist-page-btn" id="histPrev" onclick="changeHistPage(-1)">← Ant</button>
+          <span class="hist-page-info" id="histPageInfo">1 / 1</span>
+          <button class="hist-page-btn" id="histNext" onclick="changeHistPage(1)">Sig →</button>
+        </div>
+      </div>
+
+      <!-- PRIVACIDAD -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">🛡️ Privacidad del perfil <span class="privacy-tag public" id="privacyTag">🌍 Público</span></div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Ocultar del ranking global</div>
+            <div class="setting-desc">Tu nombre no aparecerá en el top de puntuaciones</div>
+          </div>
+          <label class="theme-toggle"><input type="checkbox" id="hideRankingToggle"/><span class="theme-slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Ocultar de búsquedas</div>
+            <div class="setting-desc">Solo tus amigos podrán encontrarte</div>
+          </div>
+          <label class="theme-toggle"><input type="checkbox" id="hideSearchToggle"/><span class="theme-slider"></span></label>
+        </div>
+        <button class="save-btn" style="margin-top:12px;" id="savePrivacyBtn">Guardar privacidad</button>
+      </div>
+
+      <!-- GOOGLE -->
+      <div class="profile-section-card">
+        <div class="profile-section-title">🔗 Cuenta de Google</div>
+        <div class="google-status">
+          <div class="google-icon">G</div>
+          <div class="google-info">
+            <div class="google-label" id="googleLabel">Google vinculado</div>
+            <div class="google-sub" id="googleSub">—</div>
+          </div>
+          <span class="google-badge linked" id="googleBadge">Vinculado</span>
+        </div>
+        <button class="danger-btn" id="googleActionBtn" onclick="handleGoogleAction()" style="margin-top:4px;">🔓 Desvincular Google</button>
+      </div>
+
+      <!-- APARIENCIA -->
       <div class="profile-section-card">
         <div class="profile-section-title">🎨 Apariencia</div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -552,10 +725,13 @@ input:checked+.theme-slider:before{transform:translateX(15px);}
         </div>
       </div>
 
+      <!-- CUENTA -->
       <div class="profile-section-card">
         <div class="profile-section-title">⚙️ Cuenta</div>
+        <button class="warn-btn" id="resetStatsBtn">🗑️ Resetear estadísticas</button>
         <button class="danger-btn" id="logoutBtn2">🚪 Cerrar sesión</button>
       </div>
+
     </div>
   </div>
 
@@ -618,13 +794,22 @@ document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click
 document.getElementById('notifBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('notifPanel').classList.toggle('show');});
 document.addEventListener('click',()=>document.getElementById('notifPanel').classList.remove('show'));
 document.getElementById('notifPanel').addEventListener('click',e=>e.stopPropagation());
-function addNotif(emoji,text){notifications.unshift({emoji,text,time:new Date(),unread:true});renderNotifs();const d=document.getElementById('notifDot'),u=notifications.filter(n=>n.unread).length;if(u>0){d.textContent=u;d.style.display='block';}}
+function addNotif(emoji,text,type=''){
+  if(type==='friend'&&!getSetting('notifFriends'))return;
+  if(type==='challenge'&&!getSetting('notifChallenges'))return;
+  if(type==='achievement'&&!getSetting('notifAchievements'))return;
+  notifications.unshift({emoji,text,time:new Date(),unread:true});
+  renderNotifs();
+  const d=document.getElementById('notifDot'),u=notifications.filter(n=>n.unread).length;
+  if(u>0){d.textContent=u;d.style.display='block';}
+  playNotifSound();
+}
 function renderNotifs(){const l=document.getElementById('notifList');if(!notifications.length){l.innerHTML='<div class="notif-empty">Sin notificaciones nuevas</div>';return;}l.innerHTML=notifications.slice(0,10).map(n=>`<div class="notif-item ${n.unread?'unread':''}"><div class="notif-emoji">${n.emoji}</div><div><div class="notif-text">${n.text}</div><div class="notif-time">${timeAgo(n.time)}</div></div></div>`).join('');}
 function clearNotifs(){notifications.forEach(n=>n.unread=false);document.getElementById('notifDot').style.display='none';renderNotifs();}
 function timeAgo(d){const s=Math.round((Date.now()-d)/1000);if(s<60)return 'ahora mismo';if(s<3600)return Math.round(s/60)+' min';return Math.round(s/3600)+'h';}
 
 // NAV
-function switchTab(tab){currentTab=tab;document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('sec-'+tab).classList.add('active');document.getElementById('nav-'+tab).classList.add('active');if(tab==='friends')loadFriendsSection();if(tab==='profile'||tab==='settings')loadProfileSection();}
+function switchTab(tab){currentTab=tab;document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('sec-'+tab).classList.add('active');document.getElementById('nav-'+tab).classList.add('active');if(tab==='friends')loadFriendsSection();if(tab==='profile'||tab==='settings'){loadProfileSection();if(tab==='settings'){loadHistorial();loadGoogleStatus();loadSettingsUI();}}}
 function gameUrl(g,params=''){
   const page=g==='chess'?CHESS_PAGE:g+'.html';
   return page+(params?'?'+params:'');
@@ -649,7 +834,7 @@ async function searchUsers(q){const rd=document.getElementById('searchResults');
 async function sendRequest(fid,btn){btn.disabled=true;btn.textContent='⏳';const{error}=await sb.from('friends').insert({user_id:currentUser.id,friend_id:fid,status:'pending'});if(error){showToast('❌ Error al enviar','error');btn.disabled=false;btn.textContent='➕ Agregar';}else{btn.textContent='⏳ Enviada';btn.className='add-btn sent';showToast('✅ ¡Solicitud enviada!','success');}}
 async function checkPendingRequests(){try{const{data}=await sb.from('friends').select('id').eq('friend_id',currentUser.id).eq('status','pending');const b=document.getElementById('friendsBadge');if(data?.length>0){b.textContent=data.length;b.classList.add('show');}else b.classList.remove('show');}catch(e){}}
 async function loadRequests(){try{const{data}=await sb.from('friends').select('id,user_id').eq('friend_id',currentUser.id).eq('status','pending');const wrap=document.getElementById('requestsWrap');if(!data?.length){wrap.style.display='none';return;}wrap.style.display='block';const ids=data.map(r=>r.user_id);const{data:profiles}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color').in('id',ids);const pm={};(profiles||[]).forEach(p=>pm[p.id]=p);document.getElementById('requestsList').innerHTML=data.map(r=>{const p=pm[r.user_id]||{display_name:'Usuario',username:'unknown'};const bg=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)';return`<div class="req-item" id="req-${r.id}"><div class="rank-avatar" style="background:${bg};">${p.avatar_emoji||p.display_name[0].toUpperCase()}</div><div class="result-info"><div class="result-name">${p.display_name||p.username}</div><div class="result-user">@${p.username}</div></div><div class="req-actions"><button class="req-accept" onclick="acceptRequest('${r.id}','${r.user_id}')">✅</button><button class="req-reject" onclick="rejectRequest('${r.id}')">✕</button></div></div>`;}).join('');}catch(e){}}
-async function acceptRequest(reqId,fromId){await sb.from('friends').update({status:'accepted'}).eq('id',reqId);await sb.from('friends').upsert({user_id:currentUser.id,friend_id:fromId,status:'accepted'});document.getElementById('req-'+reqId)?.remove();showToast('🎉 ¡Ahora son amigos!','success');addNotif('🤝','Nueva amistad aceptada');checkPendingRequests();loadFriendsList();}
+async function acceptRequest(reqId,fromId){await sb.from('friends').update({status:'accepted'}).eq('id',reqId);await sb.from('friends').upsert({user_id:currentUser.id,friend_id:fromId,status:'accepted'});document.getElementById('req-'+reqId)?.remove();showToast('🎉 ¡Ahora son amigos!','success');addNotif('🤝','Nueva amistad aceptada','friend');checkPendingRequests();loadFriendsList();}
 async function rejectRequest(reqId){await sb.from('friends').delete().eq('id',reqId);document.getElementById('req-'+reqId)?.remove();showToast('Solicitud rechazada');checkPendingRequests();}
 async function loadFriendsList(){try{const{data:rows}=await sb.from('friends').select('friend_id').eq('user_id',currentUser.id).eq('status','accepted');const list=document.getElementById('friendsList');if(!rows?.length){list.innerHTML='<div class="empty-state"><span class="e-icon">🤝</span>Aún no tienes amigos.<br>¡Busca a alguien y agrégalo!</div>';['statAmigos','pStatAmigos'].forEach(id=>document.getElementById(id).textContent='0');document.getElementById('friendCountLabel').textContent='';return 0;}const ids=rows.map(f=>f.friend_id);const{data:profiles}=await sb.from('profiles').select('id,username,display_name,avatar_emoji,avatar_color').in('id',ids);const cnt=profiles?.length||0;['statAmigos','pStatAmigos'].forEach(id=>document.getElementById(id).textContent=cnt);document.getElementById('friendCountLabel').textContent=`(${cnt})`;list.innerHTML=(profiles||[]).map(p=>{const bg=p.avatar_color||'linear-gradient(135deg,#ff6b35,#7c5cbf)',av=p.avatar_emoji||(p.display_name||p.username)[0].toUpperCase();return`<div class="friend-item" onclick="showFriendProfile('${p.id}')"><div class="rank-avatar" style="background:${bg};">${av}</div><div class="online-dot"></div><div class="friend-info"><div class="friend-name">${p.display_name||p.username}</div><div class="friend-sub">@${p.username}</div></div><button class="challenge-btn" onclick="event.stopPropagation();retarAmigo('${p.id}','${(p.display_name||p.username).replace(/'/g,"\\'")}')">⚔️ Retar</button></div>`;}).join('');return cnt;}catch(e){return 0;}}
 
@@ -706,7 +891,7 @@ async function retarAmigo(friendId, friendName){
     }
 
     showToast(`⚔️ ¡Reto enviado a ${friendName}!`);
-    addNotif('⚔️',`Retaste a ${friendName} a jugar Ajedrez`);
+    addNotif('⚔️',`Retaste a ${friendName} a jugar Ajedrez`,'challenge');
 
     // Mostrar modal con código para que el retador también pueda entrar
     const go=confirm(`✅ Reto enviado a ${friendName}!\n\nTu código de sala: ${roomCode}\n\n¿Ir al juego ahora?`);
@@ -720,7 +905,7 @@ async function handleIncomingChallenge(ch){
   seenChallengeIds.add(ch.id);
   const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',ch.from_user).single();
   const name=p?.display_name||p?.username||'Alguien';
-  addNotif('⚔️',`${name} te retó a jugar Ajedrez - Código: ${ch.id}`);
+  addNotif('⚔️',`${name} te retó a jugar Ajedrez - Código: ${ch.id}`,'challenge');
   const accept=confirm(`⚔️ ¡${name} te retó a Ajedrez!\n\nCódigo de sala: ${ch.id}\n\n¿Aceptar y jugar ahora?`);
   if(accept){
     await sb.from('challenges').update({status:'accepted'}).eq('id',ch.id);
@@ -759,18 +944,228 @@ function setupChallengeListener(){
   challengePollInterval=setInterval(checkPendingChallenges,5000);
 }
 
-function setupRealtime(){realtimeChannel=sb.channel('friends-'+currentUser.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'friends',filter:`friend_id=eq.${currentUser.id}`},async payload=>{const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',payload.new.user_id).single();const name=p?.display_name||p?.username||'Alguien';addNotif('🤝',`${name} te envió una solicitud de amistad`);checkPendingRequests();if(currentTab==='friends')loadRequests();}).subscribe();}
+function setupRealtime(){realtimeChannel=sb.channel('friends-'+currentUser.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'friends',filter:`friend_id=eq.${currentUser.id}`},async payload=>{const{data:p}=await sb.from('profiles').select('display_name,username').eq('id',payload.new.user_id).single();const name=p?.display_name||p?.username||'Alguien';addNotif('🤝',`${name} te envió una solicitud de amistad`,'friend');checkPendingRequests();if(currentTab==='friends')loadRequests();}).subscribe();}
 
 // USERNAME MODAL
 async function showUsernameModal(){openModal('usernameModal');const input=document.getElementById('usernameInput'),hint=document.getElementById('usernameHint'),btn=document.getElementById('usernameBtn');const suggested=(currentUser.user_metadata?.full_name||currentUser.email||'').split(' ')[0].toLowerCase().replace(/[^a-z0-9_]/g,'');if(suggested)input.value=suggested;let ct;input.addEventListener('input',()=>{const val=input.value.trim();input.className='username-input';btn.disabled=true;clearTimeout(ct);if(!val){hint.textContent='Solo letras minúsculas, números y _';hint.className='username-hint';return;}if(!/^[a-z0-9_]{3,20}$/.test(val)){hint.textContent=val.length<3?'Mínimo 3 caracteres':'Solo a-z, 0-9 y _';hint.className='username-hint taken';input.className='username-input taken';return;}hint.textContent='Verificando…';hint.className='username-hint checking';ct=setTimeout(async()=>{const{data}=await sb.from('profiles').select('id').eq('username',val).single();if(data){hint.textContent='❌ @'+val+' ya está en uso';hint.className='username-hint taken';input.className='username-input taken';}else{hint.textContent='✅ @'+val+' está disponible';hint.className='username-hint ok';input.className='username-input ok';btn.disabled=false;}},600);});if(input.value)input.dispatchEvent(new Event('input'));btn.onclick=async()=>{const username=input.value.trim().toLowerCase();btn.textContent='⏳ Guardando…';btn.classList.add('loading');btn.disabled=true;const displayName=currentUser.user_metadata?.full_name||currentUser.user_metadata?.name||username;const{error}=await sb.from('profiles').upsert({id:currentUser.id,username,display_name:displayName,avatar_color:'#ff6b35'});btn.classList.remove('loading');if(error){showToast('❌ '+error.message,'error');btn.textContent='Guardar y continuar →';btn.disabled=false;}else{closeModal('usernameModal');currentProfile={id:currentUser.id,username,display_name:displayName};populateUI();showToast('🎉 ¡Bienvenido, @'+username+'!','success');}};}
+
+// ══════════════════════════════════════════
+// SONIDOS — Web Audio API
+// ══════════════════════════════════════════
+let audioCtx=null;
+function getAudioCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function playTone(freq,type,dur,vol=0.12){
+  if(!getSetting('sfx'))return;
+  try{const ctx=getAudioCtx();const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(vol,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);o.start(ctx.currentTime);o.stop(ctx.currentTime+dur);}catch(e){}}
+function playClick(){playTone(780,'sine',0.055,0.07);}
+function playWin(){
+  if(!getSetting('sfx')||!getSetting('winSound'))return;
+  try{const ctx=getAudioCtx();[523,659,784,1047].forEach((f,i)=>{const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;const t=ctx.currentTime+i*0.12;g.gain.setValueAtTime(0.16,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.25);o.start(t);o.stop(t+0.26);});}catch(e){}}
+function playNotifSound(){
+  if(!getSetting('sfx')||!getSetting('notifSound'))return;
+  try{const ctx=getAudioCtx();[880,1100].forEach((f,i)=>{const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;const t=ctx.currentTime+i*0.1;g.gain.setValueAtTime(0.10,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.14);o.start(t);o.stop(t+0.15);});}catch(e){}}
+
+// ══════════════════════════════════════════
+// SETTINGS — localStorage
+// ══════════════════════════════════════════
+const SETTING_DEFAULTS={sfx:true,winSound:true,notifSound:true,notifFriends:true,notifChallenges:true,notifAchievements:true,hideRanking:false,hideSearch:false};
+function getSetting(k){const v=localStorage.getItem('gz_'+k);if(v===null)return SETTING_DEFAULTS[k];return v==='1'||v==='true';}
+function setSetting(k,v){localStorage.setItem('gz_'+k,v?'1':'0');}
+function loadSettingsUI(){
+  ['sfx','winSound','notifSound','notifFriends','notifChallenges','notifAchievements'].forEach(k=>{
+    const el=document.getElementById(k+'Toggle');if(el)el.checked=getSetting(k);
+  });
+  const hr=document.getElementById('hideRankingToggle');if(hr)hr.checked=getSetting('hideRanking');
+  const hs=document.getElementById('hideSearchToggle');if(hs)hs.checked=getSetting('hideSearch');
+  updatePrivacyTag();
+  const lang=localStorage.getItem('gz_lang')||'es';
+  document.getElementById('langEs')?.classList.toggle('active',lang==='es');
+  document.getElementById('langEn')?.classList.toggle('active',lang==='en');
+}
+function bindSettingToggle(id,key){
+  const el=document.getElementById(id);if(!el)return;
+  el.addEventListener('change',()=>{setSetting(key,el.checked);playClick();if(key==='hideRanking'||key==='hideSearch')updatePrivacyTag();});
+}
+function bindAllToggles(){
+  ['sfx','winSound','notifSound','notifFriends','notifChallenges','notifAchievements'].forEach(k=>bindSettingToggle(k+'Toggle',k));
+  bindSettingToggle('hideRankingToggle','hideRanking');
+  bindSettingToggle('hideSearchToggle','hideSearch');
+}
+function updatePrivacyTag(){
+  const tag=document.getElementById('privacyTag');if(!tag)return;
+  const isPriv=getSetting('hideRanking')||getSetting('hideSearch');
+  tag.className='privacy-tag '+(isPriv?'private':'public');
+  tag.textContent=isPriv?'🔒 Privado':'🌍 Público';
+}
+
+// ══════════════════════════════════════════
+// IDIOMA
+// ══════════════════════════════════════════
+const I18N={
+  es:{won:'Victoria',lost:'Derrota',noHistory:'Sin partidas aún',
+      resetConfirmTitle:'¿Resetear estadísticas?',
+      resetConfirmDesc:'Se borrarán todas tus partidas y puntos. Tu cuenta y amigos quedan intactos. Esta acción NO se puede deshacer.',
+      resetConfirmBtn:'Sí, resetear todo',resetOk:'✅ Estadísticas reseteadas',
+      unlinkConfirmTitle:'¿Desvincular Google?',
+      unlinkConfirmDesc:'Si desvincula Google y no tienes contraseña configurada, podrías perder acceso a tu cuenta.',
+      unlinkConfirmBtn:'Desvincular',privacySaved:'✅ Privacidad guardada',
+      linkedLabel:'Google vinculado',notLinkedLabel:'Google no vinculado',
+      linkedBadge:'Vinculado',notLinkedBadge:'No vinculado',
+      unlinkBtn:'🔓 Desvincular Google',linkBtn:'🔗 Vincular Google',
+  },
+  en:{won:'Win',lost:'Loss',noHistory:'No matches yet',
+      resetConfirmTitle:'Reset statistics?',
+      resetConfirmDesc:'All your matches and points will be deleted. Your account and friends stay intact. This action CANNOT be undone.',
+      resetConfirmBtn:'Yes, reset everything',resetOk:'✅ Statistics reset',
+      unlinkConfirmTitle:'Unlink Google?',
+      unlinkConfirmDesc:"If you unlink Google and don't have a password set, you could lose access to your account.",
+      unlinkConfirmBtn:'Unlink',privacySaved:'✅ Privacy saved',
+      linkedLabel:'Google linked',notLinkedLabel:'Google not linked',
+      linkedBadge:'Linked',notLinkedBadge:'Not linked',
+      unlinkBtn:'🔓 Unlink Google',linkBtn:'🔗 Link Google',
+  }
+};
+let currentLang=localStorage.getItem('gz_lang')||'es';
+function t(k){return I18N[currentLang]?.[k]||I18N.es[k]||k;}
+function setLanguage(lang){
+  currentLang=lang;localStorage.setItem('gz_lang',lang);
+  document.getElementById('langEs')?.classList.toggle('active',lang==='es');
+  document.getElementById('langEn')?.classList.toggle('active',lang==='en');
+  showToast(lang==='es'?'🇵🇪 Español activado':'🇺🇸 English enabled','success');
+  loadGoogleStatus();
+}
+
+// ══════════════════════════════════════════
+// CONFIRM MODAL
+// ══════════════════════════════════════════
+function showConfirm({emoji,title,desc,confirmLabel,onConfirm}){
+  document.getElementById('confirmEmoji').textContent=emoji;
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmDesc').textContent=desc;
+  const btn=document.getElementById('confirmOkBtn');
+  btn.textContent=confirmLabel;
+  btn.onclick=()=>{closeModal('confirmModal');onConfirm();};
+  openModal('confirmModal');
+}
+
+// ══════════════════════════════════════════
+// HISTORIAL DE PARTIDAS
+// ══════════════════════════════════════════
+let histData=[],histFilter='all',histPage=1;
+const HIST_PER_PAGE=7;
+const GAME_ICONS={chess:'♟️',checkers:'🔴',solitaire:'🃏',memory:'🧠'};
+const GAME_BG={chess:'rgba(124,92,191,0.15)',checkers:'rgba(255,107,53,0.15)',solitaire:'rgba(6,214,160,0.15)',memory:'rgba(255,209,102,0.15)'};
+const GAME_NAMES={chess:'Ajedrez',checkers:'Damas',solitaire:'Solitario',memory:'Memoria'};
+async function loadHistorial(){
+  if(!currentUser)return;
+  try{
+    const{data}=await sb.from('scores').select('score,won,game,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+    histData=data||[];renderHistorial();
+  }catch(e){}
+}
+function setHistFilter(f){
+  histFilter=f;histPage=1;
+  document.querySelectorAll('.hist-chip').forEach(c=>c.classList.toggle('active',c.dataset.game===f));
+  renderHistorial();
+}
+function changeHistPage(dir){histPage+=dir;renderHistorial();}
+function renderHistorial(){
+  const filtered=histFilter==='all'?histData:histData.filter(r=>r.game===histFilter);
+  const total=Math.max(1,Math.ceil(filtered.length/HIST_PER_PAGE));
+  histPage=Math.max(1,Math.min(histPage,total));
+  const slice=filtered.slice((histPage-1)*HIST_PER_PAGE,histPage*HIST_PER_PAGE);
+  const list=document.getElementById('histList');
+  if(!list)return;
+  if(!slice.length){
+    list.innerHTML=`<div class="empty-state" style="padding:14px;"><span class="e-icon" style="font-size:22px;margin-bottom:5px;">🎮</span>${t('noHistory')}</div>`;
+    document.getElementById('histPagination').style.display='none';return;
+  }
+  list.innerHTML=slice.map(r=>{
+    const d=new Date(r.created_at);
+    const dateStr=d.toLocaleDateString(currentLang==='en'?'en-US':'es-PE',{day:'2-digit',month:'short'});
+    const timeStr=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    return`<div class="hist-item">
+      <div class="hist-game-icon" style="background:${GAME_BG[r.game]||'rgba(255,255,255,0.05)'};">${GAME_ICONS[r.game]||'🎮'}</div>
+      <div class="hist-info">
+        <div class="hist-game-name">${GAME_NAMES[r.game]||r.game}</div>
+        <div class="hist-date">${dateStr} · ${timeStr}</div>
+      </div>
+      <div class="hist-result">
+        <div class="${r.won?'hist-won':'hist-lost'}">${r.won?t('won'):t('lost')}</div>
+        <div class="hist-score">${r.score} pts</div>
+      </div>
+    </div>`;
+  }).join('');
+  const pag=document.getElementById('histPagination');
+  pag.style.display=total>1?'flex':'none';
+  document.getElementById('histPageInfo').textContent=`${histPage} / ${total}`;
+  document.getElementById('histPrev').disabled=histPage<=1;
+  document.getElementById('histNext').disabled=histPage>=total;
+}
+
+// ══════════════════════════════════════════
+// PRIVACIDAD
+// ══════════════════════════════════════════
+document.getElementById('savePrivacyBtn').addEventListener('click',async()=>{
+  const hideR=document.getElementById('hideRankingToggle').checked;
+  const hideS=document.getElementById('hideSearchToggle').checked;
+  setSetting('hideRanking',hideR);setSetting('hideSearch',hideS);
+  await sb.from('profiles').update({is_private:hideS,hide_ranking:hideR}).eq('id',currentUser.id);
+  updatePrivacyTag();showToast(t('privacySaved'),'success');
+});
+
+// ══════════════════════════════════════════
+// GOOGLE VINCULAR / DESVINCULAR
+// ══════════════════════════════════════════
+async function loadGoogleStatus(){
+  if(!currentUser)return;
+  const isGoogle=currentUser.app_metadata?.providers?.includes('google')||currentUser.app_metadata?.provider==='google';
+  document.getElementById('googleLabel').textContent=isGoogle?t('linkedLabel'):t('notLinkedLabel');
+  document.getElementById('googleSub').textContent=currentUser.email||'—';
+  const badge=document.getElementById('googleBadge');
+  badge.className='google-badge '+(isGoogle?'linked':'unlinked');
+  badge.textContent=isGoogle?t('linkedBadge'):t('notLinkedBadge');
+  const btn=document.getElementById('googleActionBtn');
+  btn.textContent=isGoogle?t('unlinkBtn'):t('linkBtn');
+  btn.className=isGoogle?'danger-btn':'save-btn';
+  btn.style.marginTop='4px';
+}
+function handleGoogleAction(){
+  const isGoogle=currentUser.app_metadata?.providers?.includes('google')||currentUser.app_metadata?.provider==='google';
+  if(isGoogle){
+    showConfirm({emoji:'🔓',title:t('unlinkConfirmTitle'),desc:t('unlinkConfirmDesc'),confirmLabel:t('unlinkConfirmBtn'),onConfirm:async()=>{
+      try{const{error}=await sb.auth.unlinkIdentity({provider:'google'});
+        if(error)showToast('❌ '+error.message,'error');
+        else{showToast('✅ Google desvinculado','success');loadGoogleStatus();}
+      }catch(e){showToast('❌ No se pudo desvincular','error');}
+    }});
+  }else{
+    sb.auth.linkWithOAuth({provider:'google',options:{redirectTo:window.location.href}}).then(({error})=>{if(error)showToast('❌ '+error.message,'error');});
+  }
+}
+
+// ══════════════════════════════════════════
+// RESETEAR ESTADÍSTICAS
+// ══════════════════════════════════════════
+document.getElementById('resetStatsBtn').addEventListener('click',()=>{
+  showConfirm({emoji:'⚠️',title:t('resetConfirmTitle'),desc:t('resetConfirmDesc'),confirmLabel:t('resetConfirmBtn'),onConfirm:async()=>{
+    const{error}=await sb.from('scores').delete().eq('user_id',currentUser.id);
+    if(error)showToast('❌ Error al resetear','error');
+    else{showToast(t('resetOk'),'success');await loadStats();await loadRanking();loadHistorial();}
+  }});
+});
 
 // LOGOUT
 async function doLogout(){if(realtimeChannel)sb.removeChannel(realtimeChannel);if(challengeChannel)sb.removeChannel(challengeChannel);clearInterval(challengePollInterval);showToast('👋 Hasta pronto…');await sb.auth.signOut();setTimeout(()=>window.location.href='index.html',800);}
 document.getElementById('logoutBtn2').addEventListener('click',doLogout);
 
 // INIT
-async function init(){const saved=localStorage.getItem('gz_theme');if(saved==='light')applyTheme(true);const{data:{session}}=await sb.auth.getSession();const loading=document.getElementById('loadingScreen');loading.style.opacity='0';setTimeout(()=>loading.style.display='none',400);if(!session){window.location.href='index.html';return;}currentUser=session.user;if(window.location.hash)history.replaceState(null,'',window.location.pathname);document.getElementById('mainPage').style.display='block';const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();if(!profile||!profile.username){await showUsernameModal();}else{currentProfile=profile;populateUI();}const stats=await loadStats();await loadRanking();await checkPendingRequests();setupRealtime();setupChallengeListener();
-  // Cargar amigos y actualizar contador en home
+async function init(){const saved=localStorage.getItem('gz_theme');if(saved==='light')applyTheme(true);currentLang=localStorage.getItem('gz_lang')||'es';const{data:{session}}=await sb.auth.getSession();const loading=document.getElementById('loadingScreen');loading.style.opacity='0';setTimeout(()=>loading.style.display='none',400);if(!session){window.location.href='index.html';return;}currentUser=session.user;if(window.location.hash)history.replaceState(null,'',window.location.pathname);document.getElementById('mainPage').style.display='block';const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();if(!profile||!profile.username){await showUsernameModal();}else{currentProfile=profile;populateUI();}
+  // Aplicar privacidad guardada en Supabase si existe
+  if(profile?.hide_ranking!==undefined)setSetting('hideRanking',profile.hide_ranking);
+  if(profile?.is_private!==undefined)setSetting('hideSearch',profile.is_private);
+  loadSettingsUI();bindAllToggles();
+  const stats=await loadStats();await loadRanking();await checkPendingRequests();setupRealtime();setupChallengeListener();
   const friendCount=await loadFriendsList();
   const earned=computeAchievements(stats||{},friendCount||0);renderLogros(earned,document.getElementById('logrosHome'),true);sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_IN'&&s)history.replaceState(null,'',window.location.pathname);});}
 init();
