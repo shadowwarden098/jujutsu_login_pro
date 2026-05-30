@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard • Jujutsu Kaisen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .gojo-bg { background: radial-gradient(circle at center, #0a1625 0%, #02070f 70%); }
+        .section-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white gojo-bg min-h-screen">
+    <div class="max-w-5xl mx-auto p-6">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-10">
+            <div class="flex items-center gap-x-4">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
+                    <i class="fa-solid fa-eye text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-semibold tracking-tighter">Jujutsu Kaisen</h1>
+                    <p class="text-cyan-400 text-sm -mt-1">Dashboard • Six Eyes</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-x-4">
+                <div id="user-info" class="text-right">
+                    <div id="user-name" class="font-semibold"></div>
+                    <div id="user-email" class="text-xs text-zinc-400"></div>
+                </div>
+                <button onclick="logout()" 
+                        class="px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-2xl text-sm font-medium flex items-center gap-x-2">
+                    <i class="fa-solid fa-sign-out-alt"></i>
+                    <span>Cerrar sesión</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Welcome Card -->
+            <div class="md:col-span-3 bg-zinc-900/80 border border-white/10 rounded-3xl p-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-semibold">Bienvenido de vuelta, <span id="welcome-name" class="text-cyan-400"></span></h2>
+                        <p class="text-zinc-400 mt-1">Estás dentro del dominio. El más fuerte te da la bienvenida.</p>
+                    </div>
+                    <div class="hidden md:block text-right">
+                        <div class="text-xs text-zinc-400">ESTADO</div>
+                        <div class="flex items-center justify-end gap-x-2 text-emerald-400">
+                            <i class="fa-solid fa-circle text-xs"></i>
+                            <span class="font-medium">Conectado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 section-card">
+                <h3 class="font-semibold mb-4 flex items-center gap-x-2">
+                    <i class="fa-solid fa-bolt text-yellow-400"></i> 
+                    <span>Acciones Rápidas</span>
+                </h3>
+                <div class="space-y-3">
+                    <button onclick="showToast('Función de ejemplo activada')" 
+                            class="w-full text-left px-4 py-3 bg-white/5 hover:bg-white/10 rounded-2xl flex items-center gap-x-3">
+                        <i class="fa-solid fa-camera text-cyan-400"></i>
+                        <span>Usar Cámara (Demo)</span>
+                    </button>
+                    <button onclick="showToast('Ubicación obtenida (Demo)')" 
+                            class="w-full text-left px-4 py-3 bg-white/5 hover:bg-white/10 rounded-2xl flex items-center gap-x-3">
+                        <i class="fa-solid fa-location-dot text-emerald-400"></i>
+                        <span>Obtener Ubicación</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 section-card">
+                <h3 class="font-semibold mb-4">Tu Perfil</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Nombre</span>
+                        <span id="profile-name" class="font-medium"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Correo</span>
+                        <span id="profile-email" class="font-medium text-xs"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-zinc-400">Rol</span>
+                        <span class="text-cyan-400 font-medium">Hechicero Especial</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div class="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 section-card">
+                <h3 class="font-semibold mb-4">Estado del Dominio</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span>Conexión</span>
+                        <span class="px-3 py-1 text-xs bg-emerald-500/20 text-emerald-400 rounded-full">Estable</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span>Sesión</span>
+                        <span class="px-3 py-1 text-xs bg-cyan-500/20 text-cyan-400 rounded-full">Activa</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-8 text-center text-xs text-zinc-500">
+            Demo funcional con Supabase • Jujutsu Kaisen Theme
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://mtffjwaybktpwbavsvoa.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_KMYTWIg_xZq_0CzNFqEyPA__uD351gu';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function loadUser() {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            
+            if (!user) {
+                window.location.href = 'login-jujutsu-supabase.html';
+                return;
+            }
+
+            // Mostrar datos del usuario
+            const name = user.user_metadata?.full_name || user.email.split('@')[0];
+            document.getElementById('welcome-name').textContent = name;
+            document.getElementById('user-name').textContent = name;
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('profile-name').textContent = name;
+            document.getElementById('profile-email').textContent = user.email;
+        }
+
+        async function logout() {
+            await supabase.auth.signOut();
+            window.location.href = 'login-jujutsu-supabase.html';
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 bg-zinc-800 border border-white/10 rounded-2xl text-sm flex items-center gap-x-2`;
+            toast.innerHTML = `
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        // Proteger la página
+        async function protectPage() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                window.location.href = 'login-jujutsu-supabase.html';
+            } else {
+                loadUser();
+            }
+        }
+
+        protectPage();
+    </script>
+</body>
+</html>
